@@ -35,7 +35,7 @@ A comprehensive hotel management system built with Node.js, PostgreSQL, and Reac
 ### Backend
 - **Node.js**: Runtime environment
 - **Express.js**: Web framework
-- **PostgreSQL**: Database
+- **MySQL**: Database
 - **JWT**: Authentication
 - **bcryptjs**: Password hashing
 - **express-validator**: Input validation
@@ -56,7 +56,7 @@ A comprehensive hotel management system built with Node.js, PostgreSQL, and Reac
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- PostgreSQL (v12 or higher)
+- MySQL (v8.0 or higher)
 - npm or yarn
 
 ### Setup Instructions
@@ -89,8 +89,8 @@ A comprehensive hotel management system built with Node.js, PostgreSQL, and Reac
 
 4. **Set up the database**
    ```bash
-   # Create PostgreSQL database
-   createdb hotel_management
+   # Create MySQL database
+   mysql -u root -p -e "CREATE DATABASE hotel_management;"
    
    # Run database setup
    npm run setup-db

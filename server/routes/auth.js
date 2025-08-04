@@ -30,7 +30,7 @@ router.post('/register', [
 
     // Check if user already exists
     const existingUser = await query(
-      'SELECT id FROM users WHERE username = $1 OR email = $2',
+      'SELECT id FROM users WHERE username = ? OR email = ?',
       [username, email]
     );
 
@@ -48,11 +48,17 @@ router.post('/register', [
     // Create user
     const result = await query(
       `INSERT INTO users (username, email, password_hash, first_name, last_name, role, phone, address)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, username, email, first_name, last_name, role`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [username, email, passwordHash, first_name, last_name, role, phone, address]
     );
 
-    const user = result.rows[0];
+    // Get the inserted user
+    const userResult = await query(
+      'SELECT id, username, email, first_name, last_name, role FROM users WHERE username = ?',
+      [username]
+    );
+
+    const user = userResult.rows[0];
 
     // Generate JWT token
     const token = jwt.sign(
@@ -104,8 +110,8 @@ router.post('/login', [
 
     // Find user
     const result = await query(
-      'SELECT id, username, email, password_hash, first_name, last_name, role, is_active FROM users WHERE username = $1 OR email = $1',
-      [username]
+      'SELECT id, username, email, password_hash, first_name, last_name, role, is_active FROM users WHERE username = ? OR email = ?',
+      [username, username]
     );
 
     if (result.rows.length === 0) {
@@ -168,7 +174,7 @@ router.post('/login', [
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, username, email, first_name, last_name, role, phone, address, created_at FROM users WHERE id = $1',
+      'SELECT id, username, email, first_name, last_name, role, phone, address, created_at FROM users WHERE id = ?',
       [req.user.id]
     );
 
