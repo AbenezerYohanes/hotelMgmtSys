@@ -13,6 +13,7 @@ const roomRoutes = require('./routes/rooms');
 const guestRoutes = require('./routes/guests');
 const paymentRoutes = require('./routes/payments');
 const reportRoutes = require('./routes/reports');
+const chapaRoutes = require('./routes/chapa');
 
 const { errorHandler } = require('./middleware/errorHandler');
 const { authenticateToken } = require('./middleware/auth');
