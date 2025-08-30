@@ -1,21 +1,26 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { api } from '../services/api';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { authService } from '../services/api';
+import toast from 'react-hot-toast';
 
 interface User {
-  id: number;
-  username: string;
+  id: string;
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   role: string;
+  avatar?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
-  loading: boolean;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  updateProfile: (profileData: Partial<User>) => Promise<void>;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,56 +39,106 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
+  const isAuthenticated = !!user;
+
+  // Check if user is already logged in on app start
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const userData = await authService.getProfile();
+          setUser(userData);
+        }
+      } catch (error) {
+        // Token is invalid, remove it
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
-  const fetchUser = async () => {
+  const login = async (email: string, password: string) => {
     try {
-      const response = await api.get('/auth/profile');
-      setUser(response.data.data);
-    } catch (error) {
-      localStorage.removeItem('token');
-      delete api.defaults.headers.common['Authorization'];
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const login = async (username: string, password: string) => {
-    try {
-      const response = await api.post('/auth/login', { username, password });
-      const { token, user } = response.data.data;
+      setIsLoading(true);
+      const response = await authService.login({ email, password });
       
-      localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(user);
+      if (response.token && response.user) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        setUser(response.user);
+        toast.success('Login successful!');
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Login failed');
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed';
+      toast.error(errorMessage);
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    delete api.defaults.headers.common['Authorization'];
-    setUser(null);
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (error) {
+      // Even if logout fails on server, clear local state
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      toast.success('Logged out successfully');
+    }
   };
 
-  const value = {
+  const updateProfile = async (profileData: Partial<User>) => {
+    try {
+      const updatedUser = await authService.updateProfile(profileData);
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      toast.success('Profile updated successfully');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || error.message || 'Profile update failed';
+      toast.error(errorMessage);
+      throw error;
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      const userData = await authService.getProfile();
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+    } catch (error) {
+      // If refresh fails, user might be logged out
+      setUser(null);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+  };
+
+  const value: AuthContextType = {
     user,
-    isAuthenticated: !!user,
+    isAuthenticated,
+    isLoading,
     login,
     logout,
-    loading,
+    updateProfile,
+    refreshUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }; 
