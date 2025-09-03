@@ -93,7 +93,8 @@ router.post('/register', [
 
 // Login user
 router.post('/login', [
-  body('username').notEmpty().withMessage('Username is required'),
+  body('username').optional(),
+  body('email').optional(),
   body('password').notEmpty().withMessage('Password is required')
 ], async (req, res) => {
   try {
@@ -106,12 +107,20 @@ router.post('/login', [
       });
     }
 
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
+
+    // Check if either username or email is provided
+    if (!username && !email) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Username or email is required' 
+      });
+    }
 
     // Find user
     const result = await query(
       'SELECT id, username, email, password_hash, first_name, last_name, role, is_active FROM users WHERE username = ? OR email = ?',
-      [username, username]
+      [username || email, username || email]
     );
 
     if (result.rows.length === 0) {
