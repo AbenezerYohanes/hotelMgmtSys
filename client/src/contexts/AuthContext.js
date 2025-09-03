@@ -1,29 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authService } from '../services/api';
 import toast from 'react-hot-toast';
 
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  avatar?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  updateProfile: (profileData: Partial<User>) => Promise<void>;
-  refreshUser: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -33,12 +12,8 @@ export const useAuth = () => {
   return context;
 };
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = !!user;
@@ -64,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email, password) => {
     try {
       setIsLoading(true);
       const response = await authService.login({ email, password });
@@ -77,7 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         throw new Error('Invalid response from server');
       }
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'Login failed';
       toast.error(errorMessage);
       throw error;
@@ -100,13 +75,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const updateProfile = async (profileData: Partial<User>) => {
+  const updateProfile = async (profileData) => {
     try {
       const updatedUser = await authService.updateProfile(profileData);
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
       toast.success('Profile updated successfully');
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = error.response?.data?.message || error.message || 'Profile update failed';
       toast.error(errorMessage);
       throw error;
@@ -126,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const value: AuthContextType = {
+  const value = {
     user,
     isAuthenticated,
     isLoading,
@@ -141,4 +116,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}; 
+};
