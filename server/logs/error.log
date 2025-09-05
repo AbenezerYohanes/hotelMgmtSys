@@ -20,3 +20,14 @@
   message: '❌ Error connecting to MySQL database:',
   timestamp: '2025-08-30 21:02:48'
 }
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-09-05 21:29:21'
+}
