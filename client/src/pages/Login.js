@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const { login } = useAuth();
+  const { login, refreshUser, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -21,13 +21,31 @@ const Login = () => {
     try {
       setIsLoading(true);
       await login(data.email, data.password);
-      navigate('/');
+      await refreshUser();
+      const stored = localStorage.getItem('user');
+      const role = stored ? JSON.parse(stored).role : null;
+      if (['admin', 'manager', 'staff'].includes(role)) {
+        navigate('/admin');
+      } else {
+        navigate('/client');
+      }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const role = user?.role || JSON.parse(localStorage.getItem('user') || '{}')?.role;
+      if (['admin', 'manager', 'staff'].includes(role)) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/client', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

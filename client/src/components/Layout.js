@@ -20,14 +20,14 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Bookings', href: '/bookings', icon: Calendar },
-  { name: 'Rooms', href: '/rooms', icon: Building2 },
-  { name: 'Guests', href: '/guests', icon: Users },
-  { name: 'HR', href: '/hr', icon: UserCheck },
-  { name: 'Payments', href: '/payments', icon: CreditCard },
-  { name: 'Reports', href: '/reports', icon: BarChart3 },
-  { name: 'Users', href: '/users', icon: Settings },
+  { name: 'Dashboard', href: '/admin', icon: Home },
+  { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
+  { name: 'Rooms', href: '/admin/rooms', icon: Building2 },
+  { name: 'Guests', href: '/admin/guests', icon: Users },
+  { name: 'HR', href: '/admin/hr', icon: UserCheck },
+  { name: 'Payments', href: '/admin/payments', icon: CreditCard },
+  { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
+  { name: 'Users', href: '/admin/users', icon: Settings },
 ];
 
 const Layout = () => {

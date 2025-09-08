@@ -31,3 +31,114 @@
   message: '❌ Error connecting to MySQL database:',
   timestamp: '2025-09-05 21:29:21'
 }
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:00'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:06'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:23'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:11'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:17'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:50'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:51'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:08'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:12'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:21'
+}
