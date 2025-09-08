@@ -40,7 +40,7 @@ const AdminRoute = ({ children }) => {
       </div>
     );
   }
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
   const isAdmin = ['admin', 'manager', 'staff'].includes(user?.role);
   return isAdmin ? <>{children}</> : <Navigate to="/client" />;
 };
@@ -54,7 +54,7 @@ const ClientRoute = ({ children }) => {
       </div>
     );
   }
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
   const isClient = !['admin', 'manager', 'staff'].includes(user?.role);
   return isClient ? <>{children}</> : <Navigate to="/admin" />;
 };
