@@ -23,9 +23,18 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem('token');
+        const cached = localStorage.getItem('user');
+        if (cached) {
+          try { setUser(JSON.parse(cached)); } catch {}
+        }
         if (token) {
-          const userData = await authService.getProfile();
-          setUser(userData);
+          try {
+            const userData = await authService.getProfile();
+            setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+          } catch (e) {
+            // ignore and rely on cached
+          }
         }
       } catch (error) {
         // Token is invalid, remove it

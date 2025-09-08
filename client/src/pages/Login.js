@@ -25,9 +25,9 @@ const Login = () => {
       const stored = localStorage.getItem('user');
       const role = stored ? JSON.parse(stored).role : null;
       if (['admin', 'manager', 'staff'].includes(role)) {
-        navigate('/admin');
+        window.location.replace('/admin');
       } else {
-        navigate('/client');
+        window.location.replace('/client');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -40,9 +40,9 @@ const Login = () => {
     if (isAuthenticated) {
       const role = user?.role || JSON.parse(localStorage.getItem('user') || '{}')?.role;
       if (['admin', 'manager', 'staff'].includes(role)) {
-        navigate('/admin', { replace: true });
+        window.location.replace('/admin');
       } else {
-        navigate('/client', { replace: true });
+        window.location.replace('/client');
       }
     }
   }, [isAuthenticated, user, navigate]);

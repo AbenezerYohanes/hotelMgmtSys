@@ -7,6 +7,16 @@ const Landing = () => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      if (['admin', 'manager', 'staff'].includes(user?.role)) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/client', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
+
   const handleAdmin = () => {
     if (isAuthenticated) {
       if (['admin', 'manager', 'staff'].includes(user?.role)) {
