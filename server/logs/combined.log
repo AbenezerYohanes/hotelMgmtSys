@@ -1,0 +1,3902 @@
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:42'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:42'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:42'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:42'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:42'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:48'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:48'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:48'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:48'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-08-30 21:02:48'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:36:28'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:41:56'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:43:58'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:27'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:44:34'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 20:44:53',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 20:44:53',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 20:46:06',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:46:36'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:46:38'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:47:48'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 20:48:03'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:10:34'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:11:49'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:08'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:09'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:09'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:09'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:09'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:12:09'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:12:30'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:27:21'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:53:29'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 21:53:40',
+  level: 'info',
+  message: 'GET /api/health'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 21:54:47',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  message: '🚀 Server running on port 3001',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  message: '🔗 Health check: http://localhost:3001/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:55:28'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 21:55:33',
+  level: 'info',
+  message: 'GET /'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 21:55:39',
+  level: 'info',
+  message: 'GET /api/health'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:56:06'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:58:29'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 21:58:50',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:58:56'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 21:59:10'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 21:59:29',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 21:59:29',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:03:01'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:03:45'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:50'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:50'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:50'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:50'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:03:50'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:03:51'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:04:16'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:04:20'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:55'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:55'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:55'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:55'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:04:55'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:04:56'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:00'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:14'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:27'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:29'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:29'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:29'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:29'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:29'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:30'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:38'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:42'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:05:46'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:06:01'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:06:15'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:06:19'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:06:30'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:45'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:45'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:45'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:45'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:06:45'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:06:46'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:07:46',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:08:19',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:08:34',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:10:31'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:11:42',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:11:42',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-03 22:11:42',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:12:39'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:12:43',
+  level: 'info',
+  message: 'GET /api/health'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:12:55',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:13:19'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:13:21'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:13:34'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:13:44',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:14:24'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:15:26'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:15:36',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:16:32',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:16:43'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:17:44'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:17:52',
+  level: 'info',
+  message: 'GET /api/health'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:19'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:18:22'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:18:33'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:43'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:57'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:57'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:57'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:57'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:18:57'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:18:58'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:21:20'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:27:57'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:28:21'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:28:28'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:25'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:30:38'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.14.1',
+  timestamp: '2025-09-03 22:31:18',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:23'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-03 22:43:34'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:29:21'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:29:21'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:29:21'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:29:21'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:29:21'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-05 21:30:53'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:10',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:10',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:10',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:24',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:27',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:35',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:31:37',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0',
+  timestamp: '2025-09-05 21:32:52',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-05 21:36:30'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:08'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 21:33:53'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:35:16',
+  level: 'info',
+  message: 'GET /favicon.ico'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:35:16',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:35:59',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:36:00',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:00'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:36:06',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:36:06',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:06'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:36:22',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:36:23',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:36:23'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:38:28',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:02',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:11',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:11',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:11'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:16',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:17',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:17'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:50',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:50',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:50'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:51',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:51',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:39:51'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:39:55',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:40:01',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:40:33',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:40:36',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:03',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:04',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:08',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:08',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:08'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:09',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:11',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:12',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 4 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:12'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:21',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:21',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:43:21'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:43:29',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:45:43',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:45:44',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:45:53',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:46:03',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:46:11',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:46:11',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:46:11'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:46:17',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:46:17',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:46:17'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:39'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 21:46:53'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:47:32',
+  level: 'info',
+  message: 'GET /main.801051f1a7169003703d.hot-update.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:47:34',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:47:34',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:48:03',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:48:03',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:48:03'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:51',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:51',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:49:52'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:53',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:53',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:49:53'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:55',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:55',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:49:55'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:56',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:56',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:49:57'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:58',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:49:58',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:49:58'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:17',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:17',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:50:17'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:18',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:50:18'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:18',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:50:18'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:19',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:20',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:20',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:50:20'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:21',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:21',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:22',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:50:22'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:50:22',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:04',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:39',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:40',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:40',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:52:40'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:41',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:42',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:42',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:52:42'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:43',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:43',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:43',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:52:43'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:52:44',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:34',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:34',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:34'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:35',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:39',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:39',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:39'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:40',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:40'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:40',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:40',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:40'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:48',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:48'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:49',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:49'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:49',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:49'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:50',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:50'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:52',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:52'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:53',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:53'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:54',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:54'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:56:55',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:56:55'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:02',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:02'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:03',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:03'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:03',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:03'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:04',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:04'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:10',
+  level: 'info',
+  message: 'GET /api/users'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:10'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 21:57:11',
+  level: 'info',
+  message: 'GET /api/users'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-08 21:57:11'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 22:03:20'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:30',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:30',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:31',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:10',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:11',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:11',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:12',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:32',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:33',
+  level: 'info',
+  message: 'GET /api/guests'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:34',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:35',
+  level: 'info',
+  message: 'GET /api/rooms'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:10:59',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:00',
+  level: 'info',
+  message: 'GET /api/bookings'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:04',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:05',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:07',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:14',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:11:21',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 22:13:19'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 22:13:28'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:13:33',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:13:36',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:15:44'
+}
