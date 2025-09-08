@@ -3614,3 +3614,67 @@
   message: 'Database query error:',
   timestamp: '2025-09-08 21:57:11'
 }
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📊 Environment: undefined',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-09-08 22:03:19'
+}
+{
+  service: 'hotel-management-api',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  user: 'root',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-09-08 22:03:20'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:30',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:30',
+  level: 'info',
+  message: 'GET /api/auth/profile'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0',
+  timestamp: '2025-09-08 22:04:31',
+  level: 'info',
+  message: 'GET /manifest.json'
+}
