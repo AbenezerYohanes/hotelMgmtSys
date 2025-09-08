@@ -31,7 +31,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Do not hard-redirect here to avoid navigation race conditions; allow caller to handle.
     }
     return Promise.reject(error);
   }
