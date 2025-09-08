@@ -46,8 +46,8 @@ router.post('/types', isManager, [
     const { name, description, base_price, capacity, amenities } = req.body;
 
     const result = await query(
-      'INSERT INTO room_types (name, description, base_price, capacity, amenities) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, description, base_price, capacity, amenities || []]
+      'INSERT INTO room_types (name, description, base_price, capacity, amenities) VALUES (?, ?, ?, ?, ?)',
+      [name, description, base_price, capacity, JSON.stringify(amenities || [])]
     );
 
     res.status(201).json({
@@ -87,13 +87,13 @@ router.put('/types/:id', isManager, [
 
     const result = await query(
       `UPDATE room_types SET 
-       name = COALESCE($1, name),
-       description = COALESCE($2, description),
-       base_price = COALESCE($3, base_price),
-       capacity = COALESCE($4, capacity),
-       amenities = COALESCE($5, amenities)
-       WHERE id = $6 RETURNING *`,
-      [name, description, base_price, capacity, amenities, id]
+       name = COALESCE(?, name),
+       description = COALESCE(?, description),
+       base_price = COALESCE(?, base_price),
+       capacity = COALESCE(?, capacity),
+       amenities = COALESCE(?, amenities)
+       WHERE id = ?`,
+      [name, description, base_price, capacity, amenities ? JSON.stringify(amenities) : null, id]
     );
 
     if (result.rows.length === 0) {
@@ -125,41 +125,39 @@ router.get('/', async (req, res) => {
 
     let whereClause = 'WHERE 1=1';
     const params = [];
-    let paramCount = 0;
 
     if (status) {
-      paramCount++;
-      whereClause += ` AND r.status = $${paramCount}`;
+      whereClause += ' AND r.status = ?';
       params.push(status);
     }
 
     if (room_type_id) {
-      paramCount++;
-      whereClause += ` AND r.room_type_id = $${paramCount}`;
+      whereClause += ' AND r.room_type_id = ?';
       params.push(room_type_id);
     }
 
     if (floor) {
-      paramCount++;
-      whereClause += ` AND r.floor = $${paramCount}`;
+      whereClause += ' AND r.floor = ?';
       params.push(floor);
     }
 
-    const result = await query(`
-      SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
-      FROM rooms r
-      LEFT JOIN room_types rt ON r.room_type_id = rt.id
-      ${whereClause}
-      ORDER BY r.room_number
-      LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
-    `, [...params, limit, offset]);
+    const result = await query(
+      `SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
+       FROM rooms r
+       LEFT JOIN room_types rt ON r.room_type_id = rt.id
+       ${whereClause}
+       ORDER BY r.room_number
+       LIMIT ? OFFSET ?`,
+      [...params, Number(limit), Number(offset)]
+    );
 
     // Get total count
-    const countResult = await query(`
-      SELECT COUNT(*) as total
-      FROM rooms r
-      ${whereClause}
-    `, params);
+    const countResult = await query(
+      `SELECT COUNT(*) as total
+       FROM rooms r
+       ${whereClause}`,
+      params
+    );
 
     const total = parseInt(countResult.rows[0].total);
 
@@ -203,7 +201,7 @@ router.post('/', isManager, [
 
     // Check if room number already exists
     const existingRoom = await query(
-      'SELECT id FROM rooms WHERE room_number = $1',
+      'SELECT id FROM rooms WHERE room_number = ?',
       [room_number]
     );
 
@@ -215,7 +213,7 @@ router.post('/', isManager, [
     }
 
     const result = await query(
-      'INSERT INTO rooms (room_number, room_type_id, floor, notes) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO rooms (room_number, room_type_id, floor, notes) VALUES (?, ?, ?, ?)',
       [room_number, room_type_id, floor, notes]
     );
 
@@ -258,7 +256,7 @@ router.put('/:id', isManager, [
     // Check if room number already exists (if being changed)
     if (room_number) {
       const existingRoom = await query(
-        'SELECT id FROM rooms WHERE room_number = $1 AND id != $2',
+        'SELECT id FROM rooms WHERE room_number = ? AND id != ?',
         [room_number, id]
       );
 
@@ -272,14 +270,14 @@ router.put('/:id', isManager, [
 
     const result = await query(
       `UPDATE rooms SET 
-       room_number = COALESCE($1, room_number),
-       room_type_id = COALESCE($2, room_type_id),
-       floor = COALESCE($3, floor),
-       status = COALESCE($4, status),
-       is_clean = COALESCE($5, is_clean),
-       notes = COALESCE($6, notes),
+       room_number = COALESCE(?, room_number),
+       room_type_id = COALESCE(?, room_type_id),
+       floor = COALESCE(?, floor),
+       status = COALESCE(?, status),
+       is_clean = COALESCE(?, is_clean),
+       notes = COALESCE(?, notes),
        updated_at = CURRENT_TIMESTAMP
-       WHERE id = $7 RETURNING *`,
+       WHERE id = ?`,
       [room_number, room_type_id, floor, status, is_clean, notes, id]
     );
 
@@ -309,12 +307,13 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await query(`
-      SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
-      FROM rooms r
-      LEFT JOIN room_types rt ON r.room_type_id = rt.id
-      WHERE r.id = $1
-    `, [id]);
+    const result = await query(
+      `SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
+       FROM rooms r
+       LEFT JOIN room_types rt ON r.room_type_id = rt.id
+       WHERE r.id = ?`,
+      [id]
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ 
@@ -350,32 +349,31 @@ router.get('/availability', async (req, res) => {
 
     let whereClause = 'WHERE 1=1';
     const params = [check_in_date, check_out_date];
-    let paramCount = 2;
 
     if (room_type_id) {
-      paramCount++;
-      whereClause += ` AND r.room_type_id = $${paramCount}`;
+      whereClause += ' AND r.room_type_id = ?';
       params.push(room_type_id);
     }
 
-    const result = await query(`
-      SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
-      FROM rooms r
-      LEFT JOIN room_types rt ON r.room_type_id = rt.id
-      WHERE r.id NOT IN (
-        SELECT DISTINCT room_id
-        FROM bookings
-        WHERE status IN ('confirmed', 'checked_in')
-        AND (
-          (check_in_date <= $1 AND check_out_date > $1) OR
-          (check_in_date < $2 AND check_out_date >= $2) OR
-          (check_in_date >= $1 AND check_out_date <= $2)
-        )
-      )
-      ${room_type_id ? `AND r.room_type_id = $${paramCount}` : ''}
-      AND r.status = 'available'
-      ORDER BY r.room_number
-    `, params);
+    const result = await query(
+      `SELECT r.*, rt.name as room_type, rt.base_price, rt.capacity, rt.amenities
+       FROM rooms r
+       LEFT JOIN room_types rt ON r.room_type_id = rt.id
+       WHERE r.id NOT IN (
+         SELECT DISTINCT room_id
+         FROM bookings
+         WHERE status IN ('confirmed', 'checked_in')
+         AND (
+           (check_in_date <= ? AND check_out_date > ?) OR
+           (check_in_date < ? AND check_out_date >= ?) OR
+           (check_in_date >= ? AND check_out_date <= ?)
+         )
+       )
+       ${room_type_id ? 'AND r.room_type_id = ?' : ''}
+       AND r.status = 'available'
+       ORDER BY r.room_number`,
+      room_type_id ? [...params, ...params, ...params, room_type_id] : [...params, ...params, ...params]
+    );
 
     res.json({
       success: true,
