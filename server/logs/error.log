@@ -482,3 +482,24 @@
   message: 'Database query error:',
   timestamp: '2025-09-08 21:57:11'
 }
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'root'@'localhost' (using password: NO)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-09-14 00:16:47'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = $1',
+  params: [ 1 ],
+  error: "Unknown column '$1' in 'where clause'",
+  code: 'ER_BAD_FIELD_ERROR',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-09-14 00:26:35'
+}
