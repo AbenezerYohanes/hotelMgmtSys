@@ -30,7 +30,7 @@ router.post('/register', [
 
     // Check if user already exists
     const existingUser = await query(
-      'SELECT id FROM users WHERE username = ? OR email = ?',
+      'SELECT id FROM users WHERE username = $1 OR email = $2',
       [username, email]
     );
 
@@ -48,13 +48,13 @@ router.post('/register', [
     // Create user
     const result = await query(
       `INSERT INTO users (username, email, password_hash, first_name, last_name, role, phone, address)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
       [username, email, passwordHash, first_name, last_name, role, phone, address]
     );
 
     // Get the inserted user
     const userResult = await query(
-      'SELECT id, username, email, first_name, last_name, role FROM users WHERE username = ?',
+      'SELECT id, username, email, first_name, last_name, role FROM users WHERE username = $1',
       [username]
     );
 
@@ -119,7 +119,7 @@ router.post('/login', [
 
     // Find user
     const result = await query(
-      'SELECT id, username, email, password_hash, first_name, last_name, role, is_active FROM users WHERE username = ? OR email = ?',
+      'SELECT id, username, email, password_hash, first_name, last_name, role, is_active FROM users WHERE username = $1 OR email = $2',
       [username || email, username || email]
     );
 
@@ -183,7 +183,7 @@ router.post('/login', [
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, username, email, first_name, last_name, role, phone, address, created_at FROM users WHERE id = ?',
+      'SELECT id, username, email, first_name, last_name, role, phone, address, created_at FROM users WHERE id = $1',
       [req.user.id]
     );
 
