@@ -51,17 +51,22 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setIsLoading(true);
+      console.log('🚀 AuthContext: Starting login process');
       const response = await authService.login({ email, password });
+      console.log('✅ AuthContext: Login service response:', response);
       
       if (response.token && response.user) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         setUser(response.user);
+        console.log('💾 AuthContext: User data saved to localStorage and state');
         toast.success('Login successful!');
       } else {
+        console.error('❌ AuthContext: Invalid response structure:', response);
         throw new Error('Invalid response from server');
       }
     } catch (error) {
+      console.error('💥 AuthContext: Login error:', error);
       const errorMessage = error.response?.data?.message || error.message || 'Login failed';
       toast.error(errorMessage);
       throw error;

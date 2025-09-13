@@ -19,7 +19,7 @@ import {
   Shield,
   Key,
   TrendingUp,
-  Cabin,
+  Building,
   DollarSign,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -29,7 +29,7 @@ const getNavigation = (userRole) => {
     { name: 'Dashboard', href: userRole === 'super_admin' ? '/super-admin' : '/admin', icon: Home },
     { name: 'Bookings', href: userRole === 'super_admin' ? '/super-admin/bookings' : '/admin/bookings', icon: Calendar },
     { name: 'Rooms', href: userRole === 'super_admin' ? '/super-admin/rooms' : '/admin/rooms', icon: Building2 },
-    { name: 'Cabins', href: userRole === 'super_admin' ? '/super-admin/cabins' : '/admin/cabins', icon: Cabin },
+    { name: 'Cabins', href: userRole === 'super_admin' ? '/super-admin/cabins' : '/admin/cabins', icon: Building },
     { name: 'Price Tracking', href: userRole === 'super_admin' ? '/super-admin/pricing' : '/admin/pricing', icon: TrendingUp },
     { name: 'Guests', href: userRole === 'super_admin' ? '/super-admin/guests' : '/admin/guests', icon: Users },
     { name: 'HR', href: userRole === 'super_admin' ? '/super-admin/hr' : '/admin/hr', icon: UserCheck },
