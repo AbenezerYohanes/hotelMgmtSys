@@ -7,7 +7,12 @@ import Landing from './pages/Landing';
 import Register from './pages/Register';
 import ClientHome from './pages/ClientHome';
 import ClientBooking from './pages/ClientBooking';
+import ClientProfile from './pages/ClientProfile';
+import ClientBookings from './pages/ClientBookings';
 import Dashboard from './pages/Dashboard';
+import SuperAdminDashboard from './pages/SuperAdminDashboard';
+import AdminManagement from './pages/AdminManagement';
+import PriceTracking from './pages/PriceTracking';
 import Layout from './components/Layout';
 import Bookings from './pages/Bookings';
 import Rooms from './pages/Rooms';
@@ -31,6 +36,20 @@ const PrivateRoute = ({ children }) => {
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
+const SuperAdminRoute = ({ children }) => {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  const isSuperAdmin = user?.role === 'super_admin';
+  return isSuperAdmin ? <>{children}</> : <Navigate to="/admin" />;
+};
+
 const AdminRoute = ({ children }) => {
   const { user, isAuthenticated, isLoading } = useAuth();
   if (isLoading) {
@@ -41,7 +60,7 @@ const AdminRoute = ({ children }) => {
     );
   }
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  const isAdmin = ['admin', 'manager', 'staff'].includes(user?.role);
+  const isAdmin = ['super_admin', 'admin', 'manager', 'staff'].includes(user?.role);
   return isAdmin ? <>{children}</> : <Navigate to="/client" />;
 };
 
@@ -55,7 +74,7 @@ const ClientRoute = ({ children }) => {
     );
   }
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  const isClient = !['admin', 'manager', 'staff'].includes(user?.role);
+  const isClient = !['super_admin', 'admin', 'manager', 'staff'].includes(user?.role);
   return isClient ? <>{children}</> : <Navigate to="/admin" />;
 };
 
@@ -69,6 +88,28 @@ const App = () => {
           <Route path="/register" element={<Register />} />
 
           <Route
+            path="/super-admin"
+            element={
+              <SuperAdminRoute>
+                <Layout />
+              </SuperAdminRoute>
+            }
+          >
+            <Route index element={<SuperAdminDashboard />} />
+            <Route path="admins" element={<AdminManagement />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="rooms" element={<Rooms />} />
+            <Route path="cabins" element={<Rooms />} />
+            <Route path="pricing" element={<PriceTracking />} />
+            <Route path="guests" element={<Guests />} />
+            <Route path="hr" element={<HR />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="payment-gateway" element={<Payments />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="users" element={<Users />} />
+          </Route>
+
+          <Route
             path="/admin"
             element={
               <AdminRoute>
@@ -79,9 +120,12 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="rooms" element={<Rooms />} />
+            <Route path="cabins" element={<Rooms />} />
+            <Route path="pricing" element={<PriceTracking />} />
             <Route path="guests" element={<Guests />} />
             <Route path="hr" element={<HR />} />
             <Route path="payments" element={<Payments />} />
+            <Route path="payment-gateway" element={<Payments />} />
             <Route path="reports" element={<Reports />} />
             <Route path="users" element={<Users />} />
           </Route>
@@ -99,6 +143,22 @@ const App = () => {
             element={
               <ClientRoute>
                 <ClientBooking />
+              </ClientRoute>
+            }
+          />
+          <Route
+            path="/client/profile"
+            element={
+              <ClientRoute>
+                <ClientProfile />
+              </ClientRoute>
+            }
+          />
+          <Route
+            path="/client/bookings"
+            element={
+              <ClientRoute>
+                <ClientBookings />
               </ClientRoute>
             }
           />

@@ -11,6 +11,7 @@ require('dotenv').config({ path: '../config.env' });
 // Import routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const adminRoutes = require('./routes/admin');
 const hrRoutes = require('./routes/hr');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require('./routes/rooms');
@@ -18,6 +19,10 @@ const guestRoutes = require('./routes/guests');
 const paymentRoutes = require('./routes/payments');
 const reportRoutes = require('./routes/reports');
 const chapaRoutes = require('./routes/chapa');
+const pricingRoutes = require('./routes/pricing');
+const cabinRoutes = require('./routes/cabins');
+const paymentGatewayRoutes = require('./routes/paymentGateway');
+const { router: notificationRoutes } = require('./routes/notifications');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -103,6 +108,7 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', authenticateToken, userRoutes);
+app.use('/api/admin', authenticateToken, adminRoutes);
 app.use('/api/hr', authenticateToken, hrRoutes);
 app.use('/api/bookings', authenticateToken, bookingRoutes);
 app.use('/api/rooms', authenticateToken, roomRoutes);
@@ -110,6 +116,10 @@ app.use('/api/guests', authenticateToken, guestRoutes);
 app.use('/api/payments', authenticateToken, paymentRoutes);
 app.use('/api/reports', authenticateToken, reportRoutes);
 app.use('/api/chapa', chapaRoutes);
+app.use('/api/pricing', authenticateToken, pricingRoutes);
+app.use('/api/cabins', authenticateToken, cabinRoutes);
+app.use('/api/payment-gateway', authenticateToken, paymentGatewayRoutes);
+app.use('/api/notifications', authenticateToken, notificationRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

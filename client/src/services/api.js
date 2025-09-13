@@ -265,6 +265,213 @@ export const paymentsService = {
   },
 };
 
+// Admin service
+export const adminService = {
+  getUsers: async (params = {}) => {
+    const response = await api.get('/admin/users', { params });
+    return response.data;
+  },
+
+  createUser: async (userData) => {
+    const response = await api.post('/admin/users', userData);
+    return response.data;
+  },
+
+  updateUser: async (id, userData) => {
+    const response = await api.put(`/admin/users/${id}`, userData);
+    return response.data;
+  },
+
+  deleteUser: async (id) => {
+    const response = await api.delete(`/admin/users/${id}`);
+    return response.data;
+  },
+
+  getUserPrivileges: async (id) => {
+    const response = await api.get(`/admin/users/${id}/privileges`);
+    return response.data;
+  },
+
+  grantPrivilege: async (id, privilege) => {
+    const response = await api.post(`/admin/users/${id}/privileges`, { privilege });
+    return response.data;
+  },
+
+  revokePrivilege: async (id, privilege) => {
+    const response = await api.delete(`/admin/users/${id}/privileges/${privilege}`);
+    return response.data;
+  },
+
+  getPrivileges: async () => {
+    const response = await api.get('/admin/privileges');
+    return response.data;
+  },
+
+  getDashboardStats: async () => {
+    const response = await api.get('/admin/dashboard-stats');
+    return response.data;
+  },
+
+  getRecentActivity: async () => {
+    const response = await api.get('/admin/recent-activity');
+    return response.data;
+  },
+};
+
+// Pricing service
+export const pricingService = {
+  getPriceTracking: async (params = {}) => {
+    const response = await api.get('/pricing/tracking', { params });
+    return response.data;
+  },
+
+  createPriceTracking: async (data) => {
+    const response = await api.post('/pricing/tracking', data);
+    return response.data;
+  },
+
+  updatePriceTracking: async (id, data) => {
+    const response = await api.put(`/pricing/tracking/${id}`, data);
+    return response.data;
+  },
+
+  deletePriceTracking: async (id) => {
+    const response = await api.delete(`/pricing/tracking/${id}`);
+    return response.data;
+  },
+
+  getCurrentPricing: async (roomTypeId, date) => {
+    const response = await api.get(`/pricing/current/${roomTypeId}`, { params: { date } });
+    return response.data;
+  },
+
+  calculatePricing: async (data) => {
+    const response = await api.post('/pricing/calculate', data);
+    return response.data;
+  },
+
+  getPricingAnalytics: async (period) => {
+    const response = await api.get(`/pricing/analytics?period=${period}`);
+    return response.data;
+  },
+
+  getRoomTypes: async () => {
+    const response = await api.get('/rooms/types');
+    return response.data;
+  }
+};
+
+// Cabins service
+export const cabinsService = {
+  getCabins: async (params = {}) => {
+    const response = await api.get('/cabins', { params });
+    return response.data;
+  },
+
+  getCabin: async (id) => {
+    const response = await api.get(`/cabins/${id}`);
+    return response.data;
+  },
+
+  createCabin: async (data) => {
+    const response = await api.post('/cabins', data);
+    return response.data;
+  },
+
+  updateCabin: async (id, data) => {
+    const response = await api.put(`/cabins/${id}`, data);
+    return response.data;
+  },
+
+  deleteCabin: async (id) => {
+    const response = await api.delete(`/cabins/${id}`);
+    return response.data;
+  },
+
+  getCabinAvailability: async (id, startDate, endDate) => {
+    const response = await api.get(`/cabins/${id}/availability`, {
+      params: { start_date: startDate, end_date: endDate }
+    });
+    return response.data;
+  },
+
+  getCabinTypes: async () => {
+    const response = await api.get('/cabins/types/list');
+    return response.data;
+  },
+
+  getCabinLocations: async () => {
+    const response = await api.get('/cabins/locations/list');
+    return response.data;
+  }
+};
+
+// Payment Gateway service
+export const paymentGatewayService = {
+  getPaymentMethods: async () => {
+    const response = await api.get('/payment-gateway/methods');
+    return response.data;
+  },
+
+  processPayment: async (data) => {
+    const response = await api.post('/payment-gateway/process', data);
+    return response.data;
+  },
+
+  getPaymentHistory: async (params = {}) => {
+    const response = await api.get('/payment-gateway/history', { params });
+    return response.data;
+  },
+
+  processRefund: async (data) => {
+    const response = await api.post('/payment-gateway/refund', data);
+    return response.data;
+  },
+
+  getPaymentAnalytics: async (period) => {
+    const response = await api.get(`/payment-gateway/analytics?period=${period}`);
+    return response.data;
+  }
+};
+
+// Notifications service
+export const notificationsService = {
+  getNotifications: async (params = {}) => {
+    const response = await api.get('/notifications', { params });
+    return response.data;
+  },
+
+  getNotificationCount: async () => {
+    const response = await api.get('/notifications/count');
+    return response.data;
+  },
+
+  markAsRead: async (id) => {
+    const response = await api.put(`/notifications/${id}/read`);
+    return response.data;
+  },
+
+  markAllAsRead: async () => {
+    const response = await api.put('/notifications/read-all');
+    return response.data;
+  },
+
+  deleteNotification: async (id) => {
+    const response = await api.delete(`/notifications/${id}`);
+    return response.data;
+  },
+
+  createNotification: async (data) => {
+    const response = await api.post('/notifications', data);
+    return response.data;
+  },
+
+  getNotificationAnalytics: async (period) => {
+    const response = await api.get(`/notifications/analytics?period=${period}`);
+    return response.data;
+  }
+};
+
 // Reports service
 export const reportsService = {
   getDashboardStats: async () => {
