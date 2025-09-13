@@ -56,10 +56,14 @@ const normalizeUser = (raw) => {
 
 export const authService = {
   login: async (credentials) => {
+    console.log('🔐 Attempting login with:', credentials);
     const response = await api.post('/auth/login', credentials);
+    console.log('📡 Login response:', response.data);
     const payload = response.data;
     const token = payload?.data?.token || payload?.token;
     const user = normalizeUser(payload?.data?.user || payload?.user);
+    console.log('👤 Normalized user:', user);
+    console.log('🎫 Token:', token);
     return { token, user };
   },
 
