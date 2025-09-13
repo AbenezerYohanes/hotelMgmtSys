@@ -16,25 +16,43 @@ import {
   Bell,
   Search,
   User,
+  Shield,
+  Key,
+  TrendingUp,
+  Cabin,
+  DollarSign,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: Home },
-  { name: 'Bookings', href: '/admin/bookings', icon: Calendar },
-  { name: 'Rooms', href: '/admin/rooms', icon: Building2 },
-  { name: 'Guests', href: '/admin/guests', icon: Users },
-  { name: 'HR', href: '/admin/hr', icon: UserCheck },
-  { name: 'Payments', href: '/admin/payments', icon: CreditCard },
-  { name: 'Reports', href: '/admin/reports', icon: BarChart3 },
-  { name: 'Users', href: '/admin/users', icon: Settings },
-];
+const getNavigation = (userRole) => {
+  const baseNavigation = [
+    { name: 'Dashboard', href: userRole === 'super_admin' ? '/super-admin' : '/admin', icon: Home },
+    { name: 'Bookings', href: userRole === 'super_admin' ? '/super-admin/bookings' : '/admin/bookings', icon: Calendar },
+    { name: 'Rooms', href: userRole === 'super_admin' ? '/super-admin/rooms' : '/admin/rooms', icon: Building2 },
+    { name: 'Cabins', href: userRole === 'super_admin' ? '/super-admin/cabins' : '/admin/cabins', icon: Cabin },
+    { name: 'Price Tracking', href: userRole === 'super_admin' ? '/super-admin/pricing' : '/admin/pricing', icon: TrendingUp },
+    { name: 'Guests', href: userRole === 'super_admin' ? '/super-admin/guests' : '/admin/guests', icon: Users },
+    { name: 'HR', href: userRole === 'super_admin' ? '/super-admin/hr' : '/admin/hr', icon: UserCheck },
+    { name: 'Payments', href: userRole === 'super_admin' ? '/super-admin/payments' : '/admin/payments', icon: CreditCard },
+    { name: 'Payment Gateway', href: userRole === 'super_admin' ? '/super-admin/payment-gateway' : '/admin/payment-gateway', icon: DollarSign },
+    { name: 'Reports', href: userRole === 'super_admin' ? '/super-admin/reports' : '/admin/reports', icon: BarChart3 },
+    { name: 'Users', href: userRole === 'super_admin' ? '/super-admin/users' : '/admin/users', icon: Settings },
+  ];
+
+  if (userRole === 'super_admin') {
+    baseNavigation.splice(1, 0, { name: 'Admin Management', href: '/super-admin/admins', icon: Shield });
+  }
+
+  return baseNavigation;
+};
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const navigation = getNavigation(user?.role);
 
   const handleLogout = async () => {
     await logout();

@@ -24,7 +24,9 @@ const Login = () => {
       await refreshUser();
       const stored = localStorage.getItem('user');
       const role = stored ? JSON.parse(stored).role : null;
-      if (['admin', 'manager', 'staff'].includes(role)) {
+      if (role === 'super_admin') {
+        window.location.replace('/super-admin');
+      } else if (['admin', 'manager', 'staff'].includes(role)) {
         window.location.replace('/admin');
       } else {
         window.location.replace('/client');
@@ -39,7 +41,9 @@ const Login = () => {
   React.useEffect(() => {
     if (isAuthenticated) {
       const role = user?.role || JSON.parse(localStorage.getItem('user') || '{}')?.role;
-      if (['admin', 'manager', 'staff'].includes(role)) {
+      if (role === 'super_admin') {
+        window.location.replace('/super-admin');
+      } else if (['admin', 'manager', 'staff'].includes(role)) {
         window.location.replace('/admin');
       } else {
         window.location.replace('/client');
@@ -144,9 +148,11 @@ const Login = () => {
             <p className="text-sm text-gray-600">
               Demo Credentials:
             </p>
-            <p className="text-xs text-gray-500">
-              Email: admin@hotel.com | Password: admin123
-            </p>
+            <div className="text-xs text-gray-500 space-y-1">
+              <p><strong>Super Admin:</strong> superadmin@hotel.com | superadmin123</p>
+              <p><strong>Admin:</strong> admin@hotel.com | admin123</p>
+              <p><strong>Client:</strong> Register new account</p>
+            </div>
           </div>
         </form>
       </div>
