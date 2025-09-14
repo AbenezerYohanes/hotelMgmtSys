@@ -503,3 +503,80 @@
   message: 'Database query error:',
   timestamp: '2025-09-14 00:26:35'
 }
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:51:07'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:51:22'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:51:46'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:51:50'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:51:56'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:52:00'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 5432,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to PostgreSQL database:',
+  timestamp: '2025-09-14 00:52:22'
+}

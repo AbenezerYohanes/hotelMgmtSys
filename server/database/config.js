@@ -1,41 +1,35 @@
-
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 const { logger } = require('../middleware/logger');
 require('dotenv').config();
 
 // Database configuration
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT) || 3306,
+  port: parseInt(process.env.DB_PORT) || 5432,
   database: process.env.DB_NAME || 'hotel_management',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD,
-  waitForConnections: true,
-  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 10,
-  queueLimit: 0,
-  acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true,
-  charset: 'utf8mb4',
-  timezone: '+00:00'
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || '',
+  max: parseInt(process.env.DB_CONNECTION_LIMIT) || 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 };
 
 // Create connection pool
-const pool = mysql.createPool(dbConfig);
+const pool = new Pool(dbConfig);
 
 // Test the connection
 const testConnection = async () => {
   try {
-    const connection = await pool.getConnection();
-    logger.info('✅ Connected to MySQL database successfully', {
+    const client = await pool.connect();
+    logger.info('✅ Connected to PostgreSQL database successfully', {
       host: dbConfig.host,
       port: dbConfig.port,
       database: dbConfig.database,
       user: dbConfig.user
     });
-    connection.release();
+    client.release();
   } catch (err) {
-    logger.error('❌ Error connecting to MySQL database:', {
+    logger.error('❌ Error connecting to PostgreSQL database:', {
       error: err.message,
       code: err.code,
       host: dbConfig.host,
@@ -52,8 +46,8 @@ testConnection();
 // Enhanced query function with better error handling
 const query = async (text, params = []) => {
   try {
-    const [rows] = await pool.execute(text, params);
-    return { rows, rowCount: rows.length };
+    const result = await pool.query(text, params);
+    return { rows: result.rows, rowCount: result.rowCount };
   } catch (error) {
     logger.error('Database query error:', {
       query: text,
@@ -67,26 +61,26 @@ const query = async (text, params = []) => {
 
 // Transaction helper
 const transaction = async (callback) => {
-  const connection = await pool.getConnection();
+  const client = await pool.connect();
   try {
-    await connection.beginTransaction();
-    const result = await callback(connection);
-    await connection.commit();
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
     return result;
   } catch (error) {
-    await connection.rollback();
+    await client.query('ROLLBACK');
     throw error;
   } finally {
-    connection.release();
+    client.release();
   }
 };
 
 // Health check function
 const healthCheck = async () => {
   try {
-    const connection = await pool.getConnection();
-    await connection.ping();
-    connection.release();
+    const client = await pool.connect();
+    await client.query('SELECT 1');
+    client.release();
     return { status: 'healthy', timestamp: new Date().toISOString() };
   } catch (error) {
     logger.error('Database health check failed:', error);
@@ -112,4 +106,4 @@ module.exports = {
   transaction,
   healthCheck,
   pool
-}; 
+};

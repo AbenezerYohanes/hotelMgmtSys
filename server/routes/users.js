@@ -15,12 +15,12 @@ router.get('/', isAdmin, async (req, res) => {
     const params = [];
 
     if (role) {
-      whereClause += ' AND role = ?';
+      whereClause += ' AND role = $' + (params.length + 1);
       params.push(role);
     }
 
     if (is_active !== undefined) {
-      whereClause += ' AND is_active = ?';
+      whereClause += ' AND is_active = $' + (params.length + 1);
       params.push(is_active === 'true');
     }
 
@@ -29,7 +29,7 @@ router.get('/', isAdmin, async (req, res) => {
        FROM users
        ${whereClause}
        ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`,
+       LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
       [...params, Number(limit), Number(offset)]
     );
 
@@ -68,7 +68,7 @@ router.get('/:id', isAdmin, async (req, res) => {
     const { id } = req.params;
 
     const result = await query(
-      'SELECT id, username, email, first_name, last_name, role, phone, address, is_active, created_at FROM users WHERE id = ?',
+      'SELECT id, username, email, first_name, last_name, role, phone, address, is_active, created_at FROM users WHERE id = $1',
       [id]
     );
 
@@ -118,7 +118,7 @@ router.put('/:id', isAdmin, [
     // Check if email already exists (if being changed)
     if (email) {
       const existingUser = await query(
-        'SELECT id FROM users WHERE email = ? AND id != ?',
+        'SELECT id FROM users WHERE email = $1 AND id != $2',
         [email, id]
       );
 
@@ -132,15 +132,16 @@ router.put('/:id', isAdmin, [
 
     const result = await query(
       `UPDATE users SET 
-       first_name = COALESCE(?, first_name),
-       last_name = COALESCE(?, last_name),
-       email = COALESCE(?, email),
-       role = COALESCE(?, role),
-       phone = COALESCE(?, phone),
-       address = COALESCE(?, address),
-       is_active = COALESCE(?, is_active),
+       first_name = COALESCE($1, first_name),
+       last_name = COALESCE($2, last_name),
+       email = COALESCE($3, email),
+       role = COALESCE($4, role),
+       phone = COALESCE($5, phone),
+       address = COALESCE($6, address),
+       is_active = COALESCE($7, is_active),
        updated_at = CURRENT_TIMESTAMP
-       WHERE id = ?`,
+       WHERE id = $8
+       RETURNING id, username, email, first_name, last_name, role, phone, address, is_active`,
       [first_name, last_name, email, role, phone, address, is_active, id]
     );
 
@@ -172,7 +173,7 @@ router.delete('/:id', isAdmin, async (req, res) => {
 
     // Check if user exists
     const user = await query(
-      'SELECT id FROM users WHERE id = ?',
+      'SELECT id FROM users WHERE id = $1',
       [id]
     );
 
@@ -185,7 +186,7 @@ router.delete('/:id', isAdmin, async (req, res) => {
 
     // Check if user has any associated data
     const hasBookings = await query(
-      'SELECT COUNT(*) as count FROM bookings WHERE created_by = ?',
+      'SELECT COUNT(*) as count FROM bookings WHERE created_by = $1',
       [id]
     );
 
@@ -198,7 +199,7 @@ router.delete('/:id', isAdmin, async (req, res) => {
 
     // Soft delete by setting is_active to false
     await query(
-      'UPDATE users SET is_active = false, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      'UPDATE users SET is_active = false, updated_at = CURRENT_TIMESTAMP WHERE id = $1',
       [id]
     );
 
