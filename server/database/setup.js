@@ -493,4 +493,4 @@ if (require.main === module) {
   createTables();
 }
 
-module.exports = { createTables };
+module.exports = { createTables }; 
