@@ -171,21 +171,21 @@ router.get('/:id', async (req, res) => {
 router.get('/dashboard/stats', async (req, res) => {
   try {
     // Total bookings today
-    const [todayBookings] = await db.query(`
+    const todayBookingsRes = await db.query(`
       SELECT COUNT(*) as count
       FROM bookings
       WHERE DATE(created_at) = CURDATE()
     `);
 
     // Total bookings this month
-    const [monthBookings] = await db.query(`
+    const monthBookingsRes = await db.query(`
       SELECT COUNT(*) as count
       FROM bookings
       WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())
     `);
 
     // Revenue this month
-    const [monthRevenue] = await db.query(`
+    const monthRevenueRes = await db.query(`
       SELECT COALESCE(SUM(total_amount), 0) as total
       FROM bookings
       WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())
@@ -193,7 +193,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Occupancy rate
-    const [occupancyRate] = await db.query(`
+    const occupancyRateRes = await db.query(`
       SELECT 
         ROUND(
           (COUNT(CASE WHEN status IN ('confirmed', 'checked_in') THEN 1 END) * 100.0 / 
@@ -205,7 +205,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Upcoming check-ins (next 7 days)
-    const [upcomingCheckins] = await db.query(`
+    const upcomingCheckinsRes = await db.query(`
       SELECT b.*, g.first_name, g.last_name, r.room_number
       FROM bookings b
       LEFT JOIN guests g ON b.guest_id = g.id
@@ -217,7 +217,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Recent bookings
-    const [recentBookings] = await db.query(`
+    const recentBookingsRes = await db.query(`
       SELECT b.*, g.first_name, g.last_name, r.room_number
       FROM bookings b
       LEFT JOIN guests g ON b.guest_id = g.id
@@ -229,12 +229,12 @@ router.get('/dashboard/stats', async (req, res) => {
     res.json({
       success: true,
       data: {
-        todayBookings: parseInt(todayBookings[0].count),
-        monthBookings: parseInt(monthBookings[0].count),
-        monthRevenue: parseFloat(monthRevenue[0].total),
-        occupancyRate: parseFloat(occupancyRate[0].rate || 0),
-        upcomingCheckins,
-        recentBookings
+        todayBookings: parseInt(todayBookingsRes.rows[0].count),
+        monthBookings: parseInt(monthBookingsRes.rows[0].count),
+        monthRevenue: parseFloat(monthRevenueRes.rows[0].total),
+        occupancyRate: parseFloat(occupancyRateRes.rows[0].rate || 0),
+        upcomingCheckins: upcomingCheckinsRes.rows,
+        recentBookings: recentBookingsRes.rows
       }
     });
   } catch (error) {

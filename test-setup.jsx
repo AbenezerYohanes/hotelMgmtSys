@@ -11,14 +11,14 @@ console.log('📁 Checking required files...');
 const requiredFiles = [
   'server/package.json',
   'client/package.json',
-  'server/index.js',
-  'server/database/config.js',
+  'server/index.jsx',
+  'server/database/config.jsx',
   'server/database/schema.sql',
-  'server/database/setup.js',
+  'server/database/setup.jsx',
   'config.env',
-  'client/src/App.js',
-  'client/src/pages/HR.js',
-  'client/src/pages/Dashboard.js',
+  'client/src/App.jsx',
+  'client/src/pages/HR.jsx',
+  'client/src/pages/Dashboard.jsx',
   'MVP_SETUP_GUIDE.md'
 ];
 
