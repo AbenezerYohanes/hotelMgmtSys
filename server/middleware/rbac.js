@@ -1,11 +1,9 @@
 const { query } = require('../database/config');
 
-// Role hierarchy: super_admin > admin > manager > staff > user
+// Role hierarchy: superadmin > admin > user
 const ROLE_HIERARCHY = {
-  'super_admin': 5,
-  'admin': 4,
-  'manager': 3,
-  'staff': 2,
+  'superadmin': 3,
+  'admin': 2,
   'user': 1
 };
 
@@ -15,15 +13,13 @@ const hasRole = (userRole, requiredRole) => {
 };
 
 // Check if user has specific privilege
-const hasPrivilege = async (userId, privilege) => {
+const hasPrivilege = (userPrivileges, privilege) => {
+  if (!userPrivileges) return false;
   try {
-    const result = await query(
-      'SELECT id FROM admin_privileges WHERE user_id = ? AND privilege = ?',
-      [userId, privilege]
-    );
-    return result.rows.length > 0;
+    const privileges = typeof userPrivileges === 'string' ? JSON.parse(userPrivileges) : userPrivileges;
+    return privileges[privilege] === true;
   } catch (error) {
-    console.error('Error checking privilege:', error);
+    console.error('Error parsing privileges:', error);
     return false;
   }
 };
@@ -32,16 +28,16 @@ const hasPrivilege = async (userId, privilege) => {
 const requireRole = (requiredRole) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Authentication required' 
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
       });
     }
 
     if (!hasRole(req.user.role, requiredRole)) {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'Insufficient permissions' 
+      return res.status(403).json({
+        success: false,
+        message: 'Insufficient permissions'
       });
     }
 
@@ -51,25 +47,24 @@ const requireRole = (requiredRole) => {
 
 // Middleware to check privilege
 const requirePrivilege = (privilege) => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Authentication required' 
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
       });
     }
 
-    // Super admin has all privileges
-    if (req.user.role === 'super_admin') {
+    // Superadmin has all privileges
+    if (req.user.role === 'superadmin') {
       return next();
     }
 
     // Check if user has the specific privilege
-    const hasPriv = await hasPrivilege(req.user.id, privilege);
-    if (!hasPriv) {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'Insufficient permissions for this action' 
+    if (!hasPrivilege(req.user.privileges, privilege)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Insufficient permissions for this action'
       });
     }
 
@@ -81,14 +76,14 @@ const requirePrivilege = (privilege) => {
 const canManageUser = (targetUserId) => {
   return async (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Authentication required' 
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
       });
     }
 
-    // Super admin can manage everyone
-    if (req.user.role === 'super_admin') {
+    // Superadmin can manage everyone
+    if (req.user.role === 'superadmin') {
       return next();
     }
 
@@ -99,11 +94,11 @@ const canManageUser = (targetUserId) => {
           'SELECT role FROM users WHERE id = ?',
           [targetUserId]
         );
-        
+
         if (result.rows.length === 0) {
-          return res.status(404).json({ 
-            success: false, 
-            message: 'User not found' 
+          return res.status(404).json({
+            success: false,
+            message: 'User not found'
           });
         }
 
@@ -116,9 +111,9 @@ const canManageUser = (targetUserId) => {
       }
     }
 
-    return res.status(403).json({ 
-      success: false, 
-      message: 'Cannot manage this user' 
+    return res.status(403).json({
+      success: false,
+      message: 'Cannot manage this user'
     });
   };
 };

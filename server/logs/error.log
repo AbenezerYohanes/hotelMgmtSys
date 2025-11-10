@@ -2223,3 +2223,183 @@
   message: '❌ Error connecting to MySQL database:',
   timestamp: '2025-11-01 13:19:31'
 }
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.189.242.195' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-03 12:02:27'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'localhost' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-03 12:03:20'
+}
+{
+  service: 'hotel-management-api',
+  error: "Unknown database 'hotel-management'",
+  code: 'ER_BAD_DB_ERROR',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-03 12:04:00'
+}
+{
+  service: 'hotel-management-api',
+  error: "Unknown database 'hotel-management'",
+  code: 'ER_BAD_DB_ERROR',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-03 12:05:50'
+}
+{
+  service: 'hotel-management-api',
+  error: '',
+  code: 'ECONNREFUSED',
+  host: 'localhost',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:18:36'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:22:15'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:22:34'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:22:43'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:23:38'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:23:52'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' to database 'hotel_management'",
+  code: 'ER_DBACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:27:24'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.55.204' to database 'hotel_management'",
+  code: 'ER_DBACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel_management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-11 00:27:54'
+}
+{
+  service: 'hotel-management-api',
+  query: 'INSERT INTO users (username, email, password_hash, first_name, last_name, role, phone)\n' +
+    '       VALUES (?, ?, ?, ?, ?, ?, ?)',
+  params: [
+    'testuser',
+    'test@example.com',
+    '$2a$10$uZa0cx8565cqOf4noGhebe8.uvStwtWkheEEixrqv28ApVSr3rMUm',
+    'Test',
+    'User',
+    'client',
+    undefined
+  ],
+  error: 'Bind parameters must not contain undefined. To pass SQL NULL specify JS null',
+  code: undefined,
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-11-11 00:35:46'
+}
+{
+  service: 'hotel-management-api',
+  query: 'INSERT INTO users (username, email, password_hash, first_name, last_name, role, phone)\n' +
+    '       VALUES (?, ?, ?, ?, ?, ?, ?)',
+  params: [
+    'testuser',
+    'test@example.com',
+    '$2a$10$L6oJRepdumC93v5VCIsdlu.iu7s.iGU/2GNbF/EzzN1hOX4hqEW16',
+    'Test',
+    'User',
+    'client',
+    undefined
+  ],
+  error: 'Bind parameters must not contain undefined. To pass SQL NULL specify JS null',
+  code: undefined,
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-11-11 00:37:38'
+}
+{
+  service: 'hotel-management-api',
+  query: 'SELECT id, email, password, name, role, privileges, status FROM users WHERE email = ?',
+  params: [ 'admin@hotel.com' ],
+  error: 'read ECONNRESET',
+  code: 'ECONNRESET',
+  level: 'error',
+  message: 'Database query error:',
+  timestamp: '2025-11-11 01:25:39'
+}
