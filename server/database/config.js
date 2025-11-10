@@ -9,7 +9,11 @@ const dbConfig = {
   database: process.env.DB_NAME || 'hotel-management',
   user: process.env.DB_USER || 'hotel-manager',
   password: process.env.DB_PASSWORD || 'hotel-manager',
-  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 20
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 20,
+  // Add SSL configuration for production
+  ssl: process.env.NODE_ENV === 'production' ? {
+    rejectUnauthorized: false
+  } : false
 };
 
 // Create connection pool
@@ -34,7 +38,10 @@ const testConnection = async () => {
       port: dbConfig.port,
       database: dbConfig.database
     });
-    process.exit(1);
+    // Don't exit in production, let the app continue and retry
+    if (process.env.NODE_ENV !== 'production') {
+      process.exit(1);
+    }
   }
 };
 

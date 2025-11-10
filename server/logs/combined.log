@@ -13393,3 +13393,83 @@
   level: 'info',
   message: 'POST /api/auth/register'
 }
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 02:03:05'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 02:03:05'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 02:03:05'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 02:03:05'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 02:03:05'
+}
+{
+  service: 'hotel-management-api',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  user: 'hotel-manager',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-11-11 02:03:07'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.16.0',
+  timestamp: '2025-11-11 02:03:14',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.16.0',
+  timestamp: '2025-11-11 02:03:29',
+  level: 'info',
+  message: 'POST /api/auth/login'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  timestamp: '2025-11-11 02:04:51',
+  level: 'info',
+  message: 'POST /auth/register'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'curl/8.16.0',
+  timestamp: '2025-11-11 02:06:41',
+  level: 'info',
+  message: 'POST /api/auth/register'
+}
+{
+  service: 'hotel-management-api',
+  ip: '::1',
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  timestamp: '2025-11-11 02:07:57',
+  level: 'info',
+  message: 'POST /auth/register'
+}
