@@ -73,7 +73,7 @@ app.use(helmet({
 app.use(compression());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://yourdomain.com']
+    ? ['https://yourdomain.com', 'https://your-frontend-domain.com']
     : ['http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.10:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
