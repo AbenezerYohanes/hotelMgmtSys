@@ -4,11 +4,11 @@ require('dotenv').config({ path: __dirname + '/../.env' });
 
 // Database configuration
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || '91.204.209.21',
   port: parseInt(process.env.DB_PORT) || 3306,
-  database: process.env.DB_NAME || 'hotel_management',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'hotel-management',
+  user: process.env.DB_USER || 'hotel-manager',
+  password: process.env.DB_PASSWORD || 'hotel-manager',
   connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 20
 };
 

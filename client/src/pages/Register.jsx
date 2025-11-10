@@ -20,14 +20,10 @@ const Register = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username: data.username,
           email: data.email,
           password: data.password,
-          first_name: data.firstName,
-          last_name: data.lastName,
-          role: 'client',
-          phone: data.phone || null,
-          address: data.address || null,
+          name: `${data.firstName} ${data.lastName}`,
+          role: 'user',
         }),
       });
       const payload = await response.json();
@@ -73,15 +69,7 @@ const Register = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Username</label>
-            <input
-              {...register('username', { required: 'Username is required', minLength: { value: 3, message: 'Min 3 characters' } })}
-              className={`mt-1 block w-full rounded-md border ${errors.username ? 'border-red-300' : 'border-gray-300'} px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm`}
-              placeholder="johndoe"
-            />
-            {errors.username && <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>}
-          </div>
+
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
