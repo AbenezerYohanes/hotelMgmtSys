@@ -13473,3 +13473,135 @@
   level: 'info',
   message: 'POST /auth/register'
 }
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:09:11'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:09:11'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:09:11'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:09:11'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:09:11'
+}
+{
+  service: 'hotel-management-api',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  user: 'hotel-manager',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-11-11 03:09:13'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:23'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:23'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:23'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:23'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:23'
+}
+{
+  service: 'hotel-management-api',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  user: 'hotel-manager',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-11-11 03:21:25'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:29'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:35'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:35'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:35'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:35'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:35'
+}
+{
+  service: 'hotel-management-api',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  user: 'hotel-manager',
+  level: 'info',
+  message: '✅ Connected to MySQL database successfully',
+  timestamp: '2025-11-11 03:21:39'
+}
+{
+  message: 'Closing database connections...',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-11 03:21:46'
+}
