@@ -63,6 +63,51 @@ router.get('/', isAdmin, async (req, res) => {
 });
 
 // Get user details
+// User statistics (placed before parameterized routes to avoid route conflicts)
+router.get('/stats/overview', isAdmin, async (req, res) => {
+  try {
+    // Total users
+    const totalUsers = await query('SELECT COUNT(*) as count FROM users');
+    
+    // Active users
+    const activeUsers = await query('SELECT COUNT(*) as count FROM users WHERE is_active = true');
+    
+    // Users by role
+    const usersByRole = await query(`
+      SELECT role, COUNT(*) as count
+      FROM users
+      WHERE is_active = true
+      GROUP BY role
+      ORDER BY count DESC
+    `);
+
+    // Recent registrations
+    const recentUsers = await query(`
+      SELECT id, username, email, first_name, last_name, role, created_at
+      FROM users
+      ORDER BY created_at DESC
+      LIMIT 5
+    `);
+
+    res.json({
+      success: true,
+      data: {
+        totalUsers: parseInt(totalUsers.rows[0].count),
+        activeUsers: parseInt(activeUsers.rows[0].count),
+        usersByRole: usersByRole.rows,
+        recentUsers: recentUsers.rows
+      }
+    });
+  } catch (error) {
+    console.error('User stats error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error fetching user statistics' 
+    });
+  }
+});
+
+// Get user details
 router.get('/:id', isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -97,7 +142,7 @@ router.put('/:id', isAdmin, [
   body('first_name').optional().notEmpty().withMessage('First name cannot be empty'),
   body('last_name').optional().notEmpty().withMessage('Last name cannot be empty'),
   body('email').optional().isEmail().withMessage('Valid email is required'),
-  body('role').optional().isIn(['admin', 'manager', 'staff', 'user']).withMessage('Invalid role'),
+  body('role').optional().isIn(['super_admin', 'admin', 'manager', 'staff', 'client']).withMessage('Invalid role'),
   body('phone').optional(),
   body('address').optional(),
   body('is_active').optional().isBoolean().withMessage('is_active must be a boolean')
@@ -144,17 +189,25 @@ router.put('/:id', isAdmin, [
       [first_name, last_name, email, role, phone, address, is_active, id]
     );
 
-    if (result.rows.length === 0) {
+    // For updates, the query helper returns an OkPacket-like object with affectedRows
+    const affected = result.affectedRows || (result.rows && result.rows.affectedRows) || 0;
+    if (affected === 0) {
       return res.status(404).json({ 
         success: false, 
         message: 'User not found' 
       });
     }
 
+    // Fetch and return the updated user
+    const updated = await query(
+      'SELECT id, username, email, first_name, last_name, role, phone, address, is_active, created_at, updated_at FROM users WHERE id = ?',
+      [id]
+    );
+
     res.json({
       success: true,
       message: 'User updated successfully',
-      data: result.rows[0]
+      data: updated.rows[0]
     });
   } catch (error) {
     console.error('User update error:', error);
@@ -215,48 +268,6 @@ router.delete('/:id', isAdmin, async (req, res) => {
   }
 });
 
-// Get user statistics
-router.get('/stats/overview', isAdmin, async (req, res) => {
-  try {
-    // Total users
-    const totalUsers = await query('SELECT COUNT(*) as count FROM users');
-    
-    // Active users
-    const activeUsers = await query('SELECT COUNT(*) as count FROM users WHERE is_active = true');
-    
-    // Users by role
-    const usersByRole = await query(`
-      SELECT role, COUNT(*) as count
-      FROM users
-      WHERE is_active = true
-      GROUP BY role
-      ORDER BY count DESC
-    `);
-
-    // Recent registrations
-    const recentUsers = await query(`
-      SELECT id, username, email, first_name, last_name, role, created_at
-      FROM users
-      ORDER BY created_at DESC
-      LIMIT 5
-    `);
-
-    res.json({
-      success: true,
-      data: {
-        totalUsers: parseInt(totalUsers.rows[0].count),
-        activeUsers: parseInt(activeUsers.rows[0].count),
-        usersByRole: usersByRole.rows,
-        recentUsers: recentUsers.rows
-      }
-    });
-  } catch (error) {
-    console.error('User stats error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error fetching user statistics' 
-    });
-  }
-});
+// (stats route moved earlier to avoid conflicts with parameterized routes)
 
 module.exports = router;

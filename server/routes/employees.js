@@ -39,11 +39,11 @@ router.get('/', async (req, res) => {
       ${whereClause}
     `, params);
 
-  const total = parseInt(countResult[0][0].total);
+  const total = parseInt(countResult.rows[0].total);
 
     res.json({
       success: true,
-      data: result[0],
+      data: result.rows,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
@@ -91,7 +91,7 @@ router.post('/', isManager, [
       'SELECT id FROM employees WHERE employee_id = ? OR user_id = ?',
       [employee_id, user_id]
     );
-    if (existingEmployee[0].length > 0) {
+    if (existingEmployee.rows && existingEmployee.rows.length > 0) {
       return res.status(409).json({
         success: false,
         message: 'Employee already exists'
@@ -152,7 +152,8 @@ router.put('/:id', isManager, [
        WHERE id = ?`,
       [department_id, position, salary, status, emergency_contact, emergency_phone, id]
     );
-    if (result[0].affectedRows === 0) {
+    const affected = result.affectedRows || (result.rows && result.rows.affectedRows) || 0;
+    if (affected === 0) {
       return res.status(404).json({
         success: false,
         message: 'Employee not found'
@@ -185,7 +186,7 @@ router.get('/:id', async (req, res) => {
       LEFT JOIN departments d ON e.department_id = d.id
       WHERE e.id = ?
     `, [id]);
-    if (result[0].length === 0) {
+    if (!result.rows || result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Employee not found'
@@ -193,7 +194,7 @@ router.get('/:id', async (req, res) => {
     }
     res.json({
       success: true,
-      data: result[0][0]
+      data: result.rows[0]
     });
   } catch (error) {
     console.error('Employee details error:', error);
@@ -213,7 +214,8 @@ router.delete('/:id', isManager, async (req, res) => {
       'DELETE FROM employees WHERE id = ?',
       [id]
     );
-    if (result[0].affectedRows === 0) {
+    const affectedDel = result.affectedRows || (result.rows && result.rows.affectedRows) || 0;
+    if (affectedDel === 0) {
       return res.status(404).json({
         success: false,
         message: 'Employee not found'

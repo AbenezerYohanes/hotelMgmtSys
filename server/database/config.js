@@ -67,53 +67,28 @@ const query = async (text, params = []) => {
       sql = sql.replace(/\sRETURNING\s+(.+)$/i, '');
     }
 
-    const [result] = await pool.execute(sql, params);
+    const execResult = await pool.execute(sql, params);
+    // execResult is usually [rows, fields]
+    const rows = Array.isArray(execResult) ? execResult[0] : execResult;
+    const fields = Array.isArray(execResult) ? execResult[1] : undefined;
 
-    // If there was a RETURNING clause, try to fetch the created/updated row(s)
-    if (returningCols) {
-      const cleaned = text.trim().toUpperCase();
-      // Handle INSERT ... RETURNING *
-      if (cleaned.startsWith('INSERT')) {
-        const insertId = result && result.insertId;
-        if (insertId) {
-          // try to extract table name
-          const tblMatch = text.match(/INSERT\s+INTO\s+`?(\w+)`?/i);
-          const table = tblMatch ? tblMatch[1] : null;
-          if (table) {
-            const selectSql = `SELECT ${returningCols} FROM ${table} WHERE id = ?`;
-            const [rows] = await pool.execute(selectSql, [insertId]);
-            return { rows, rowCount: rows.length };
-          }
-        }
-      }
-
-      // Handle UPDATE ... RETURNING * (heuristic: use last param as id)
-      if (cleaned.startsWith('UPDATE')) {
-        const tblMatch = text.match(/UPDATE\s+`?(\w+)`?/i);
-        const table = tblMatch ? tblMatch[1] : null;
-        if (table && params && params.length > 0) {
-          const idCandidate = params[params.length - 1];
-          const selectSql = `SELECT ${returningCols} FROM ${table} WHERE id = ?`;
-          try {
-            const [rows] = await pool.execute(selectSql, [idCandidate]);
-            return { rows, rowCount: rows.length };
-          } catch (e) {
-            // fall through to return generic result
-          }
-        }
-      }
-
-      // Fallback: return empty rows if we couldn't emulate
-      return { rows: [], rowCount: 0 };
+    // Build a backward-compatible return value:
+    // - allow indexing like result[0] (rows)
+    // - provide `.rows` and `.rowCount` properties
+    const ret = [];
+    ret[0] = rows;
+    if (fields !== undefined) ret[1] = fields;
+    Object.defineProperty(ret, 'rows', { value: rows, enumerable: false, writable: true });
+    Object.defineProperty(ret, 'rowCount', { value: Array.isArray(rows) ? rows.length : 0, enumerable: false, writable: true });
+    // Also expose common packet properties directly for convenience
+    if (rows && typeof rows === 'object' && !Array.isArray(rows)) {
+      // e.g., insertId, affectedRows
+      Object.keys(rows).forEach(k => {
+        try { ret[k] = rows[k]; } catch (e) { /* ignore */ }
+      });
     }
 
-    // Normal path: if result is an array of rows (SELECT), return them
-    if (Array.isArray(result)) {
-      return { rows: result, rowCount: result.length };
-    }
-
-    // For non-select queries (INSERT/UPDATE/DELETE), return the OkPacket as rows for callers that expect insertId
-    return { rows: result, rowCount: 0 };
+    return ret;
   } catch (error) {
     logger.error('Database query error:', {
       query: text,
