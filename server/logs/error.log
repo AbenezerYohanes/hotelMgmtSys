@@ -2403,3 +2403,25 @@
   message: 'Database query error:',
   timestamp: '2025-11-11 01:25:39'
 }
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.54.27' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-14 23:40:48'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.54.27' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-14 23:48:06'
+}

@@ -74,7 +74,7 @@ router.post('/', authenticateToken, [
       )
     `, [room_id, check_in_date, check_in_date, check_out_date, check_out_date, check_in_date, check_out_date]);
 
-    if (parseInt(availabilityCheck[0][0].count) > 0) {
+    if (parseInt(availabilityCheck.rows[0].count) > 0) {
       return res.status(409).json({
         success: false,
         message: 'Room is not available for the selected dates'
@@ -89,14 +89,14 @@ router.post('/', authenticateToken, [
       WHERE r.id = ?
     `, [room_id]);
 
-    if (roomDetails[0].length === 0) {
+    if (!roomDetails.rows || roomDetails.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Room not found'
       });
     }
 
-    const room = roomDetails[0][0];
+    const room = roomDetails.rows[0];
     const totalGuests = adults + children;
 
     if (totalGuests > room.max_occupancy) {
@@ -127,7 +127,7 @@ router.post('/', authenticateToken, [
       success: true,
       message: 'Booking created successfully',
       data: {
-        booking_id: result[0].insertId,
+        booking_id: result.insertId || (result.rows && result.rows.insertId),
         booking_number: bookingNumber,
         total_amount: totalAmount
       }
@@ -191,11 +191,11 @@ router.get('/', async (req, res) => {
       ${whereClause}
     `, params);
 
-    const total = parseInt(countResult[0][0].total);
+    const total = parseInt(countResult.rows[0].total);
 
     res.json({
       success: true,
-      data: result[0],
+      data: result.rows,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
@@ -236,14 +236,14 @@ router.put('/:id', authenticateToken, [
 
     // Get current booking
     const currentBooking = await query('SELECT * FROM bookings WHERE id = ?', [id]);
-    if (currentBooking[0].length === 0) {
+    if (!currentBooking.rows || currentBooking.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found'
       });
     }
 
-    const booking = currentBooking[0][0];
+    const booking = currentBooking.rows[0];
     let totalAmount = booking.total_amount;
 
     // If dates are being changed, check availability and recalculate price
@@ -283,8 +283,7 @@ router.put('/:id', authenticateToken, [
           (check_in_date >= ? AND check_out_date <= ?)
         )
       `, [booking.room_id, id, newCheckIn, newCheckIn, newCheckOut, newCheckOut, newCheckIn, newCheckOut]);
-
-      if (parseInt(availabilityCheck[0][0].count) > 0) {
+      if (parseInt(availabilityCheck.rows[0].count) > 0) {
         return res.status(409).json({
           success: false,
           message: 'Room is not available for the selected dates'
@@ -299,8 +298,7 @@ router.put('/:id', authenticateToken, [
         LEFT JOIN room_types rt ON r.room_type_id = rt.id
         WHERE r.id = ?
       `, [booking.room_id]);
-
-      const room = roomDetails[0][0];
+      const room = roomDetails.rows[0];
       totalAmount = nights * parseFloat(room.base_price);
 
       // Check occupancy
@@ -314,7 +312,7 @@ router.put('/:id', authenticateToken, [
     }
 
     // Update booking
-    await query(
+    const updateResult = await query(
       `UPDATE bookings SET
        check_in_date = COALESCE(?, check_in_date),
        check_out_date = COALESCE(?, check_out_date),
@@ -327,6 +325,10 @@ router.put('/:id', authenticateToken, [
        WHERE id = ?`,
       [check_in_date, check_out_date, adults, children, status, special_requests, totalAmount, id]
     );
+    const affected = updateResult.affectedRows || (updateResult.rows && updateResult.rows.affectedRows) || 0;
+    if (affected === 0) {
+      return res.status(404).json({ success: false, message: 'Booking not found' });
+    }
 
     res.json({
       success: true,
@@ -348,14 +350,13 @@ router.put('/:id/checkin', authenticateToken, async (req, res) => {
 
     // Get booking details
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
-    if (bookingResult[0].length === 0) {
+    if (!bookingResult.rows || bookingResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found'
       });
     }
-
-    const booking = bookingResult[0][0];
+    const booking = bookingResult.rows[0];
 
     if (booking.status !== 'confirmed') {
       return res.status(400).json({
@@ -400,14 +401,13 @@ router.put('/:id/checkout', authenticateToken, async (req, res) => {
 
     // Get booking details
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
-    if (bookingResult[0].length === 0) {
+    if (!bookingResult.rows || bookingResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found'
       });
     }
-
-    const booking = bookingResult[0][0];
+    const booking = bookingResult.rows[0];
 
     if (booking.status !== 'checked_in') {
       return res.status(400).json({
@@ -437,8 +437,7 @@ router.put('/:id/checkout', authenticateToken, async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-
-    const [result] = await db.query(`
+    const result = await query(`
       SELECT b.*, g.first_name, g.last_name, g.email, g.phone, g.address,
              r.room_number, r.floor, rt.name as room_type, rt.base_price, rt.amenities,
              u.first_name as created_by_name, u.last_name as created_by_last_name
@@ -450,7 +449,7 @@ router.get('/:id', async (req, res) => {
       WHERE b.id = ?
     `, [id]);
 
-    if (result.length === 0) {
+    if (!result.rows || result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found'
@@ -459,7 +458,7 @@ router.get('/:id', async (req, res) => {
 
     res.json({
       success: true,
-      data: result[0]
+      data: result.rows[0]
     });
   } catch (error) {
     console.error('Booking details error:', error);
@@ -474,21 +473,21 @@ router.get('/:id', async (req, res) => {
 router.get('/dashboard/stats', async (req, res) => {
   try {
     // Total bookings today
-    const todayBookingsRes = await db.query(`
+    const todayBookingsRes = await query(`
       SELECT COUNT(*) as count
       FROM bookings
       WHERE DATE(created_at) = CURDATE()
     `);
 
     // Total bookings this month
-    const monthBookingsRes = await db.query(`
+    const monthBookingsRes = await query(`
       SELECT COUNT(*) as count
       FROM bookings
       WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())
     `);
 
     // Revenue this month
-    const monthRevenueRes = await db.query(`
+    const monthRevenueRes = await query(`
       SELECT COALESCE(SUM(total_amount), 0) as total
       FROM bookings
       WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())
@@ -496,7 +495,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Occupancy rate
-    const occupancyRateRes = await db.query(`
+    const occupancyRateRes = await query(`
       SELECT 
         ROUND(
           (COUNT(CASE WHEN status IN ('confirmed', 'checked_in') THEN 1 END) * 100.0 / 
@@ -508,7 +507,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Upcoming check-ins (next 7 days)
-    const upcomingCheckinsRes = await db.query(`
+    const upcomingCheckinsRes = await query(`
       SELECT b.*, g.first_name, g.last_name, r.room_number
       FROM bookings b
       LEFT JOIN guests g ON b.guest_id = g.id
@@ -520,7 +519,7 @@ router.get('/dashboard/stats', async (req, res) => {
     `);
 
     // Recent bookings
-    const recentBookingsRes = await db.query(`
+    const recentBookingsRes = await query(`
       SELECT b.*, g.first_name, g.last_name, r.room_number
       FROM bookings b
       LEFT JOIN guests g ON b.guest_id = g.id
@@ -556,14 +555,14 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 
     // Check if booking exists
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
-    if (bookingResult[0].length === 0) {
+    if (!bookingResult.rows || bookingResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'Booking not found'
       });
     }
 
-    const booking = bookingResult[0][0];
+    const booking = bookingResult.rows[0];
 
     // Only allow deletion of pending or cancelled bookings
     if (!['pending', 'cancelled'].includes(booking.status)) {

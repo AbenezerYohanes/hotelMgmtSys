@@ -13,8 +13,10 @@ const router = express.Router();
 router.post('/register', [
   body('email').isEmail().withMessage('Valid email is required'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('name').notEmpty().withMessage('Name is required'),
-  body('role').optional().isIn(['superadmin', 'admin', 'user']).withMessage('Invalid role')
+  body('first_name').optional(),
+  body('last_name').optional(),
+  body('name').optional(),
+  body('role').optional().isIn(['superadmin', 'super_admin', 'admin', 'manager', 'staff', 'user', 'client']).withMessage('Invalid role')
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -26,12 +28,24 @@ router.post('/register', [
       });
     }
 
-    const { email, password, name, role = 'user' } = req.body;
+    const { email, password } = req.body;
+    // support multiple name inputs for backward compatibility
+    let { first_name, last_name, name, role = 'client', username } = req.body;
+
+    if (!first_name && !last_name && name) {
+      const parts = String(name).trim().split(/\s+/);
+      first_name = parts.shift() || '';
+      last_name = parts.join(' ') || '';
+    }
+
+    // Normalize role values
+    if (role === 'superadmin') role = 'super_admin';
+    if (role === 'user') role = 'client';
 
     // Check if user already exists
     const existingUser = await query(
-      'SELECT id FROM users WHERE email = ?',
-      [email]
+      'SELECT id FROM users WHERE email = ? OR username = ?',
+      [email, username || null]
     );
 
     if (existingUser.rows.length > 0) {
@@ -41,12 +55,12 @@ router.post('/register', [
       });
     }
 
-    // Only superadmin can create admin accounts
-    if (role === 'admin' || role === 'superadmin') {
-      if (!req.user || req.user.role !== 'superadmin') {
+    // Only super_admin can create admin accounts
+    if (role === 'admin' || role === 'super_admin') {
+      if (!req.user || String(req.user.role).toLowerCase().replace(/\s+/g, '_') !== 'super_admin') {
         return res.status(403).json({
           success: false,
-          message: 'Only superadmin can create admin accounts'
+          message: 'Only super_admin can create admin accounts'
         });
       }
     }
@@ -64,7 +78,7 @@ router.post('/register', [
         manage_hr: true,
         view_reports: true
       };
-    } else if (role === 'user') {
+    } else if (role === 'user' || role === 'client') {
       defaultPrivileges = {
         book_rooms: true,
         view_own_bookings: true
@@ -76,15 +90,15 @@ router.post('/register', [
 
     // Create user
     const result = await query(
-      `INSERT INTO users (email, password, name, role, privileges, status)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [email, passwordHash, name, role, JSON.stringify(userPrivileges), 'active']
+      `INSERT INTO users (username, email, password_hash, first_name, last_name, role, privileges, is_active, created_by)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [username || null, email, passwordHash, first_name || null, last_name || null, role, JSON.stringify(userPrivileges), true, req.user?.id || null]
     );
 
     // Get the inserted user
     const userResult = await query(
-      'SELECT id, email, name, role, privileges, status FROM users WHERE email = ?',
-      [email]
+      'SELECT id, email, username, first_name, last_name, role, privileges, is_active FROM users WHERE id = ?',
+      [result.insertId]
     );
 
     const user = userResult.rows[0];
@@ -102,10 +116,12 @@ router.post('/register', [
         user: {
           id: user.id,
           email: user.email,
-          name: user.name,
+          username: user.username,
+          first_name: user.first_name,
+          last_name: user.last_name,
           role: user.role,
           privileges: user.privileges,
-          status: user.status
+          is_active: user.is_active
         }
       }
     });
@@ -120,7 +136,8 @@ router.post('/register', [
 
 // Login user
 router.post('/login', [
-  body('email').isEmail().withMessage('Valid email is required'),
+  body('email').optional().isEmail().withMessage('Valid email is required'),
+  body('username').optional().notEmpty().withMessage('Username cannot be empty'),
   body('password').notEmpty().withMessage('Password is required')
 ], async (req, res) => {
   try {
@@ -133,12 +150,17 @@ router.post('/login', [
       });
     }
 
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
+    if (!email && !username) {
+      return res.status(400).json({ success: false, message: 'Email or username is required' });
+    }
 
-    // Find user
+    const identifier = email || username;
+
+    // Find user by email OR username
     const result = await query(
-      'SELECT id, email, password, name, role, privileges, status FROM users WHERE email = ?',
-      [email]
+      'SELECT id, email, password_hash, username, first_name, last_name, role, privileges, is_active FROM users WHERE email = ? OR username = ?',
+      [identifier, identifier]
     );
 
     if (result.rows.length === 0) {
@@ -150,15 +172,15 @@ router.post('/login', [
 
     const user = result.rows[0];
 
-    if (user.status !== 'active') {
+    if (!user.is_active) {
       return res.status(401).json({
         success: false,
-        message: 'Account is suspended'
+        message: 'Account is suspended or deactivated'
       });
     }
 
     // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password_hash);
     if (!isValidPassword) {
       return res.status(401).json({
         success: false,
@@ -186,10 +208,12 @@ router.post('/login', [
         user: {
           id: user.id,
           email: user.email,
-          name: user.name,
+          username: user.username,
+          first_name: user.first_name,
+          last_name: user.last_name,
           role: user.role,
           privileges: user.privileges,
-          status: user.status
+          is_active: user.is_active
         },
         token
       }
@@ -207,7 +231,7 @@ router.post('/login', [
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, email, name, role, privileges, status, created_at FROM users WHERE id = ?',
+      'SELECT id, email, username, first_name, last_name, role, privileges, is_active, created_at FROM users WHERE id = ?',
       [req.user.id]
     );
 
@@ -233,7 +257,8 @@ router.get('/profile', authenticateToken, async (req, res) => {
 
 // Update user profile
 router.put('/profile', authenticateToken, [
-  body('name').optional().notEmpty().withMessage('Name cannot be empty')
+  body('first_name').optional().notEmpty().withMessage('First name cannot be empty'),
+  body('last_name').optional().notEmpty().withMessage('Last name cannot be empty')
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -245,19 +270,20 @@ router.put('/profile', authenticateToken, [
       });
     }
 
-    const { name } = req.body;
+    const { first_name, last_name } = req.body;
 
     const result = await query(
       `UPDATE users SET
-       name = COALESCE(?, name),
+       first_name = COALESCE(?, first_name),
+       last_name = COALESCE(?, last_name),
        updated_at = CURRENT_TIMESTAMP
        WHERE id = ?`,
-      [name, req.user.id]
+      [first_name || null, last_name || null, req.user.id]
     );
 
     // Get updated user data
     const updatedUser = await query(
-      'SELECT id, email, name, role, privileges, status FROM users WHERE id = ?',
+      'SELECT id, email, username, first_name, last_name, role, privileges, is_active FROM users WHERE id = ?',
       [req.user.id]
     );
 
@@ -301,7 +327,7 @@ router.put('/change-password', authenticateToken, [
 
     // Get current password hash
     const result = await query(
-      'SELECT password FROM users WHERE id = ?',
+      'SELECT password_hash FROM users WHERE id = ?',
       [req.user.id]
     );
 
@@ -313,7 +339,7 @@ router.put('/change-password', authenticateToken, [
     }
 
     // Verify current password
-    const isValidPassword = await bcrypt.compare(current_password, result.rows[0].password);
+    const isValidPassword = await bcrypt.compare(current_password, result.rows[0].password_hash);
     if (!isValidPassword) {
       return res.status(401).json({
         success: false,
@@ -327,7 +353,7 @@ router.put('/change-password', authenticateToken, [
 
     // Update password
     await query(
-      'UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      'UPDATE users SET password_hash = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
       [newPasswordHash, req.user.id]
     );
 

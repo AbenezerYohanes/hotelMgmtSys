@@ -26,6 +26,7 @@ const { router: notificationRoutes } = require('./routes/notifications');
 const attendanceRoutes = require('./routes/attendance');
 const payrollRoutes = require('./routes/payroll');
 const employeeRoutes = require('./routes/employees');
+const uploadsRoutes = require('./routes/uploads');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -134,6 +135,7 @@ app.use('/api/notifications', authenticateToken, notificationRoutes);
 app.use('/api/attendance', authenticateToken, attendanceRoutes);
 app.use('/api/payroll', authenticateToken, payrollRoutes);
 app.use('/api/employees', authenticateToken, employeeRoutes);
+app.use('/api/uploads', authenticateToken, uploadsRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

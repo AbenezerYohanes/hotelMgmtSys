@@ -1,10 +1,6 @@
--- Hotel Management System Database Schema
--- MySQL Database Setup for MVP
 
--- Use existing database (don't drop)
 USE hotel_management;
 
--- Users table for authentication
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -15,6 +11,24 @@ CREATE TABLE IF NOT EXISTS users (
     status ENUM('active','suspended') DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+-- Users table for authentication (aligned with server route fields)
+CREATE TABLE IF NOT EXISTS users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100) UNIQUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    phone VARCHAR(50),
+    address TEXT,
+    role ENUM('super_admin','admin','manager','staff','client') DEFAULT 'client',
+    privileges JSON,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_by INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
 -- Hotels table
@@ -168,7 +182,6 @@ CREATE TABLE IF NOT EXISTS guests (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Audit logs table
 CREATE TABLE IF NOT EXISTS audit_logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
     action VARCHAR(100) NOT NULL,
@@ -178,10 +191,22 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (performed_by) REFERENCES users(id) ON DELETE CASCADE
 );
+-- Admin privileges table (explicit grants by super_admin)
+CREATE TABLE IF NOT EXISTS admin_privileges (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    privilege VARCHAR(100) NOT NULL,
+    granted_by INT NOT NULL,
+    granted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (granted_by) REFERENCES users(id) ON DELETE SET NULL
+);
 
--- Insert default superadmin user (password will be hashed by the application)
 INSERT IGNORE INTO users (email, password, name, role, privileges, status) VALUES
 ('superadmin@hotel.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Super Admin', 'superadmin', '{\"manage_hotels\": true, \"manage_admins\": true, \"manage_rooms\": true, \"manage_hr\": true, \"process_refunds\": true}', 'active');
+-- Insert default super admin user (password hash field is `password_hash`)
+INSERT IGNORE INTO users (username, email, password_hash, first_name, last_name, role, privileges, is_active, created_by) VALUES
+('superadmin', 'superadmin@hotel.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Super', 'Admin', 'super_admin', '{"manage_hotels": true, "manage_admins": true, "manage_rooms": true, "manage_hr": true, "process_refunds": true}', TRUE, NULL);
 
 -- Insert sample hotel
 INSERT IGNORE INTO hotels (name, description, country, city, address, created_by) VALUES
@@ -200,3 +225,27 @@ INSERT IGNORE INTO employees (hotel_id, name, department, title, salary, status)
 (1, 'Sarah Johnson', 'Housekeeping', 'Housekeeping Supervisor', 2500.00, 'active'),
 (1, 'Mike Davis', 'Reception', 'Front Desk Manager', 3000.00, 'active'),
 (1, 'Emma Wilson', 'Kitchen', 'Head Chef', 3500.00, 'active');
+
+-- Staff documents table
+CREATE TABLE IF NOT EXISTS staff_documents (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_id INT NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    uploaded_by INT,
+    uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Invoices table
+CREATE TABLE IF NOT EXISTS invoices (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_id INT NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    uploaded_by INT,
+    uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+);

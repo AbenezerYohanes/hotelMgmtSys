@@ -13605,3 +13605,85 @@
   service: 'hotel-management-api',
   timestamp: '2025-11-11 03:21:46'
 }
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:40:46'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:40:46'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:40:46'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:40:46'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:40:46'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.54.27' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-14 23:40:48'
+}
+{
+  message: '🚀 Server running on port 5000',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:48:05'
+}
+{
+  message: '📊 Environment: development',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:48:05'
+}
+{
+  message: '🔗 Health check: http://localhost:5000/api/health',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:48:05'
+}
+{
+  message: '📁 Uploads directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\uploads',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:48:05'
+}
+{
+  message: '📝 Logs directory: C:\\Users\\geber\\OneDrive\\Documents\\aHotelManagementSystem\\server\\logs',
+  level: 'info',
+  service: 'hotel-management-api',
+  timestamp: '2025-11-14 23:48:05'
+}
+{
+  service: 'hotel-management-api',
+  error: "Access denied for user 'hotel-manager'@'196.191.54.27' (using password: YES)",
+  code: 'ER_ACCESS_DENIED_ERROR',
+  host: '91.204.209.21',
+  port: 3306,
+  database: 'hotel-management',
+  level: 'error',
+  message: '❌ Error connecting to MySQL database:',
+  timestamp: '2025-11-14 23:48:06'
+}

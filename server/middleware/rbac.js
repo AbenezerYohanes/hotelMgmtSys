@@ -1,15 +1,24 @@
 const { query } = require('../database/config');
 
-// Role hierarchy: superadmin > admin > user
+// Role hierarchy: super_admin > admin > manager > staff > client
 const ROLE_HIERARCHY = {
-  'superadmin': 3,
-  'admin': 2,
-  'user': 1
+  'super_admin': 5,
+  'admin': 4,
+  'manager': 3,
+  'staff': 2,
+  'client': 1
 };
 
 // Check if user has required role or higher
 const hasRole = (userRole, requiredRole) => {
-  return ROLE_HIERARCHY[userRole] >= ROLE_HIERARCHY[requiredRole];
+  if (!userRole || !requiredRole) return false;
+  const normalize = (r) => String(r).toLowerCase();
+  const u = normalize(userRole).replace(/\s+/g, '_');
+  const req = normalize(requiredRole).replace(/\s+/g, '_');
+  const uRank = ROLE_HIERARCHY[u];
+  const reqRank = ROLE_HIERARCHY[req];
+  if (uRank === undefined || reqRank === undefined) return false;
+  return uRank >= reqRank;
 };
 
 // Check if user has specific privilege
@@ -24,7 +33,7 @@ const hasPrivilege = (userPrivileges, privilege) => {
   }
 };
 
-// Middleware to check role
+// Middleware to check role (requiredRole can be a single role string)
 const requireRole = (requiredRole) => {
   return (req, res, next) => {
     if (!req.user) {
@@ -82,13 +91,13 @@ const canManageUser = (targetUserId) => {
       });
     }
 
-    // Superadmin can manage everyone
-    if (req.user.role === 'superadmin') {
+    // Super_admin can manage everyone
+    if (String(req.user.role).toLowerCase().replace(/\s+/g, '_') === 'super_admin') {
       return next();
     }
 
     // Admin can manage users with lower roles
-    if (req.user.role === 'admin') {
+    if (String(req.user.role).toLowerCase().replace(/\s+/g, '_') === 'admin') {
       try {
         const result = await query(
           'SELECT role FROM users WHERE id = ?',
