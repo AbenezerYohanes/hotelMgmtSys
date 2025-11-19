@@ -10,6 +10,7 @@
     "test": "jest",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix"
+    ,"migrate:schema":"node scripts/applySchema.js"
   },
   "dependencies": {
     "axios": "^1.6.2",

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import api from '../services/api';
+import api, { hrService, uploadsService } from '../services/api';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import toast from 'react-hot-toast';
 
 const HR = () => {
-  useAuth();
+  const { user } = useAuth();
+  const canManage = ['super_admin', 'admin', 'manager'].includes(user?.role);
   const [activeTab, setActiveTab] = useState('employees');
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -27,6 +31,28 @@ const HR = () => {
     salary: '',
     hire_date: ''
   });
+
+  const [editingEmployeeId, setEditingEmployeeId] = useState(null);
+
+  const employeeSchema = z.object({
+    first_name: z.string().min(1, 'First name is required'),
+    last_name: z.string().min(1, 'Last name is required'),
+    email: z.string().email('Invalid email'),
+    phone: z.string().optional(),
+    department_id: z.string().optional(),
+    position: z.string().min(1, 'Position is required'),
+    salary: z.preprocess((v) => Number(v), z.number().nonnegative()),
+    hire_date: z.string().optional()
+  });
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: zodResolver(employeeSchema),
+    defaultValues: { first_name: '', last_name: '', email: '', phone: '', department_id: '', position: '', salary: '', hire_date: '' }
+  });
+
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploadEmployeeId, setUploadEmployeeId] = useState(null);
 
   const [deptForm, setDeptForm] = useState({
     name: '',
@@ -58,8 +84,9 @@ const HR = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await api.get('/hr/employees');
-      setEmployees(response.data.data || []);
+      const response = await hrService.getEmployees();
+      const list = response?.data || response || [];
+      setEmployees(list);
     } catch (error) {
       toast.error('Failed to fetch employees');
     }
@@ -96,6 +123,60 @@ const HR = () => {
     setLoading(false);
   };
 
+    const handleEmployeeEdit = (employee) => {
+      setEditingEmployeeId(employee.id);
+      reset({
+        first_name: employee.first_name || '',
+        last_name: employee.last_name || '',
+        email: employee.email || '',
+        phone: employee.phone || '',
+        department_id: employee.department_id || '',
+        position: employee.position || '',
+        salary: employee.salary || '',
+        hire_date: employee.hire_date ? employee.hire_date.split('T')[0] : ''
+      });
+      setShowEmployeeForm(true);
+    };
+
+    const handleEmployeeDelete = async (id) => {
+      if (!window.confirm('Delete this employee?')) return;
+      try {
+        await hrService.deleteEmployee(id);
+        toast.success('Employee deleted');
+        fetchEmployees();
+      } catch (err) {
+        const msg = err.response?.data?.message || 'Failed to delete employee';
+        toast.error(msg);
+      }
+    };
+
+  const openUploadFor = (employee) => {
+    setUploadEmployeeId(employee.id);
+    setUploadFile(null);
+    setShowUploadModal(true);
+  };
+
+  const handleUploadSubmit = async (e) => {
+    e.preventDefault();
+    if (!uploadFile) {
+      toast.error('Please choose a file to upload');
+      return;
+    }
+    setLoading(true);
+    try {
+      await uploadsService.uploadStaffDocument(uploadEmployeeId, uploadFile);
+      toast.success('Document uploaded');
+      setShowUploadModal(false);
+      setUploadEmployeeId(null);
+      setUploadFile(null);
+      fetchEmployees();
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Upload failed';
+      toast.error(msg);
+    }
+    setLoading(false);
+  };
+
   const fetchAttendance = async () => {
     try {
       const response = await api.get('/attendance');
@@ -114,26 +195,23 @@ const HR = () => {
     }
   };
 
-  const handleEmployeeSubmit = async (e) => {
-    e.preventDefault();
+  const handleEmployeeSubmit = async (data) => {
     setLoading(true);
     try {
-      await api.post('/hr/employees', employeeForm);
-      toast.success('Employee added successfully');
+      if (editingEmployeeId) {
+        await hrService.updateEmployee(editingEmployeeId, data);
+        toast.success('Employee updated successfully');
+      } else {
+        await hrService.createEmployee(data);
+        toast.success('Employee added successfully');
+      }
       setShowEmployeeForm(false);
-      setEmployeeForm({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone: '',
-        department_id: '',
-        position: '',
-        salary: '',
-        hire_date: ''
-      });
+      setEditingEmployeeId(null);
+      reset();
       fetchEmployees();
     } catch (error) {
-      toast.error('Failed to add employee');
+      const msg = error.response?.data?.message || 'Failed to save employee';
+      toast.error(msg);
     }
     setLoading(false);
   };
@@ -233,12 +311,18 @@ const HR = () => {
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-medium text-gray-900">Employees</h2>
-            <button
-              onClick={() => setShowEmployeeForm(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-            >
-              Add Employee
-            </button>
+            {canManage && (
+              <button
+                onClick={() => {
+                  setEditingEmployeeId(null);
+                  reset({ first_name: '', last_name: '', email: '', phone: '', department_id: '', position: '', salary: '', hire_date: '' });
+                  setShowEmployeeForm(true);
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+              >
+                Add Employee
+              </button>
+            )}
           </div>
 
           <div className="bg-white shadow overflow-hidden sm:rounded-md">
@@ -270,11 +354,52 @@ const HR = () => {
                       <div className="text-sm text-gray-500">
                         ID: {employee.employee_id}
                       </div>
+                      {canManage && (
+                        <div className="mt-2 flex justify-end space-x-2">
+                          <button onClick={() => handleEmployeeEdit(employee)} className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Edit</button>
+                          <button onClick={() => openUploadFor(employee)} className="px-2 py-1 bg-blue-100 text-blue-800 rounded">Upload</button>
+                          <button onClick={() => handleEmployeeDelete(employee.id)} className="px-2 py-1 bg-red-100 text-red-800 rounded">Delete</button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      )}
+      {showUploadModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Upload Document for Employee</h3>
+              <form onSubmit={handleUploadSubmit} className="space-y-4">
+                <input
+                  type="file"
+                  accept="*/*"
+                  onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                  className="w-full"
+                  required
+                />
+                <div className="flex space-x-3">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {loading ? 'Uploading...' : 'Upload'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowUploadModal(false)}
+                    className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
@@ -394,100 +519,49 @@ const HR = () => {
           <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div className="mt-3">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Add Employee</h3>
-              <form onSubmit={handleEmployeeSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit(handleEmployeeSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    value={employeeForm.first_name}
-                    onChange={(e) => setEmployeeForm({...employeeForm, first_name: e.target.value})}
-                    className="border rounded-md px-3 py-2"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    value={employeeForm.last_name}
-                    onChange={(e) => setEmployeeForm({...employeeForm, last_name: e.target.value})}
-                    className="border rounded-md px-3 py-2"
-                    required
-                  />
+                  <div>
+                    <input type="text" placeholder="First Name" {...register('first_name')} className="border rounded-md px-3 py-2" />
+                    {errors.first_name && <div className="text-red-600 text-sm">{errors.first_name.message}</div>}
+                  </div>
+                  <div>
+                    <input type="text" placeholder="Last Name" {...register('last_name')} className="border rounded-md px-3 py-2" />
+                    {errors.last_name && <div className="text-red-600 text-sm">{errors.last_name.message}</div>}
+                  </div>
                 </div>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={employeeForm.email}
-                  onChange={(e) => setEmployeeForm({...employeeForm, email: e.target.value})}
-                  className="border rounded-md px-3 py-2 w-full"
-                  required
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  value={employeeForm.phone}
-                  onChange={(e) => setEmployeeForm({...employeeForm, phone: e.target.value})}
-                  className="border rounded-md px-3 py-2 w-full"
-                />
+                <div>
+                  <input type="email" placeholder="Email" {...register('email')} className="border rounded-md px-3 py-2 w-full" />
+                  {errors.email && <div className="text-red-600 text-sm">{errors.email.message}</div>}
+                </div>
+                <div>
+                  <input type="tel" placeholder="Phone" {...register('phone')} className="border rounded-md px-3 py-2 w-full" />
+                </div>
                 <div className="flex space-x-2">
-                  <select
-                    value={employeeForm.department_id}
-                    onChange={(e) => setEmployeeForm({...employeeForm, department_id: e.target.value})}
-                    className="border rounded-md px-3 py-2 flex-1"
-                    required
-                  >
+                  <select {...register('department_id')} className="border rounded-md px-3 py-2 flex-1">
                     <option value="">Select Department</option>
                     {departments.map((dept) => (
                       <option key={dept.id} value={dept.id}>{dept.name}</option>
                     ))}
                   </select>
-                  <button
-                    type="button"
-                    onClick={() => setShowDeptForm(true)}
-                    className="px-3 py-2 bg-gray-100 rounded-md border hover:bg-gray-200"
-                    title="Add Department"
-                  >
-                    + Dept
-                  </button>
+                  <button type="button" onClick={() => setShowDeptForm(true)} className="px-3 py-2 bg-gray-100 rounded-md border hover:bg-gray-200" title="Add Department">+ Dept</button>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Position"
-                  value={employeeForm.position}
-                  onChange={(e) => setEmployeeForm({...employeeForm, position: e.target.value})}
-                  className="border rounded-md px-3 py-2 w-full"
-                  required
-                />
-                <input
-                  type="number"
-                  placeholder="Salary"
-                  value={employeeForm.salary}
-                  onChange={(e) => setEmployeeForm({...employeeForm, salary: e.target.value})}
-                  className="border rounded-md px-3 py-2 w-full"
-                  required
-                />
-                <input
-                  type="date"
-                  placeholder="Hire Date"
-                  value={employeeForm.hire_date}
-                  onChange={(e) => setEmployeeForm({...employeeForm, hire_date: e.target.value})}
-                  className="border rounded-md px-3 py-2 w-full"
-                  required
-                />
+                <div>
+                  <input type="text" placeholder="Position" {...register('position')} className="border rounded-md px-3 py-2 w-full" />
+                  {errors.position && <div className="text-red-600 text-sm">{errors.position.message}</div>}
+                </div>
+                <div>
+                  <input type="number" placeholder="Salary" {...register('salary')} className="border rounded-md px-3 py-2 w-full" />
+                  {errors.salary && <div className="text-red-600 text-sm">{errors.salary.message}</div>}
+                </div>
+                <div>
+                  <input type="date" placeholder="Hire Date" {...register('hire_date')} className="border rounded-md px-3 py-2 w-full" />
+                </div>
                 <div className="flex space-x-3">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
-                  >
-                    {loading ? 'Adding...' : 'Add Employee'}
+                  <button type="submit" disabled={loading} className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50">
+                    {loading ? (editingEmployeeId ? 'Updating...' : 'Saving...') : (editingEmployeeId ? 'Update Employee' : 'Add Employee')}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowEmployeeForm(false)}
-                    className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400"
-                  >
-                    Cancel
-                  </button>
+                  <button type="button" onClick={() => setShowEmployeeForm(false)} className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400">Cancel</button>
                 </div>
               </form>
             </div>

@@ -47,14 +47,37 @@ Notes:
 
 From project root:
 
-```bash
+````bash
 cd server
 npm install
 # copy env
 cp .env.example .env
 # edit .env
 npm run dev
+
+### Migration script (Node)
+
+A convenience script is included to apply the SQL file from Node. It executes statements sequentially and supports a dry-run mode.
+
+Run a dry run to print statements:
+
+```bash
+npm run migrate:schema -- --dry-run
+````
+
+To apply the schema file (default path `server/database/schema.sql`):
+
+```bash
+npm run migrate:schema
 ```
+
+You can also pass a custom file path:
+
+```bash
+npm run migrate:schema -- --file ./path/to/your.sql
+```
+
+````
 
 ## Testing endpoints
 
@@ -65,7 +88,7 @@ curl -X POST http://localhost:3000/api/bookings \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"guest_id":1, "room_id":1, "check_in_date":"2025-12-01", "check_out_date":"2025-12-03"}'
-```
+````
 
 ## Next steps (after migration)
 

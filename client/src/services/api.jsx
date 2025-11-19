@@ -14,60 +14,7 @@
  * - Service modules for different API resources (auth, users, bookings, etc.)
  */
 
-import axios from 'axios';
-
-// Default to a relative `/api` path so CRA dev proxy (set in package.json) can forward requests to the backend.
-// You can override by setting REACT_APP_API_URL in client/.env.local when needed.
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
-
-// Create axios instance
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Request interceptor to add auth token
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor to handle auth errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Log network / server errors to make debugging easier
-    if (!error.response) {
-      // Network or CORS error
-      console.error('[api] Network error or no response received:', error.message);
-      return Promise.reject(error);
-    }
-
-    if (error.response.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      // Do not hard-redirect here to avoid navigation race conditions; allow caller to handle.
-    }
-
-    console.error('[api] Response error:', {
-      url: error.config?.url,
-      status: error.response.status,
-      data: error.response.data,
-    });
-
-    return Promise.reject(error);
-  }
-);
+import api from './apiClient';
 
 // Auth service
 const normalizeUser = (raw) => {
@@ -86,52 +33,7 @@ const normalizeUser = (raw) => {
   };
 };
 
-export const authService = {
-  login: async (credentials) => {
-    console.log('🔐 Attempting login with:', credentials);
-    const response = await api.post('/auth/login', credentials);
-    console.log('📡 Login response:', response.data);
-    const payload = response.data;
-    const token = payload?.data?.token || payload?.token;
-    const user = normalizeUser(payload?.data?.user || payload?.user);
-    console.log('👤 Normalized user:', user);
-    console.log('🎫 Token:', token);
-    return { token, user };
-  },
-
-  register: async (registrationData) => {
-    const response = await api.post('/auth/register', registrationData);
-    const payload = response.data;
-    const token = payload?.data?.token || payload?.token;
-    const user = normalizeUser(payload?.data?.user || payload?.user);
-    return { token, user };
-  },
-
-  logout: async () => {
-    // server may not have explicit logout; clear client state regardless
-    try {
-      await api.post('/auth/logout');
-    } catch (e) {
-      // ignore
-    }
-    return { success: true };
-  },
-
-  getProfile: async () => {
-    const response = await api.get('/auth/profile');
-    return normalizeUser(response.data);
-  },
-
-  updateProfile: async (profileData) => {
-    const response = await api.put('/auth/profile', profileData);
-    return normalizeUser(response.data);
-  },
-  
-  changePassword: async ({ current_password, new_password }) => {
-    const response = await api.put('/auth/change-password', { current_password, new_password });
-    return response.data;
-  },
-};
+export { authService } from './auth';
 
 // Users service
 export const usersService = {
@@ -189,33 +91,7 @@ export const bookingsService = {
   },
 };
 
-// Rooms service
-export const roomsService = {
-  getRooms: async () => {
-    const response = await api.get('/rooms');
-    return response.data;
-  },
-
-  getRoom: async (id) => {
-    const response = await api.get(`/rooms/${id}`);
-    return response.data;
-  },
-
-  createRoom: async (roomData) => {
-    const response = await api.post('/rooms', roomData);
-    return response.data;
-  },
-
-  updateRoom: async (id, roomData) => {
-    const response = await api.put(`/rooms/${id}`, roomData);
-    return response.data;
-  },
-
-  deleteRoom: async (id) => {
-    const response = await api.delete(`/rooms/${id}`);
-    return response.data;
-  },
-};
+export { roomsService } from './rooms';
 
 // Guests service
 export const guestsService = {
@@ -245,38 +121,7 @@ export const guestsService = {
   },
 };
 
-// HR service
-export const hrService = {
-  getEmployees: async () => {
-    const response = await api.get('/hr/employees');
-    return response.data;
-  },
-
-  getEmployee: async (id) => {
-    const response = await api.get(`/hr/employees/${id}`);
-    return response.data;
-  },
-
-  createEmployee: async (employeeData) => {
-    const response = await api.post('/hr/employees', employeeData);
-    return response.data;
-  },
-
-  updateEmployee: async (id, employeeData) => {
-    const response = await api.put(`/hr/employees/${id}`, employeeData);
-    return response.data;
-  },
-
-  deleteEmployee: async (id) => {
-    const response = await api.delete(`/hr/employees/${id}`);
-    return response.data;
-  },
-
-  getDepartments: async () => {
-    const response = await api.get('/hr/departments');
-    return response.data;
-  },
-};
+export { hrService } from './hr';
 
 // Payments service
 export const paymentsService = {
@@ -539,5 +384,7 @@ export const reportsService = {
     return response.data;
   },
 };
+
+export { uploadsService } from './uploads';
 
 export default api;

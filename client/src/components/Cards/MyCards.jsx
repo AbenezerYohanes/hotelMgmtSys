@@ -1,10 +1,10 @@
 import React from 'react';
-import card1 from '../../imgs/card1.jpg';
-import card5 from '../../imgs/card5.jpg';
-import card3 from '../../imgs/card3.jpg';
-import card2 from '../../imgs/card2.jpg';
-import card15 from '../../imgs/card15.jpg';
-import card13 from '../../imgs/card13.jpg';
+import card1 from '../../assets/card1.jpg';
+import card5 from '../../assets/card5.jpg';
+import card3 from '../../assets/card3.jpg';
+import card2 from '../../assets/card2.jpg';
+import card15 from '../../assets/card15.jpg';
+import card13 from '../../assets/card13.jpg';
 import './MyCards.css';
 import {Link} from 'react-router-dom';
 

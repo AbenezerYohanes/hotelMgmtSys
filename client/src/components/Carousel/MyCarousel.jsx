@@ -1,7 +1,7 @@
 import React from 'react';
-import slider1 from '../../imgs/hotel1.jpg';
-import slider2 from '../../imgs/hotel2.jpg';
-import slider3 from '../../imgs/hotel3.jpg';
+import slider1 from '../../assets/hotel1.jpg';
+import slider2 from '../../assets/hotel2.jpg';
+import slider3 from '../../assets/hotel3.jpg';
 import './MyCarousel.css';
 import { Link } from 'react-router-dom'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import './Contact.css'
-import contactImg from '../../imgs/contact.jpg';
+import contactImg from '../../assets/contact.jpg';
 import MyFooter from '../../components/Footer/MyFooter';
 import MyCopyright from '../../components/Copyright/MyCopyright';
 const Contact = () => {
