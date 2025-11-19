@@ -18,6 +18,7 @@ import Bookings from './pages/Bookings';
 import Rooms from './pages/Rooms';
 import Guests from './pages/Guests';
 import HR from './pages/HR';
+import EmployeeDetail from './pages/EmployeeDetail';
 import Payments from './pages/Payments';
 import Reports from './pages/Reports';
 import Users from './pages/Users';
@@ -89,6 +90,7 @@ const App = () => {
             <Route path="pricing" element={<PriceTracking />} />
             <Route path="guests" element={<Guests />} />
             <Route path="hr" element={<HR />} />
+            <Route path="hr/employees/:id" element={<EmployeeDetail />} />
             <Route path="payments" element={<Payments />} />
             <Route path="payment-gateway" element={<Payments />} />
             <Route path="reports" element={<Reports />} />
@@ -110,6 +112,7 @@ const App = () => {
             <Route path="pricing" element={<PriceTracking />} />
             <Route path="guests" element={<Guests />} />
             <Route path="hr" element={<HR />} />
+            <Route path="hr/employees/:id" element={<EmployeeDetail />} />
             <Route path="payments" element={<Payments />} />
             <Route path="payment-gateway" element={<Payments />} />
             <Route path="reports" element={<Reports />} />

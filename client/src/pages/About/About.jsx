@@ -1,6 +1,6 @@
 import React from 'react'
 import './About.css'
-import hotelVideo from '../../imgs/video.mp4'
+import hotelVideo from '../../assets/video.mp4'
 import {Link} from 'react-router-dom'
 import MyFooter from '../../components/Footer/MyFooter'
 import MyCopyright from '../../components/Copyright/MyCopyright'

@@ -12,28 +12,41 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const { isLoading } = useAuth();
+  const { isLoading, login } = useAuth();
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/auth/register`, {
+      const registrationData = {
+        email: data.email,
+        password: data.password,
+        name: `${data.firstName} ${data.lastName}`,
+        role: 'user'
+      };
+
+      // Use auth service to register and then auto-login
+      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          name: `${data.firstName} ${data.lastName}`,
-          role: 'user',
-        }),
+        body: JSON.stringify(registrationData),
       });
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload?.message || 'Registration failed');
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload?.message || 'Registration failed');
+
+      // Auto-login using the provided email and password
+      await login(data.email, data.password);
+
+      // Redirect based on role
+      const stored = localStorage.getItem('user');
+      const role = stored ? JSON.parse(stored).role : null;
+      if (role === 'super_admin') {
+        navigate('/super-admin');
+      } else if (['admin', 'manager', 'staff'].includes(role)) {
+        navigate('/admin');
+      } else {
+        navigate('/client');
       }
-      toast.success('Registration successful. Please sign in.');
-      navigate('/login');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || 'Registration failed');
     }
   };
 
