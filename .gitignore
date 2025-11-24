@@ -1,2 +1,6 @@
-.env
 node_modules/
+.cache/
+dist/
+build/
+.env
+.next/

@@ -1,3 +1,6 @@
-.env
 node_modules/
-.env.example
+.cache/
+dist/
+build/
+.env
+.next/
