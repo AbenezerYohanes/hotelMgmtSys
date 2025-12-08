@@ -2,22 +2,17 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { query } = require('../database/config');
 const { isManager } = require('../middleware/auth');
-let Department = null, Employee = null, User = null, mongoose = null;
-try {
-  Department = require('../models/Department');
-  Employee = require('../models/Employee');
-  User = require('../models/User');
-  mongoose = require('mongoose');
-} catch (e) {
-  Department = null; Employee = null; User = null; mongoose = null;
-}
+const db = require('../config/db');
+const Department = db && db.Department ? db.Department : null;
+const Employee = db && db.Employee ? db.Employee : null;
+const User = db && db.User ? db.User : null;
 
 const router = express.Router();
 
 // Get all departments
 router.get('/departments', async (req, res) => {
   try {
-    if (Department && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Department) {
       const docs = await Department.aggregate([
         { $lookup: { from: 'users', localField: 'manager_id', foreignField: '_id', as: 'manager' } },
         { $unwind: { path: '$manager', preserveNullAndEmptyArrays: true } },
@@ -62,7 +57,7 @@ router.post('/departments', isManager, [
 
     const { name, description, manager_id } = req.body;
 
-    if (Department && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Department) {
       const created = await Department.create({ name, description, manager_id: manager_id || null });
       const doc = await Department.aggregate([
         { $match: { _id: created._id } },
@@ -127,7 +122,7 @@ router.put('/departments/:id', isManager, [
     const { id } = req.params;
     const { name, description, manager_id } = req.body;
 
-    if (Department && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Department) {
       const updated = await Department.findByIdAndUpdate(id, { $set: { name, description, manager_id: manager_id ? manager_id : undefined } }, { new: true }).lean();
       if (!updated) return res.status(404).json({ success: false, message: 'Department not found' });
       const doc = await Department.aggregate([
@@ -170,9 +165,9 @@ router.get('/employees', async (req, res) => {
     const { page = 1, limit = 10, department_id, status } = req.query;
     const offset = (page - 1) * limit;
 
-    if (Employee && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Employee) {
       const filter = {};
-      if (department_id) filter.department_id = mongoose.Types.ObjectId(department_id);
+      if (department_id) filter.department_id = parseInt(department_id, 10);
       if (status) filter.status = status;
       const [items, total] = await Promise.all([
         Employee.find(filter).populate('user_id','first_name last_name email phone').populate('department_id','name').sort({ created_at: -1 }).limit(Number(limit)).skip(Number(offset)).lean(),
@@ -261,7 +256,7 @@ router.post('/employees', isManager, [
       salary, emergency_contact, emergency_phone 
     } = req.body;
 
-    if (Employee && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Employee) {
       // Check uniqueness by employee_id
       const exists = await Employee.findOne({ $or: [{ employee_id }, { user_id }] }).lean();
       if (exists) return res.status(409).json({ success: false, message: 'Employee already exists' });
@@ -328,7 +323,7 @@ router.put('/employees/:id', isManager, [
     const { id } = req.params;
     const { department_id, position, salary, status, emergency_contact, emergency_phone } = req.body;
 
-    if (Employee && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Employee) {
       const updated = await Employee.findByIdAndUpdate(id, { $set: { department_id: department_id ? department_id : undefined, position, salary, status, emergency_contact, emergency_phone, updated_at: new Date() } }, { new: true }).lean();
       if (!updated) return res.status(404).json({ success: false, message: 'Employee not found' });
       return res.json({ success: true, message: 'Employee updated successfully', data: updated });
@@ -366,7 +361,7 @@ router.put('/employees/:id', isManager, [
 router.get('/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    if (Employee && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
+    if (Employee) {
       const doc = await Employee.findById(id).populate('user_id','first_name last_name email phone address').populate('department_id','name').lean();
       if (!doc) return res.status(404).json({ success: false, message: 'Employee not found' });
       return res.json({ success: true, data: doc });
@@ -398,26 +393,42 @@ router.get('/employees/:id', async (req, res) => {
 // Get HR dashboard statistics
 router.get('/dashboard', async (req, res) => {
   try {
-    if (Employee && Department && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
-      const [totalEmployees, employeesByDept, recentHires, avgSalaryByDept] = await Promise.all([
-        Employee.countDocuments({ status: 'active' }),
-        Employee.aggregate([
-          { $match: { status: 'active' } },
-          { $lookup: { from: 'departments', localField: 'department_id', foreignField: '_id', as: 'dept' } },
-          { $unwind: { path: '$dept', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$department_id', name: { $first: '$dept.name' }, count: { $sum: 1 } } },
-          { $sort: { count: -1 } }
-        ]),
-        Employee.find({ hire_date: { $gte: new Date(new Date().getTime() - 30*24*60*60*1000) } }).populate('user_id','first_name last_name').limit(5).lean(),
-        Employee.aggregate([
-          { $match: { status: 'active' } },
-          { $lookup: { from: 'departments', localField: 'department_id', foreignField: '_id', as: 'dept' } },
-          { $unwind: { path: '$dept', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$department_id', name: { $first: '$dept.name' }, avg_salary: { $avg: '$salary' } } },
-          { $sort: { avg_salary: -1 } }
-        ])
-      ]);
-      return res.json({ success: true, data: { totalEmployees, employeesByDepartment: employeesByDept, recentHires, averageSalaryByDepartment: avgSalaryByDept } });
+    if (Employee && Department) {
+      // Use raw queries for aggregated stats via SQL
+      // Total employees
+      const totalRes = await query('SELECT COUNT(*) as count FROM employees WHERE status = ?', ['active']);
+      const totalEmployees = parseInt(totalRes.rows[0].count || 0);
+
+      // Employees by department
+      const employeesByDept = await query(`
+        SELECT d.id, d.name, COUNT(e.id) as count
+        FROM departments d
+        LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
+        GROUP BY d.id, d.name
+        ORDER BY count DESC
+      `);
+
+      // Recent hires (last 30 days)
+      const recentHires = await query(`
+        SELECT e.*, u.first_name, u.last_name
+        FROM employees e
+        LEFT JOIN users u ON e.user_id = u.id
+        WHERE e.hire_date >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
+        ORDER BY e.hire_date DESC
+        LIMIT 5
+      `);
+
+      // Average salary by department
+      const avgSalaryByDept = await query(`
+        SELECT d.name, AVG(e.salary) as avg_salary
+        FROM departments d
+        LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
+        GROUP BY d.id, d.name
+        HAVING AVG(e.salary) IS NOT NULL
+        ORDER BY avg_salary DESC
+      `);
+
+      return res.json({ success: true, data: { totalEmployees, employeesByDepartment: employeesByDept.rows, recentHires: recentHires.rows, averageSalaryByDepartment: avgSalaryByDept.rows } });
     }
 
     // Total employees

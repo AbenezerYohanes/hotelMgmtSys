@@ -1,12 +1,6 @@
 const { query } = require('../database/config');
-let UserModel = null;
-let mongoose = null;
-try {
-  UserModel = require('../models/User');
-  mongoose = require('mongoose');
-} catch (e) {
-  UserModel = null;
-}
+const db = require('../config/db');
+const UserModel = db && db.User ? db.User : null;
 
 // Role hierarchy: super_admin > admin > manager > staff > client
 const ROLE_HIERARCHY = {
@@ -107,25 +101,17 @@ const canManageUser = (targetUserId) => {
     // Admin can manage users with lower roles
     if (String(req.user.role).toLowerCase().replace(/\s+/g, '_') === 'admin') {
       try {
-        // If Mongo user model available and connected, use it
-        if (UserModel && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
-          const target = await UserModel.findById(targetUserId).select('role').lean();
-          if (!target) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-          }
+        if (UserModel) {
+          const target = await UserModel.findByPk(targetUserId, { attributes: ['role'] });
+          if (!target) return res.status(404).json({ success: false, message: 'User not found' });
           const targetRole = target.role;
-          if (hasRole(req.user.role, targetRole) && req.user.role !== targetRole) {
-            return next();
-          }
+          if (hasRole(req.user.role, targetRole) && req.user.role !== targetRole) return next();
         } else {
+          const { query } = require('../database/config');
           const result = await query('SELECT role FROM users WHERE id = ?', [targetUserId]);
-          if (!result.rows || result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-          }
+          if (!result.rows || result.rows.length === 0) return res.status(404).json({ success: false, message: 'User not found' });
           const targetRole = result.rows[0].role;
-          if (hasRole(req.user.role, targetRole) && req.user.role !== targetRole) {
-            return next();
-          }
+          if (hasRole(req.user.role, targetRole) && req.user.role !== targetRole) return next();
         }
       } catch (error) {
         console.error('Error checking user management permissions:', error);

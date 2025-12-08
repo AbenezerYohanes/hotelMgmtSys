@@ -1,13 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { query } = require('../database/config');
-let UserModel = null;
-let mongoose = null;
-try {
-  UserModel = require('../models/User');
-  mongoose = require('mongoose');
-} catch (e) {
-  UserModel = null;
-}
+const db = require('../config/db');
+const UserModel = db && db.User ? db.User : null;
 
 const authenticateToken = async (req, res, next) => {
   try {
@@ -20,23 +14,25 @@ const authenticateToken = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Prefer MongoDB user lookup when available and connected
-    if (UserModel && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
-      const userDoc = await UserModel.findById(decoded.userId).select('username email first_name last_name role privileges is_active').lean();
-      if (!userDoc) return res.status(401).json({ message: 'Invalid token' });
-      if (!userDoc.is_active) return res.status(401).json({ message: 'Account is deactivated' });
-      const user = Object.assign({}, userDoc);
-      // normalize id fields for backwards compatibility
-      user.id = user._id ? String(user._id) : user.id;
-      user.userId = String(user.id);
-      req.user = user;
-      return next();
+    // Prefer Sequelize model lookup when available
+    const userId = decoded.id || decoded.userId;
+    if (UserModel) {
+      const found = await UserModel.findByPk(userId, {
+        attributes: ['id','username','email','first_name','last_name','role','is_active','privileges']
+      });
+        if (!found) return res.status(401).json({ message: 'Invalid token' });
+        const userObj = found.get ? found.get({ plain: true }) : found;
+        if (!userObj.is_active) return res.status(401).json({ message: 'Account is deactivated' });
+        // normalize id and userId
+        userObj.userId = String(userObj.id);
+        req.user = userObj;
+        return next();
     }
 
-    // Fallback to mongoose lookup
+    // Fallback to raw query
     const result = await query(
-      'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = ?',
-      [decoded.userId]
+      'SELECT id, username, email, first_name, last_name, role, is_active, privileges FROM users WHERE id = ?',
+      [userId]
     );
 
     if (!result.rows || result.rows.length === 0) {

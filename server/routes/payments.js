@@ -1,14 +1,9 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { query } = require('../database/config');
-let Payment = null, Booking = null, mongoose = null;
-try {
-  Payment = require('../models/Payment');
-  Booking = require('../models/Booking');
-  mongoose = require('mongoose');
-} catch (e) {
-  Payment = null; Booking = null; mongoose = null;
-}
+const db = require('../config/db');
+const Payment = db && db.Payment ? db.Payment : null;
+const Booking = db && db.Booking ? db.Booking : null;
 
 const router = express.Router();
 
@@ -16,12 +11,13 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     const { booking_id, amount, date, method, metadata } = req.body;
-    if (Payment && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
-      const created = await Payment.create({ booking_id, amount, date: date ? new Date(date) : undefined, method, metadata });
-      return res.status(201).json({ payment_id: created._id });
+    if (Payment) {
+      const created = await Payment.create({ booking_id, amount, payment_date: date ? new Date(date) : undefined, payment_method: method, metadata });
+      return res.status(201).json({ payment_id: created.id });
     }
+
     const result = await query(
-      'INSERT INTO payments (booking_id, amount, date, method) VALUES (?, ?, ?, ?)',
+      'INSERT INTO payments (booking_id, amount, payment_date, payment_method) VALUES (?, ?, ?, ?)',
       [booking_id, amount, date, method]
     );
     res.status(201).json({ payment_id: result.insertId || (result.rows && result.rows.insertId) });
@@ -33,20 +29,28 @@ router.post('/', async (req, res) => {
 // Get all payments
 router.get('/', async (req, res) => {
   try {
-    if (Payment && Booking && mongoose && mongoose.connection && mongoose.connection.readyState === 1) {
-      const items = await Payment.aggregate([
-        { $lookup: { from: 'bookings', localField: 'booking_id', foreignField: '_id', as: 'booking' } },
-        { $unwind: { path: '$booking', preserveNullAndEmptyArrays: true } },
-        { $project: { amount:1, date:1, method:1, booking_id: '$booking._id' } }
-      ]);
-      return res.json(items);
+    if (Payment && Booking) {
+      const items = await Payment.findAll({
+        include: [{ model: Booking, as: 'booking', include: [{ model: db.Guest, as: 'guest' }] }]
+      });
+      const mapped = items.map(i => {
+        const plain = i.get ? i.get({ plain: true }) : i;
+        return {
+          id: plain.id,
+          amount: plain.amount,
+          payment_date: plain.payment_date || plain.date,
+          payment_method: plain.payment_method || plain.method,
+          booking: plain.booking
+        };
+      });
+      return res.json(mapped);
     }
 
     const payments = await query(
-      `SELECT p.*, b.id AS booking_id, g.name AS guest_name
+      `SELECT p.*, b.id AS booking_id, g.first_name, g.last_name
        FROM payments p
        JOIN bookings b ON p.booking_id = b.id
-       JOIN guests g ON b.guest_id = g.id`
+       LEFT JOIN guests g ON b.guest_id = g.id`
     );
     res.json(payments.rows);
   } catch (err) {

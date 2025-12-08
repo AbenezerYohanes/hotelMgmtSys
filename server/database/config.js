@@ -1,27 +1,37 @@
-/*
-  mongoose has been removed from this project during the migration to MongoDB.
-  This file intentionally provides a compatibility shim that surfaces a clear
-  error when code attempts to call the old `query`/`transaction` helpers.
+const db = require('../config/db');
+const { QueryTypes } = require('sequelize');
 
-  If you intentionally kept references to `require('../database/config')`
-  in some modules, please migrate those routes to use the Mongoose models
-  (in `server/models/`) or implement a DAL backed by Mongo.
-*/
-
-// mongoose removed: compatibility shim.
-// During the migration to MongoDB, mongoose helper was intentionally removed.
-// This shim keeps require() calls working but throws a clear error if used.
-
-const err = new Error('mongoose support removed. Use MongoDB (Mongoose) instead.');
-err.code = 'MONGOOSE_REMOVED';
-
-function throwRemoved() {
-  throw err;
+// Simple query wrapper that returns an object similar to previous helpers
+async function query(sql, params = []) {
+  const sequelize = db.sequelize;
+  const results = await sequelize.query(sql, {
+    replacements: params,
+    type: QueryTypes.SELECT,
+    raw: true
+  });
+  return { rows: results };
 }
 
 module.exports = {
   pool: null,
-  query: throwRemoved,
-  transaction: throwRemoved,
-  healthCheck: async () => ({ ok: false, error: 'mongoose removed from codebase' }),
+  query,
+  transaction: async (fn) => {
+    const t = await db.sequelize.transaction();
+    try {
+      const result = await fn(t);
+      await t.commit();
+      return result;
+    } catch (err) {
+      await t.rollback();
+      throw err;
+    }
+  },
+  healthCheck: async () => {
+    try {
+      await db.sequelize.authenticate();
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  }
 };

@@ -7,7 +7,17 @@ module.exports = (sequelize, DataTypes) => {
     room_type_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
     status: { type: DataTypes.ENUM('available','occupied','maintenance','cleaning'), defaultValue: 'available' },
     is_clean: { type: DataTypes.BOOLEAN, defaultValue: true },
-    amenities: { type: DataTypes.JSON, defaultValue: [] },
+    amenities: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get() {
+        const raw = this.getDataValue('amenities');
+        try { return raw ? JSON.parse(raw) : []; } catch (e) { return [] }
+      },
+      set(val) {
+        this.setDataValue('amenities', val ? JSON.stringify(val) : JSON.stringify([]));
+      }
+    },
     notes: { type: DataTypes.TEXT, allowNull: true }
   }, {
     tableName: 'rooms',
