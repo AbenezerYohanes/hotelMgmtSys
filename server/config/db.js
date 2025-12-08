@@ -1,68 +1,71 @@
 const { Sequelize, DataTypes } = require('sequelize');
-require('dotenv').config({ path: __dirname + '/../.env' });
+const fs = require('fs');
+const path = require('path');
 
-const DB_HOST = process.env.DB_HOST || 'localhost';
-const DB_NAME = process.env.DB_NAME || 'hotel_management';
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASS = process.env.DB_PASS || '';
-const DB_DIALECT = process.env.DB_DIALECT || 'mysql';
+const DB_NAME = process.env.DB_NAME || process.env.MYSQL_DATABASE || 'hotel_management';
+const DB_USER = process.env.DB_USER || process.env.MYSQL_USER || 'root';
+const DB_PASS = process.env.DB_PASSWORD || process.env.MYSQL_PASSWORD || '';
+const DB_HOST = process.env.DB_HOST || '127.0.0.1';
+const DB_PORT = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306;
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   host: DB_HOST,
-  dialect: DB_DIALECT,
+  port: DB_PORT,
+  dialect: 'mysql',
   logging: false,
-  define: {
-    underscored: true,
-    freezeTableName: false,
-  }
+  pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
 });
 
-const db = {};
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+const db = { sequelize, Sequelize };
 
-// Load models
-db.User = require('../models/User')(sequelize, DataTypes);
-db.RoomType = require('../models/RoomType')(sequelize, DataTypes);
-db.Room = require('../models/Room')(sequelize, DataTypes);
-db.Payment = require('../models/Payment')(sequelize, DataTypes);
-db.Hotel = require('../models/Hotel')(sequelize, DataTypes);
-db.Guest = require('../models/Guest')(sequelize, DataTypes);
-db.Employee = require('../models/Employee')(sequelize, DataTypes);
-db.Department = require('../models/Department')(sequelize, DataTypes);
-db.Booking = require('../models/Booking')(sequelize, DataTypes);
+// Load models from server/models directory. Models export a function (sequelize, DataTypes) => Model
+const modelsDir = path.join(__dirname, '..', 'models');
+try {
+  fs.readdirSync(modelsDir).forEach((file) => {
+    if (!file.endsWith('.js')) return;
+    const defineModel = require(path.join(modelsDir, file));
+    if (typeof defineModel === 'function') {
+      const model = defineModel(sequelize, DataTypes);
+      db[model.name] = model;
+    }
+  });
+} catch (err) {
+  // If models folder is missing or unreadable, continue so app can still start
+  console.warn('Warning: could not load models automatically from', modelsDir, err.message);
+}
 
-// Associations
-// User <-> Booking
-db.User.hasMany(db.Booking, { foreignKey: 'user_id', as: 'bookings' });
-db.Booking.belongsTo(db.User, { foreignKey: 'user_id', as: 'user' });
+// Define associations (if models exist)
+try {
+  const { User, Hotel, Room, RoomType, Booking, Guest, Payment, Employee, Department } = db;
+  if (User && Hotel) User.belongsTo(Hotel, { foreignKey: 'hotel_id' });
+  if (Hotel && User) Hotel.hasMany(User, { foreignKey: 'hotel_id' });
 
-// Guest <-> Booking
-db.Guest.hasMany(db.Booking, { foreignKey: 'guest_id', as: 'bookings' });
-db.Booking.belongsTo(db.Guest, { foreignKey: 'guest_id', as: 'guest' });
+  if (Room && RoomType) Room.belongsTo(RoomType, { foreignKey: 'room_type_id' });
+  if (RoomType && Room) RoomType.hasMany(Room, { foreignKey: 'room_type_id' });
 
-// RoomType <-> Room
-db.RoomType.hasMany(db.Room, { foreignKey: 'room_type_id', as: 'rooms', constraints: false });
-db.Room.belongsTo(db.RoomType, { foreignKey: 'room_type_id', as: 'room_type', constraints: false });
+  if (Booking && Room) Booking.belongsTo(Room, { foreignKey: 'room_id' });
+  if (Booking && Guest) Booking.belongsTo(Guest, { foreignKey: 'guest_id' });
+  if (Booking && User) Booking.belongsTo(User, { foreignKey: 'user_id' });
 
-// Room <-> Booking
-db.Room.hasMany(db.Booking, { foreignKey: 'room_id', as: 'bookings', constraints: false });
-db.Booking.belongsTo(db.Room, { foreignKey: 'room_id', as: 'room', constraints: false });
+  if (Payment && Booking) Payment.belongsTo(Booking, { foreignKey: 'booking_id' });
 
-// Booking <-> Payment
-db.Booking.hasMany(db.Payment, { foreignKey: 'booking_id', as: 'payments', constraints: false });
-db.Payment.belongsTo(db.Booking, { foreignKey: 'booking_id', as: 'booking', constraints: false });
+  if (Employee && Department) Employee.belongsTo(Department, { foreignKey: 'department_id' });
+} catch (e) {
+  // ignore association errors at startup
+}
 
-// Department <-> Employee
-db.Department.hasMany(db.Employee, { foreignKey: 'department_id', as: 'employees', constraints: false });
-db.Employee.belongsTo(db.Department, { foreignKey: 'department_id', as: 'department', constraints: false });
+async function connect(options = { sync: false }) {
+  try {
+    await sequelize.authenticate();
+    if (options.sync) {
+      await sequelize.sync({ alter: false });
+    }
+    console.log('✅ Connected to MySQL via Sequelize');
+    return db;
+  } catch (err) {
+    console.error('❌ Sequelize connection error:', err.message);
+    throw err;
+  }
+}
 
-// User <-> Employee
-db.User.hasOne(db.Employee, { foreignKey: 'user_id', as: 'employee', constraints: false });
-db.Employee.belongsTo(db.User, { foreignKey: 'user_id', as: 'user', constraints: false });
-
-// Hotel <-> Room
-db.Hotel.hasMany(db.Room, { foreignKey: 'hotel_id', as: 'rooms', constraints: false });
-db.Room.belongsTo(db.Hotel, { foreignKey: 'hotel_id', as: 'hotel', constraints: false });
-
-module.exports = db;
+module.exports = Object.assign(db, { connect });

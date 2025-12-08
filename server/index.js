@@ -5,8 +5,8 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-// Database connection
-const connectDB = require('./config/database');
+// Database connection (Sequelize / MySQL)
+const db = require('./config/db');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -18,8 +18,11 @@ const hrRoutes = require('./routes/hr');
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Connect to MySQL via Sequelize
+db.connect().catch(err => {
+  console.error('Database initialization failed:', err.message);
+  process.exit(1);
+});
 
 // Middleware
 app.use(helmet());
@@ -49,7 +52,7 @@ app.use('/api/hr', hrRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', database: 'MongoDB Atlas' });
+  res.json({ status: 'OK', database: 'MySQL (Sequelize)' });
 });
 
 const PORT = process.env.PORT || 5000;
