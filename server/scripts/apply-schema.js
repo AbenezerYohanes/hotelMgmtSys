@@ -21,18 +21,45 @@ const mysql = require('mysql2/promise');
     const markerSeed = '-- Sample seed data';
     const markerAlters = '-- Add foreign key constraints after all tables are created';
 
+    // Execute CREATE DATABASE and USE first (if present)
+    try {
+      const createDbMatch = sql.match(/CREATE DATABASE [\s\S]*?;/i);
+      if (createDbMatch) {
+        console.log('Creating database...');
+        await conn.query(createDbMatch[0]);
+      }
+      const useMatch = sql.match(/USE `?[A-Za-z0-9_]+`?\s*;/i);
+      if (useMatch) {
+        console.log('Selecting database...');
+        await conn.query(useMatch[0]);
+      }
+    } catch (dbErr) {
+      console.error('Failed to create/select database:', dbErr);
+      throw dbErr;
+    }
+
+    // Extract CREATE TABLE blocks reliably using regex
+    const createTableRegex = /CREATE\s+TABLE[\s\S]*?ENGINE=.*?;/gi;
+    const createStatements = Array.from(sql.matchAll(createTableRegex)).map(m => m[0]);
+
     const idxSeed = sql.indexOf(markerSeed);
     const idxAlters = sql.indexOf(markerAlters);
-
-    const createSql = idxSeed !== -1 ? sql.slice(0, idxSeed) : sql;
     const seedSql = (idxSeed !== -1 && idxAlters !== -1) ? sql.slice(idxSeed, idxAlters) : (idxSeed !== -1 ? sql.slice(idxSeed) : '');
     const altersSql = idxAlters !== -1 ? sql.slice(idxAlters) : '';
 
     try {
-      if (createSql.trim()) {
-        console.log('Running CREATE TABLE statements...');
-        await conn.query(createSql);
+      if (createStatements.length) {
+        console.log(`Running ${createStatements.length} CREATE TABLE statements sequentially...`);
+        for (let i = 0; i < createStatements.length; i++) {
+          const stmt = createStatements[i];
+          console.log(`CREATE stmt ${i + 1}/${createStatements.length}: ${stmt.split('\n')[0].slice(0,120)}...`);
+          await conn.query(stmt);
+        }
+      } else {
+        console.log('No CREATE TABLE statements found — running entire SQL as fallback.');
+        await conn.query(sql);
       }
+
       if (seedSql.trim()) {
         console.log('Running seed INSERT statements...');
         await conn.query(seedSql);
