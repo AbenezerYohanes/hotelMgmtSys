@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS `employees`;
 DROP TABLE IF EXISTS `departments`;
 DROP TABLE IF EXISTS `hotels`;
 DROP TABLE IF EXISTS `users`;
-SET FOREIGN_KEY_CHECKS = 1;
+-- Keep FOREIGN_KEY_CHECKS disabled while creating tables and adding constraints
 
 -- Users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `hotels` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `idx_hotels_created_by` (`created_by`),
+  KEY `idx_hotels_created_by` (`created_by`)
   /* foreign key to users(created_by) added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `idx_departments_manager` (`manager_id`),
+  KEY `idx_departments_manager` (`manager_id`)
   /* foreign key to users(manager_id) added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ux_employees_employee_id` (`employee_id`),
   KEY `idx_employees_user` (`user_id`),
-  KEY `idx_employees_department` (`department_id`),
+  KEY `idx_employees_department` (`department_id`)
   /* foreign keys to users and departments added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ux_rooms_room_number` (`room_number`),
   KEY `idx_rooms_hotel` (`hotel_id`),
-  KEY `idx_rooms_room_type` (`room_type_id`),
+  KEY `idx_rooms_room_type` (`room_type_id`)
   /* foreign keys to hotels and room_types added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   UNIQUE KEY `ux_bookings_number` (`booking_number`),
   KEY `idx_bookings_room` (`room_id`),
   KEY `idx_bookings_guest` (`guest_id`),
-  KEY `idx_bookings_user` (`user_id`),
+  KEY `idx_bookings_user` (`user_id`)
   /* foreign keys to rooms/guests/users/hotels added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `idx_payments_booking` (`booking_id`),
+  KEY `idx_payments_booking` (`booking_id`)
   /* foreign key to bookings added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -225,4 +225,7 @@ ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_guest` FOREIGN KEY (`guest_id
 ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
 
