@@ -73,13 +73,13 @@ router.post('/departments', isManager, [
       return res.status(201).json({ success: true, message: 'Department created successfully', data: doc[0] });
     }
 
-    // MySQL doesn't support RETURNING; perform INSERT then SELECT the created row
+    // mongoose doesn't support RETURNING; perform INSERT then SELECT the created row
     const insertResult = await query(
       'INSERT INTO departments (name, description, manager_id) VALUES (?, ?, ?)',
       [name, description, manager_id]
     );
 
-    // insertResult.rows for INSERT is the OkPacket object from mysql2
+    // insertResult.rows for INSERT is the OkPacket object from mongoose2
     const insertedId = insertResult.rows && insertResult.rows.insertId;
 
     if (!insertedId) {
@@ -269,7 +269,7 @@ router.post('/employees', isManager, [
       return res.status(201).json({ success: true, message: 'Employee created successfully', data: created });
     }
 
-    // MySQL fallback
+    // mongoose fallback
     const existingEmployee = await query(
       'SELECT id FROM employees WHERE employee_id = ? OR user_id = ?',
       [employee_id, user_id]

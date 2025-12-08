@@ -3,23 +3,27 @@
 ## ✅ **Status: All Systems Operational**
 
 ### 🖥️ **Services Running:**
+
 - ✅ **Server**: Running on port 5000
 - ✅ **Client**: Running on port 3001 (React app)
-- ✅ **XAMPP**: MySQL and Apache services running
+- ✅ **XAMPP**: mongoose and Apache services running
 - ✅ **Database**: Connected and operational
 
 ### 🌐 **Access URLs:**
+
 - **🏨 Hotel Management App**: http://localhost:3001
 - **🔧 Server API**: http://localhost:5000/api/health
 - **🗄️ phpMyAdmin**: http://localhost/phpmyadmin
 
 ### 📊 **Default Login Credentials:**
+
 - **Username**: `admin`
 - **Password**: `admin123`
 
 ## 🔄 **What Was Converted:**
 
 ### ✅ **TypeScript → JavaScript Conversion:**
+
 - ✅ `App.tsx` → `App.js`
 - ✅ `index.tsx` → `index.js`
 - ✅ `AuthContext.tsx` → `AuthContext.js`
@@ -30,6 +34,7 @@
 - ✅ Removed type annotations
 
 ### 🗑️ **Files Removed:**
+
 - ❌ `tsconfig.json`
 - ❌ All `.tsx` and `.ts` files
 - ❌ TypeScript dependencies from package.json
@@ -37,12 +42,14 @@
 ## 🚀 **How to Start the Project:**
 
 ### **Option 1: Start Both Services**
+
 ```bash
 # From root directory
 npm run dev
 ```
 
 ### **Option 2: Start Individually**
+
 ```bash
 # Start server
 npm run server
@@ -52,6 +59,7 @@ cd client && npm start
 ```
 
 ### **Option 3: Check Status**
+
 ```bash
 npm run check-status-win
 ```
@@ -59,18 +67,22 @@ npm run check-status-win
 ## 🔧 **Troubleshooting:**
 
 ### **Port Conflicts:**
+
 - If port 3000 is busy, the client will automatically use port 3001
 - If port 5000 is busy, change PORT in config.env
 
 ### **Database Issues:**
-- Ensure XAMPP MySQL service is running
+
+- Ensure XAMPP mongoose service is running
 - Run `npm run test-connection` to verify database connection
 
 ### **Client Issues:**
+
 - Clear browser cache if you see old TypeScript errors
 - Restart the client with `npm start` in the client directory
 
 ## 📁 **Project Structure:**
+
 ```
 aHotelManagementSystem/
 ├── server/           # Node.js backend (JavaScript)
@@ -81,6 +93,7 @@ aHotelManagementSystem/
 ```
 
 ## 🎯 **Next Steps:**
+
 1. **Open the application**: http://localhost:3001
 2. **Login with admin credentials**
 3. **Explore the hotel management features**

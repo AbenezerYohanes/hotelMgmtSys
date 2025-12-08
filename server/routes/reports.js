@@ -6,7 +6,7 @@ const router = express.Router();
 // Helper: safe param push
 const pushIf = (arr, val) => { if (typeof val !== 'undefined' && val !== null && val !== '') arr.push(val); };
 
-// Get revenue report (MySQL compatible)
+// Get revenue report (mongoose compatible)
 router.get('/revenue', async (req, res) => {
   try {
     const { start_date, end_date, group_by = 'month' } = req.query;
@@ -45,7 +45,7 @@ router.get('/revenue', async (req, res) => {
   }
 });
 
-// Get occupancy report (MySQL 8+ recursive CTE)
+// Get occupancy report (mongoose 8+ recursive CTE)
 router.get('/occupancy', async (req, res) => {
   try {
     const { start_date, end_date } = req.query;

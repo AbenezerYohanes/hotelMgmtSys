@@ -204,7 +204,7 @@ Perfect! I have successfully enhanced the hotel management system with all the r
 - **Notification System** with toast messages
 
 #### **Database Features:**
-- **MySQL Database** with optimized queries
+- **mongoose Database** with optimized queries
 - **Relationship Management** with foreign keys
 - **Data Integrity** with constraints and validation
 - **Indexing** for performance optimization

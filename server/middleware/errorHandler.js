@@ -30,28 +30,28 @@ const errorHandler = (err, req, res, next) => {
     error.message = 'Unauthorized';
   }
 
-  // MySQL error codes
-  if (err.code === 'ER_DUP_ENTRY') { // MySQL duplicate entry
+  // mongoose error codes
+  if (err.code === 'ER_DUP_ENTRY') { // mongoose duplicate entry
     error.status = 409;
     error.message = 'Resource already exists';
   }
 
-  if (err.code === 'ER_NO_REFERENCED_ROW_2') { // MySQL foreign key constraint violation
+  if (err.code === 'ER_NO_REFERENCED_ROW_2') { // mongoose foreign key constraint violation
     error.status = 400;
     error.message = 'Referenced resource does not exist';
   }
 
-  if (err.code === 'ER_ROW_IS_REFERENCED_2') { // MySQL row is referenced
+  if (err.code === 'ER_ROW_IS_REFERENCED_2') { // mongoose row is referenced
     error.status = 400;
     error.message = 'Cannot delete resource as it is referenced by other resources';
   }
 
-  if (err.code === 'ER_BAD_FIELD_ERROR') { // MySQL bad field error
+  if (err.code === 'ER_BAD_FIELD_ERROR') { // mongoose bad field error
     error.status = 400;
     error.message = 'Invalid field specified';
   }
 
-  if (err.code === 'ER_PARSE_ERROR') { // MySQL parse error
+  if (err.code === 'ER_PARSE_ERROR') { // mongoose parse error
     error.status = 400;
     error.message = 'Invalid query syntax';
   }

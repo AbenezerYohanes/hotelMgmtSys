@@ -1,9 +1,9 @@
 
-const mysql = require('mysql2/promise');
+const mongoose = require('mongoose2/promise');
 require('dotenv').config({ path: __dirname + '/.env' });
 
 async function createDatabase() {
-  const connection = await mysql.createConnection({
+  const connection = await mongoose.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,

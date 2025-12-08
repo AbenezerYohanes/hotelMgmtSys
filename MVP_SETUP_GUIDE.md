@@ -2,7 +2,7 @@
 
 ## 🎯 Overview
 
-This MVP provides a complete Hotel Management System integrated with HR Management capabilities using React.js frontend, Node.js backend, and MySQL database.
+This MVP provides a complete Hotel Management System integrated with HR Management capabilities using React.js frontend, Node.js backend, and mongoose database.
 
 ## 🏨 MVP Features
 
@@ -226,7 +226,7 @@ After setup, you can log in with:
 
 1. **Database Connection Error**
 
-   - Ensure MySQL is running in XAMPP
+   - Ensure mongoose is running in XAMPP
    - Check database credentials in `config.env`
    - Verify database exists: `hotel_management`
 

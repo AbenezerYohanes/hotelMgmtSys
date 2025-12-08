@@ -330,7 +330,7 @@ hotel-management-system/
 ### Database Architecture
 
 ```
-MySQL Database: hotel_management
+mongoose Database: hotel_management
 ├── users                     # System users and authentication
 ├── hotels                    # Hotel properties
 ├── rooms                     # Room inventory
@@ -356,7 +356,7 @@ MySQL Database: hotel_management
 #### System Requirements
 
 - **Node.js**: v14.0.0 or higher
-- **MySQL**: v5.7 or higher (or XAMPP)
+- **mongoose**: v5.7 or higher (or XAMPP)
 - **npm**: v6.0.0 or higher
 - **Git**: Latest version
 
@@ -389,8 +389,8 @@ Edit `server/.env`:
 ```env
 # Database Configuration
 DB_HOST=localhost
-DB_USER=your_mysql_user
-DB_PASSWORD=your_mysql_password
+DB_USER=your_mongoose_user
+DB_PASSWORD=your_mongoose_password
 DB_NAME=hotel_management
 DB_PORT=3306
 
@@ -437,26 +437,26 @@ The frontend uses a proxy to the backend, configured in `client/package.json`:
 **Using XAMPP (Recommended for Windows):**
 
 ```bash
-# Start XAMPP MySQL service
+# Start XAMPP mongoose service
 # Then run setup script
 setup-xampp.bat
 ```
 
-**Using Direct MySQL:**
+**Using Direct mongoose:**
 
 ```bash
 # Create database
-mysql -u root -p -e "CREATE DATABASE hotel_management;"
+mongoose -u root -p -e "CREATE DATABASE hotel_management;"
 
 # Run setup script
-./setup-mysql.sh
+./setup-mongoose.sh
 ```
 
 **Manual Database Setup:**
 
 ```bash
 # Apply schema
-mysql -u your_user -p hotel_management < server/database/archive/schema.sql
+mongoose -u your_user -p hotel_management < server/database/archive/schema.sql
 ```
 
 #### 4. Install Dependencies

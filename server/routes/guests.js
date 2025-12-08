@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
     if (search) {
       paramCount++;
-      // MySQL doesn't support ILIKE. Use case-insensitive search via LOWER(... ) LIKE LOWER(...)
+      // mongoose doesn't support ILIKE. Use case-insensitive search via LOWER(... ) LIKE LOWER(...)
       whereClause += ` AND (LOWER(first_name) LIKE LOWER($${paramCount}) OR LOWER(last_name) LIKE LOWER($${paramCount}) OR LOWER(email) LIKE LOWER($${paramCount}) OR LOWER(phone) LIKE LOWER($${paramCount}))`;
       params.push(`%${search}%`);
     }
@@ -82,7 +82,7 @@ router.post('/', [
       id_type, id_number, nationality 
     } = req.body;
 
-    // MySQL: INSERT then SELECT the created row
+    // mongoose: INSERT then SELECT the created row
     const insertResult = await query(
       `INSERT INTO guests (first_name, last_name, email, phone, address, id_type, id_number, nationality)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,

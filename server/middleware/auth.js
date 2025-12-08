@@ -33,7 +33,7 @@ const authenticateToken = async (req, res, next) => {
       return next();
     }
 
-    // Fallback to MySQL lookup
+    // Fallback to mongoose lookup
     const result = await query(
       'SELECT id, username, email, first_name, last_name, role, is_active FROM users WHERE id = ?',
       [decoded.userId]

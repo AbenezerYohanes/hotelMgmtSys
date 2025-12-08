@@ -28,7 +28,7 @@
 
 - [x] **System Startup:**
   - Backend server running successfully on port 5000
-  - Database connection established to remote MySQL server
+  - Database connection established to remote mongoose server
   - Frontend client starting up and compiled successfully
 
 ## Remaining Tasks

@@ -61,7 +61,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- XAMPP (for MySQL database)
+- XAMPP (for mongoose database)
 - npm or yarn
 
 ### Setup Instructions

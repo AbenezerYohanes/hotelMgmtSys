@@ -45,7 +45,7 @@ router.post('/register', [
     if (role === 'superadmin') role = 'super_admin';
     if (role === 'user') role = 'client';
 
-    // Check if user already exists (Mongo or MySQL)
+    // Check if user already exists (Mongo or mongoose)
     if (UserMongo) {
       const found = await UserMongo.findOne({ $or: [{ email }, { username: username || null }] }).lean();
       if (found) {
@@ -94,7 +94,7 @@ router.post('/register', [
     // Override with provided privileges if any
     const userPrivileges = req.body.privileges ? { ...defaultPrivileges, ...req.body.privileges } : defaultPrivileges;
 
-    // Create user (MongoDB if available else MySQL)
+    // Create user (MongoDB if available else mongoose)
     let user = null;
     if (UserMongo) {
       const u = new UserMongo({

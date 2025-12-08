@@ -116,7 +116,7 @@ router.post('/', authenticateToken, [
       return res.status(201).json({ success: true, message: 'Booking created successfully', data: { booking_id: created._id, booking_number: bookingNumber, total_amount: totalAmount } });
     }
 
-    // Fallback to MySQL implementation
+    // Fallback to mongoose implementation
     // Check room availability
     const availabilityCheck = await query(`
       SELECT COUNT(*) as count FROM bookings
@@ -234,7 +234,7 @@ router.get('/', async (req, res) => {
       return res.json({ success: true, data: items, pagination: { page: Number(page), limit: Number(limit), total: Number(totalCountArr), pages: Math.ceil(Number(totalCountArr) / Number(limit)) } });
     }
 
-    // Fallback to MySQL
+    // Fallback to mongoose
     let whereClause = 'WHERE 1=1';
     const params = [];
 
@@ -376,7 +376,7 @@ router.put('/:id', authenticateToken, [
       return res.json({ success: true, message: 'Booking updated successfully' });
     }
 
-    // Fallback: original MySQL implementation
+    // Fallback: original mongoose implementation
     // Get current booking
     const currentBooking = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     if (!currentBooking.rows || currentBooking.rows.length === 0) {
@@ -504,7 +504,7 @@ router.put('/:id/checkin', authenticateToken, async (req, res) => {
       return res.json({ success: true, message: 'Guest checked in successfully' });
     }
 
-    // Fallback MySQL
+    // Fallback mongoose
     // Get booking details
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     if (!bookingResult.rows || bookingResult.rows.length === 0) {
@@ -566,7 +566,7 @@ router.put('/:id/checkout', authenticateToken, async (req, res) => {
       return res.json({ success: true, message: 'Guest checked out successfully' });
     }
 
-    // Fallback MySQL
+    // Fallback mongoose
     // Get booking details
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     if (!bookingResult.rows || bookingResult.rows.length === 0) {
@@ -667,7 +667,7 @@ router.get('/dashboard/stats', async (req, res) => {
       return res.json({ success: true, data: { todayBookings, monthBookings, monthRevenue: monthRevenueVal, occupancyRate, upcomingCheckins, recentBookings } });
     }
 
-    // Fallback to MySQL
+    // Fallback to mongoose
     // Total bookings today
     const todayBookingsRes = await query(`
       SELECT COUNT(*) as count
@@ -757,7 +757,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       return res.json({ success: true, message: 'Booking deleted successfully' });
     }
 
-    // Fallback MySQL
+    // Fallback mongoose
     // Check if booking exists
     const bookingResult = await query('SELECT * FROM bookings WHERE id = ?', [id]);
     if (!bookingResult.rows || bookingResult.rows.length === 0) {
