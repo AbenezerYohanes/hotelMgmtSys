@@ -7,6 +7,7 @@ This MVP provides a complete Hotel Management System integrated with HR Manageme
 ## 🏨 MVP Features
 
 ### Hotel Management Module
+
 - **Room Management**: Add, update, delete rooms with types and pricing
 - **Booking Management**: Create bookings with guest information and room selection
 - **Guest Management**: Store guest profiles and booking history
@@ -14,12 +15,14 @@ This MVP provides a complete Hotel Management System integrated with HR Manageme
 - **Room Availability Dashboard**: Real-time room status monitoring
 
 ### HR Management Module
+
 - **Employee Management**: Add employees with department assignments
 - **Attendance Tracking**: Mark daily attendance (Present/Absent/Late/On Leave)
 - **Payroll Generation**: Auto-calculate monthly salaries based on attendance
 - **Department Management**: Organize employees by departments
 
 ### Authentication & Security
+
 - **JWT Authentication**: Secure token-based authentication
 - **Role-based Access**: Admin, Manager, Staff, Client roles
 - **Password Security**: Bcrypt hashing for passwords
@@ -28,13 +31,13 @@ This MVP provides a complete Hotel Management System integrated with HR Manageme
 
 - **Frontend**: React.js, Tailwind CSS, Axios
 - **Backend**: Node.js, Express.js, JWT
-- **Database**: MySQL (via XAMPP)
+  -- **Database**: mongoose (via XAMPP)
 - **Authentication**: JWT tokens
 
 ## 📋 Prerequisites
 
 1. **Node.js** (v14 or higher)
-2. **XAMPP** (for MySQL database)
+2. **XAMPP** (for mongoose database)
 3. **Git** (for cloning the repository)
 
 ## 🚀 Installation & Setup
@@ -62,28 +65,32 @@ cd ..
 #### Option A: Using XAMPP (Recommended for Windows)
 
 1. **Start XAMPP Services**
+
    - Open XAMPP Control Panel
-   - Start Apache and MySQL services
+   - Start Apache and mongoose services
 
 2. **Run Database Setup**
+
    ```bash
    # Windows
-   setup-mysql.bat
-   
+   setup-mongoose.bat
+
    # Linux/Mac
-   ./setup-mysql.sh
+   ./setup-mongoose.sh
    ```
 
 #### Option B: Manual Database Setup
 
 1. **Create Database**
+
    ```sql
    CREATE DATABASE hotel_management;
    ```
 
 2. **Import Schema**
+
    ```bash
-   mysql -u root -p hotel_management < server/database/schema.sql
+   mongoose -u root -p hotel_management < server/database/schema.sql
    ```
 
 3. **Run Setup Script**
@@ -96,6 +103,7 @@ cd ..
 ### Step 3: Environment Configuration
 
 The `.env` file has been created with the following configuration:
+
 ```env
 PORT=5000
 NODE_ENV=development
@@ -114,7 +122,7 @@ FRONTEND_URL=http://localhost:3000
 BACKEND_URL=http://localhost:5000
 ```
 
-**Note**: Update the `DB_PASSWORD` if your MySQL has a password, and change the `JWT_SECRET` for production use.
+**Note**: Update the `DB_PASSWORD` if your mongoose has a password, and change the `JWT_SECRET` for production use.
 
 ### Step 4: Start the Application
 
@@ -141,6 +149,7 @@ After setup, you can log in with:
 ## 📊 Database Schema
 
 ### Core Tables
+
 - `users` - System users and authentication
 - `departments` - HR departments
 - `employees` - Employee information
@@ -155,11 +164,13 @@ After setup, you can log in with:
 ## 🔗 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
 - `GET /api/auth/profile` - Get user profile
 
 ### Hotel Management
+
 - `GET /api/rooms` - List all rooms
 - `POST /api/rooms` - Add new room
 - `GET /api/bookings` - List all bookings
@@ -170,6 +181,7 @@ After setup, you can log in with:
 - `POST /api/payments` - Create payment
 
 ### HR Management
+
 - `GET /api/hr/employees` - List employees
 - `POST /api/hr/employees` - Add employee
 - `GET /api/hr/departments` - List departments
@@ -181,6 +193,7 @@ After setup, you can log in with:
 ## 🎨 Frontend Structure
 
 ### Pages
+
 - `Dashboard.js` - Main dashboard with statistics
 - `HR.js` - HR management interface
 - `Bookings.js` - Booking management
@@ -190,17 +203,20 @@ After setup, you can log in with:
 - `Login.js` - Authentication
 
 ### Components
+
 - `Layout.js` - Main layout wrapper
 - `AuthContext.js` - Authentication context
 
 ## 🔧 Configuration
 
 ### Backend Configuration
+
 - Database connection settings in `server/database/config.js`
 - JWT secret and expiration in `config.env`
 - CORS settings for frontend communication
 
 ### Frontend Configuration
+
 - API base URL in `client/src/services/api.js`
 - Proxy configuration in `client/package.json`
 
@@ -209,15 +225,18 @@ After setup, you can log in with:
 ### Common Issues
 
 1. **Database Connection Error**
+
    - Ensure MySQL is running in XAMPP
    - Check database credentials in `config.env`
    - Verify database exists: `hotel_management`
 
 2. **Port Already in Use**
+
    - Change PORT in `config.env`
    - Kill existing processes: `netstat -ano | findstr :5000`
 
 3. **Frontend Build Errors**
+
    - Clear node_modules: `rm -rf node_modules && npm install`
    - Check Node.js version compatibility
 
@@ -226,6 +245,7 @@ After setup, you can log in with:
    - Check token expiration settings
 
 ### Logs
+
 - Backend logs: `server/logs/`
 - Error logs: `server/logs/error.log`
 - Combined logs: `server/logs/combined.log`
@@ -235,21 +255,25 @@ After setup, you can log in with:
 ### For Administrators
 
 1. **Dashboard Overview**
+
    - View key metrics: bookings, revenue, occupancy
    - Monitor recent activity and upcoming check-ins
    - Quick access to all modules
 
 2. **Room Management**
+
    - Add new room types with pricing
    - Manage individual rooms and their status
    - View room availability calendar
 
 3. **Booking Management**
+
    - Create new bookings for guests
    - Update booking status (confirmed, checked-in, checked-out)
    - Generate booking receipts
 
 4. **Guest Management**
+
    - Add new guest profiles
    - View guest booking history
    - Search and filter guests
@@ -277,17 +301,21 @@ After setup, you can log in with:
 ## 🚀 Next Steps (Post-MVP)
 
 ### Potential Enhancements
+
 1. **Advanced Analytics**
+
    - Revenue reports and trends
    - Occupancy analysis
    - Guest demographics
 
 2. **Automation Features**
+
    - Email notifications
    - Automated check-in/check-out
    - Inventory management
 
 3. **Mobile App**
+
    - React Native mobile app
    - Push notifications
    - Offline capabilities
@@ -300,6 +328,7 @@ After setup, you can log in with:
 ## 📞 Support
 
 For issues and questions:
+
 1. Check the troubleshooting section
 2. Review logs in `server/logs/`
 3. Verify database connectivity

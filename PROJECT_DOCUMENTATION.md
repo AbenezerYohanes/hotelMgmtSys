@@ -181,7 +181,7 @@ The Hotel & HR Management System is a comprehensive full-stack application desig
 {
   "runtime": "Node.js",
   "framework": "Express.js",
-  "database": "MySQL",
+  "database": "mongoose",
   "authentication": "JWT (jsonwebtoken)",
   "password_hashing": "bcryptjs",
   "validation": "express-validator, Joi",
@@ -1154,12 +1154,12 @@ REACT_APP_GOOGLE_MAPS_API_KEY=your-google-maps-key
 
 ### Database Configuration
 
-#### MySQL Connection
+#### mongoose Connection
 
 ```javascript
-const mysql = require("mysql2/promise");
+const mongoose = require("mongoose");
 
-const pool = mysql.createPool({
+const pool = mongoose.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
