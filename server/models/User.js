@@ -1,4 +1,19 @@
 const mongoose = require('mongoose');
+
+const UserSchema = new mongoose.Schema({
+  username: { type: String, index: true, sparse: true },
+  email: { type: String, required: true, unique: true, index: true },
+  password_hash: { type: String, required: true },
+  first_name: { type: String },
+  last_name: { type: String },
+  role: { type: String, default: 'client' },
+  privileges: { type: mongoose.Schema.Types.Mixed, default: {} },
+  is_active: { type: Boolean, default: true },
+  created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 

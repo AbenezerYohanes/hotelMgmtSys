@@ -1,3 +1,15 @@
+const mongoose = require('mongoose');
+
+const RoomSchema = new mongoose.Schema({
+  room_number: { type: String, required: true },
+  floor: { type: String },
+  hotel_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Hotel', default: null },
+  room_type: { type: mongoose.Schema.Types.ObjectId, ref: 'RoomType' },
+  status: { type: String, default: 'available' },
+  amenities: { type: [String], default: [] }
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+
+module.exports = mongoose.models.Room || mongoose.model('Room', RoomSchema);
 const { Schema, model } = require('mongoose');
 
 const RoomSchema = new Schema({

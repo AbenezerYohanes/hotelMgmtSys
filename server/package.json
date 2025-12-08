@@ -10,8 +10,10 @@
     "test": "jest",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
-    "migrate:schema": "node scripts/archived-note.js"
+    "migrate:schema": "node scripts/archived-note.js",
+    "check-mongo": "node scripts/check-mongo.js"
   },
+  
   "dependencies": {
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
