@@ -1,27 +1,21 @@
-const mongoose = require('mongoose');
+module.exports = (sequelize, DataTypes) => {
+  const Room = sequelize.define('Room', {
+    id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
+    room_number: { type: DataTypes.STRING, allowNull: false, unique: true },
+    floor: { type: DataTypes.INTEGER, allowNull: true, defaultValue: 1 },
+    hotel_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    room_type_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    status: { type: DataTypes.ENUM('available','occupied','maintenance','cleaning'), defaultValue: 'available' },
+    is_clean: { type: DataTypes.BOOLEAN, defaultValue: true },
+    amenities: { type: DataTypes.JSON, defaultValue: [] },
+    notes: { type: DataTypes.TEXT, allowNull: true }
+  }, {
+    tableName: 'rooms',
+    underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  });
 
-const RoomSchema = new mongoose.Schema({
-  room_number: { type: String, required: true },
-  floor: { type: String },
-  hotel_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Hotel', default: null },
-  room_type: { type: mongoose.Schema.Types.ObjectId, ref: 'RoomType' },
-  status: { type: String, default: 'available' },
-  amenities: { type: [String], default: [] }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-module.exports = mongoose.models.Room || mongoose.model('Room', RoomSchema);
-const { Schema, model } = require('mongoose');
-
-const RoomSchema = new Schema({
-  hotel_id: { type: Schema.Types.ObjectId, ref: 'Hotel' },
-  room_number: { type: String, required: true },
-  room_type: { type: Schema.Types.ObjectId, ref: 'RoomType' },
-  floor: { type: Number, default: 1 },
-  status: { type: String, enum: ['available','occupied','maintenance','cleaning'], default: 'available' },
-  is_clean: { type: Boolean, default: true },
-  notes: String
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-RoomSchema.index({ room_number: 1 }, { unique: true, sparse: true });
-
-module.exports = model('Room', RoomSchema);
+  return Room;
+};

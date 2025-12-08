@@ -1,34 +1,29 @@
-const mongoose = require('mongoose');
+module.exports = (sequelize, DataTypes) => {
+  const Booking = sequelize.define('Booking', {
+    id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
+    booking_number: { type: DataTypes.STRING, allowNull: false, unique: true },
+    hotel_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    room_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    user_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    guest_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    check_in_date: { type: DataTypes.DATE, allowNull: false },
+    check_out_date: { type: DataTypes.DATE, allowNull: false },
+    adults: { type: DataTypes.INTEGER, defaultValue: 1 },
+    children: { type: DataTypes.INTEGER, defaultValue: 0 },
+    nights: { type: DataTypes.INTEGER, allowNull: true },
+    total_amount: { type: DataTypes.DECIMAL(10,2), defaultValue: 0.00 },
+    status: { type: DataTypes.ENUM('pending','confirmed','cancelled','checked_in','checked_out'), defaultValue: 'pending' },
+    special_requests: { type: DataTypes.TEXT, allowNull: true },
+    stripe_payment_intent: { type: DataTypes.STRING, allowNull: true },
+    payment_status: { type: DataTypes.ENUM('pending','succeeded','refunded'), defaultValue: 'pending' },
+    receipt_url: { type: DataTypes.STRING, allowNull: true }
+  }, {
+    tableName: 'bookings',
+    underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  });
 
-const BookingSchema = new mongoose.Schema({
-  booking_number: { type: String, required: true, unique: true },
-  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
-  guest_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Guest', default: null },
-  room_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Room' },
-  check_in_date: { type: Date, required: true },
-  check_out_date: { type: Date, required: true },
-  adults: { type: Number, default: 1 },
-  children: { type: Number, default: 0 },
-  total_amount: { type: Number, default: 0 },
-  status: { type: String, default: 'pending' },
-  special_requests: { type: String }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-module.exports = mongoose.models.Booking || mongoose.model('Booking', BookingSchema);
-const { Schema, model } = require('mongoose');
-
-const BookingSchema = new Schema({
-  hotel_id: { type: Schema.Types.ObjectId, ref: 'Hotel' },
-  room_id: { type: Schema.Types.ObjectId, ref: 'Room' },
-  user_id: { type: Schema.Types.ObjectId, ref: 'User' },
-  check_in_date: { type: Date, required: true },
-  check_out_date: { type: Date, required: true },
-  total_amount: { type: Number, required: true },
-  nights: { type: Number, required: true },
-  status: { type: String, enum: ['pending','confirmed','cancelled','checked_in','checked_out'], default: 'pending' },
-  stripe_payment_intent: String,
-  payment_status: { type: String, enum: ['pending','succeeded','refunded'], default: 'pending' },
-  receipt_url: String
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-module.exports = model('Booking', BookingSchema);
+  return Booking;
+};

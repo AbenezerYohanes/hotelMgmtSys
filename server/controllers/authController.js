@@ -1,31 +1,31 @@
-const User = require('../models/User');
+const db = require('../config/db');
+const { Op } = require('sequelize');
+const User = db.User;
 
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, firstName, lastName, role } = req.body;
+    const { username, email, password, first_name, last_name, role } = req.body;
 
-    // Check if user exists
-    const existingUser = await User.findOne({ 
-      $or: [{ email }, { username }] 
+    // Check if user exists (by email or username)
+    const existingUser = await User.findOne({
+      where: {
+        [Op.or]: [{ email }, { username }]
+      }
     });
-    
+
     if (existingUser) {
-      return res.status(400).json({ 
-        error: 'User with this email or username already exists' 
-      });
+      return res.status(400).json({ error: 'User with this email or username already exists' });
     }
 
     // Create new user
-    const user = new User({
+    const user = await User.create({
       username,
       email,
       password,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       role: role || 'client'
     });
-
-    await user.save();
 
     // Generate token
     const token = user.generateAuthToken();
@@ -33,11 +33,11 @@ exports.register = async (req, res) => {
     res.status(201).json({
       message: 'User registered successfully',
       user: {
-        id: user._id,
+        id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        first_name: user.first_name,
+        last_name: user.last_name,
         role: user.role
       },
       token
@@ -51,8 +51,8 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
-    const user = await User.findOne({ email });
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -69,11 +69,11 @@ exports.login = async (req, res) => {
     res.json({
       message: 'Login successful',
       user: {
-        id: user._id,
+        id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        first_name: user.first_name,
+        last_name: user.last_name,
         role: user.role
       },
       token

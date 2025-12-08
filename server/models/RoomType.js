@@ -1,21 +1,18 @@
-const mongoose = require('mongoose');
+module.exports = (sequelize, DataTypes) => {
+  const RoomType = sequelize.define('RoomType', {
+    id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT, allowNull: true },
+    base_price: { type: DataTypes.DECIMAL(10,2), defaultValue: 0.00 },
+    capacity: { type: DataTypes.INTEGER, defaultValue: 1 },
+    amenities: { type: DataTypes.JSON, defaultValue: [] }
+  }, {
+    tableName: 'room_types',
+    underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  });
 
-const RoomTypeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  base_price: { type: Number, default: 0 },
-  capacity: { type: Number, default: 1 },
-  amenities: { type: [String], default: [] }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-module.exports = mongoose.models.RoomType || mongoose.model('RoomType', RoomTypeSchema);
-const { Schema, model } = require('mongoose');
-
-const RoomTypeSchema = new Schema({
-  name: { type: String, required: true },
-  description: String,
-  base_price: { type: Number, required: true },
-  capacity: { type: Number, default: 1 },
-  amenities: { type: [String], default: [] }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
-
-module.exports = model('RoomType', RoomTypeSchema);
+  return RoomType;
+};
