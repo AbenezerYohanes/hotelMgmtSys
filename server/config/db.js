@@ -42,27 +42,27 @@ db.Guest.hasMany(db.Booking, { foreignKey: 'guest_id', as: 'bookings' });
 db.Booking.belongsTo(db.Guest, { foreignKey: 'guest_id', as: 'guest' });
 
 // RoomType <-> Room
-db.RoomType.hasMany(db.Room, { foreignKey: 'room_type_id', as: 'rooms' });
-db.Room.belongsTo(db.RoomType, { foreignKey: 'room_type_id', as: 'room_type' });
+db.RoomType.hasMany(db.Room, { foreignKey: 'room_type_id', as: 'rooms', constraints: false });
+db.Room.belongsTo(db.RoomType, { foreignKey: 'room_type_id', as: 'room_type', constraints: false });
 
 // Room <-> Booking
-db.Room.hasMany(db.Booking, { foreignKey: 'room_id', as: 'bookings' });
-db.Booking.belongsTo(db.Room, { foreignKey: 'room_id', as: 'room' });
+db.Room.hasMany(db.Booking, { foreignKey: 'room_id', as: 'bookings', constraints: false });
+db.Booking.belongsTo(db.Room, { foreignKey: 'room_id', as: 'room', constraints: false });
 
 // Booking <-> Payment
-db.Booking.hasMany(db.Payment, { foreignKey: 'booking_id', as: 'payments' });
-db.Payment.belongsTo(db.Booking, { foreignKey: 'booking_id', as: 'booking' });
+db.Booking.hasMany(db.Payment, { foreignKey: 'booking_id', as: 'payments', constraints: false });
+db.Payment.belongsTo(db.Booking, { foreignKey: 'booking_id', as: 'booking', constraints: false });
 
 // Department <-> Employee
-db.Department.hasMany(db.Employee, { foreignKey: 'department_id', as: 'employees' });
-db.Employee.belongsTo(db.Department, { foreignKey: 'department_id', as: 'department' });
+db.Department.hasMany(db.Employee, { foreignKey: 'department_id', as: 'employees', constraints: false });
+db.Employee.belongsTo(db.Department, { foreignKey: 'department_id', as: 'department', constraints: false });
 
 // User <-> Employee
-db.User.hasOne(db.Employee, { foreignKey: 'user_id', as: 'employee' });
-db.Employee.belongsTo(db.User, { foreignKey: 'user_id', as: 'user' });
+db.User.hasOne(db.Employee, { foreignKey: 'user_id', as: 'employee', constraints: false });
+db.Employee.belongsTo(db.User, { foreignKey: 'user_id', as: 'user', constraints: false });
 
 // Hotel <-> Room
-db.Hotel.hasMany(db.Room, { foreignKey: 'hotel_id', as: 'rooms' });
-db.Room.belongsTo(db.Hotel, { foreignKey: 'hotel_id', as: 'hotel' });
+db.Hotel.hasMany(db.Room, { foreignKey: 'hotel_id', as: 'rooms', constraints: false });
+db.Room.belongsTo(db.Hotel, { foreignKey: 'hotel_id', as: 'hotel', constraints: false });
 
 module.exports = db;
