@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `users`;
 
 -- Users
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(150) DEFAULT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
@@ -50,7 +50,6 @@ CREATE TABLE IF NOT EXISTS `hotels` (
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_hotels_created_by` (`created_by`)
-  /* foreign key to users(created_by) added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Departments
@@ -63,13 +62,12 @@ CREATE TABLE IF NOT EXISTS `departments` (
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_departments_manager` (`manager_id`)
-  /* foreign key to users(manager_id) added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Employees
 CREATE TABLE IF NOT EXISTS `employees` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` INT UNSIGNED NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
   `employee_id` VARCHAR(100) NOT NULL,
   `department_id` INT UNSIGNED DEFAULT NULL,
   `position` VARCHAR(150) DEFAULT NULL,
@@ -84,7 +82,6 @@ CREATE TABLE IF NOT EXISTS `employees` (
   UNIQUE KEY `ux_employees_employee_id` (`employee_id`),
   KEY `idx_employees_user` (`user_id`),
   KEY `idx_employees_department` (`department_id`)
-  /* foreign keys to users and departments added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Room types
@@ -118,7 +115,6 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   UNIQUE KEY `ux_rooms_room_number` (`room_number`),
   KEY `idx_rooms_hotel` (`hotel_id`),
   KEY `idx_rooms_room_type` (`room_type_id`)
-  /* foreign keys to hotels and room_types added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Guests
@@ -165,7 +161,6 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   KEY `idx_bookings_room` (`room_id`),
   KEY `idx_bookings_guest` (`guest_id`),
   KEY `idx_bookings_user` (`user_id`)
-  /* foreign keys to rooms/guests/users/hotels added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Payments
@@ -184,7 +179,6 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idx_payments_booking` (`booking_id`)
-  /* foreign key to bookings added after tables are created */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Sample seed data
@@ -214,17 +208,10 @@ INSERT INTO `payments` (`booking_id`,`amount`,`currency`,`payment_method`,`payme
 (1,100.00,'USD','Stripe','pending','txn_sample_1');
 
 -- Add foreign key constraints after all tables are created
-ALTER TABLE `hotels` ADD CONSTRAINT `fk_hotels_created_by` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `departments` ADD CONSTRAINT `fk_departments_manager` FOREIGN KEY (`manager_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `employees` ADD CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE `employees` ADD CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `rooms` ADD CONSTRAINT `fk_rooms_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `rooms` ADD CONSTRAINT `fk_rooms_room_type` FOREIGN KEY (`room_type_id`) REFERENCES `room_types`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_room` FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_guest` FOREIGN KEY (`guest_id`) REFERENCES `guests`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+-- Foreign key constraints have been extracted to `schema-fks.sql`.
+-- If you want to apply constraints after creating tables, run:
+--   mysql -u <user> -p < server/db/schema-fks.sql
+-- or use the node script: `node scripts/apply-fks.js` (not created by default).
 
 -- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;

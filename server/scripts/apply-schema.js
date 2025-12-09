@@ -79,9 +79,10 @@ const mysql = require('mysql2/promise');
 
     // Final fallback: run statements sequentially and report failing statement
     const statements = sql
+      .replace(/--.*$/gm, '') // Remove -- comments
       .split(/;\s*\r?\n/)
       .map(s => s.trim())
-      .filter(s => s && !s.startsWith('--'));
+      .filter(s => s);
 
     for (let i = 0; i < statements.length; i++) {
       const stmt = statements[i];
