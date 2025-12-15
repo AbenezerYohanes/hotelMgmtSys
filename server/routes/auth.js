@@ -2,10 +2,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
-const { query } = require('../database/config');
-// If MongoDB is available, prefer mongoose-backed User model
-let UserMongo = null;
-try { UserMongo = require('../models/User'); } catch (e) { UserMongo = null; }
+const db = require('../config/db');
+const { Op } = require('sequelize');
+const User = db.User;
 const { authenticateToken } = require('../middleware/auth');
 const { requireRole, requirePrivilege } = require('../middleware/rbac');
 const { auditLog } = require('../middleware/audit');
@@ -45,21 +44,16 @@ router.post('/register', [
     if (role === 'superadmin') role = 'super_admin';
     if (role === 'user') role = 'client';
 
-    // Check if user already exists (Mongo or mongoose)
-    if (UserMongo) {
-      const found = await UserMongo.findOne({ $or: [{ email }, { username: username || null }] }).lean();
-      if (found) {
-        return res.status(409).json({ success: false, message: 'Email or username already exists' });
+    // Check if user already exists
+    const existing = await User.findOne({
+      where: {
+        [Op.or]: [
+          { email },
+          { username: username || null }
+        ]
       }
-    } else {
-      const existingUser = await query(
-        'SELECT id FROM users WHERE email = ? OR username = ?',
-        [email, username || null]
-      );
-      if (existingUser.rows.length > 0) {
-        return res.status(409).json({ success: false, message: 'Email already exists' });
-      }
-    }
+    });
+    if (existing) return res.status(409).json({ success: false, message: 'Email or username already exists' });
 
     // Only super_admin can create admin accounts
     if (role === 'admin' || role === 'super_admin') {
@@ -70,10 +64,6 @@ router.post('/register', [
         });
       }
     }
-
-    // Hash password
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
 
     // Set default privileges based on role
     let defaultPrivileges = {};
@@ -94,39 +84,21 @@ router.post('/register', [
     // Override with provided privileges if any
     const userPrivileges = req.body.privileges ? { ...defaultPrivileges, ...req.body.privileges } : defaultPrivileges;
 
-    // Create user (MongoDB if available else mongoose)
-    let user = null;
-    if (UserMongo) {
-      const u = new UserMongo({
-        username: username || null,
-        email,
-        password_hash: passwordHash,
-        first_name: first_name || null,
-        last_name: last_name || null,
-        role,
-        privileges: userPrivileges,
-        is_active: true,
-        created_by: req.user?.id || null
-      });
-      user = await u.save();
-    } else {
-      const result = await query(
-        `INSERT INTO users (username, email, password_hash, first_name, last_name, role, privileges, is_active, created_by)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [username || null, email, passwordHash, first_name || null, last_name || null, role, JSON.stringify(userPrivileges), true, req.user?.id || null]
-      );
-
-      // Get the inserted user
-      const userResult = await query(
-        'SELECT id, email, username, first_name, last_name, role, privileges, is_active FROM users WHERE id = ?',
-        [result.insertId]
-      );
-
-      user = userResult.rows[0];
-    }
+    // Create user via Sequelize (User model hooks will hash password)
+    const user = await User.create({
+      username: username || null,
+      email,
+      password, // plain password - model hook will hash
+      first_name: first_name || null,
+      last_name: last_name || null,
+      role,
+      privileges: userPrivileges,
+      is_active: true,
+      created_by: req.user?.id || null
+    });
 
     // Audit log
-    await auditLog('user_created', req.user?.id || (user._id || user.id), (user._id || user.id), {
+    await auditLog('user_created', req.user?.id || user.id, user.id, {
       new_user_role: role,
       privileges: userPrivileges
     });
@@ -136,7 +108,7 @@ router.post('/register', [
       message: 'User created successfully',
       data: {
         user: {
-          id: user._id || user.id,
+          id: user.id,
           email: user.email,
           username: user.username,
           first_name: user.first_name,
@@ -172,10 +144,6 @@ router.post('/login', [
       });
     }
 
-    if (!UserMongo) {
-      return res.status(500).json({ success: false, message: 'Authentication not configured (MongoDB unavailable)' });
-    }
-
     const { email, username, password } = req.body;
     if (!email && !username) {
       return res.status(400).json({ success: false, message: 'Email or username is required' });
@@ -184,49 +152,19 @@ router.post('/login', [
     const identifier = email || username;
 
     // Find user by email OR username
-    const user = await UserMongo.findOne({ $or: [{ email: identifier }, { username: identifier }] }).lean();
+    const found = await User.findOne({ where: { [Op.or]: [{ email: identifier }, { username: identifier }] } });
+    if (!found) return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    if (!found.is_active) return res.status(401).json({ success: false, message: 'Account is suspended or deactivated' });
 
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
+    const isValid = await found.comparePassword(password);
+    if (!isValid) return res.status(401).json({ success: false, message: 'Invalid credentials' });
 
-    if (!user.is_active) {
-      return res.status(401).json({ success: false, message: 'Account is suspended or deactivated' });
-    }
+    const token = found.generateAuthToken();
+    await auditLog('user_login', String(found.id), null, { email: found.email, role: found.role });
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
-    if (!isValidPassword) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { userId: String(user._id), role: user.role, privileges: user.privileges },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-    );
-
-    // Audit log
-    await auditLog('user_login', String(user._id), null, { email: user.email, role: user.role });
-
-    res.json({
-      success: true,
-      message: 'Login successful',
-      data: {
-        user: {
-          id: String(user._id),
-          email: user.email,
-          username: user.username,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          role: user.role,
-          privileges: user.privileges,
-          is_active: user.is_active
-        },
-        token
-      }
-    });
+    res.json({ success: true, message: 'Login successful', data: { user: {
+      id: String(found.id), email: found.email, username: found.username, first_name: found.first_name, last_name: found.last_name, role: found.role, privileges: found.privileges, is_active: found.is_active
+    }, token } });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ success: false, message: 'Error during login' });
@@ -236,8 +174,7 @@ router.post('/login', [
 // Get current user profile
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    if (!UserMongo) return res.status(500).json({ success: false, message: 'Profile not available (MongoDB unavailable)' });
-    const user = await UserMongo.findById(req.user.userId).select('email username first_name last_name role privileges is_active created_at').lean();
+    const user = await User.findByPk(req.user.id, { attributes: ['id','email','username','first_name','last_name','role','privileges','is_active','created_at'] });
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
     res.json({ success: true, data: user });
   } catch (error) {
@@ -247,18 +184,19 @@ router.get('/profile', authenticateToken, async (req, res) => {
 });
 
 // Update user profile
-router.put('/profile', authenticateToken, [
-  body('first_name').optional().notEmpty().withMessage('First name cannot be empty'),
-  body('last_name').optional().notEmpty().withMessage('Last name cannot be empty')
-], async (req, res) => {
+router.put('/profile', authenticateToken, [ body('first_name').optional().notEmpty().withMessage('First name cannot be empty'), body('last_name').optional().notEmpty().withMessage('Last name cannot be empty') ], async (req, res) => {
   try {
-    if (!UserMongo) return res.status(500).json({ success: false, message: 'Profile update not available (MongoDB unavailable)' });
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, message: 'Validation error', errors: errors.array() });
     const { first_name, last_name } = req.body;
-    const updated = await UserMongo.findByIdAndUpdate(req.user.userId, { $set: { first_name: first_name || undefined, last_name: last_name || undefined } }, { new: true, select: 'email username first_name last_name role privileges is_active' }).lean();
-    if (!updated) return res.status(404).json({ success: false, message: 'User not found' });
-    res.json({ success: true, message: 'Profile updated successfully', data: updated });
+    const user = await User.findByPk(req.user.id);
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    user.first_name = first_name || user.first_name;
+    user.last_name = last_name || user.last_name;
+    await user.save();
+    res.json({ success: true, message: 'Profile updated successfully', data: {
+      id: user.id, email: user.email, username: user.username, first_name: user.first_name, last_name: user.last_name, role: user.role, privileges: user.privileges, is_active: user.is_active
+    }});
   } catch (error) {
     console.error('Profile update error:', error);
     res.status(500).json({ success: false, message: 'Error updating profile' });
@@ -266,22 +204,16 @@ router.put('/profile', authenticateToken, [
 });
 
 // Change password
-router.put('/change-password', authenticateToken, [
-  body('current_password').notEmpty().withMessage('Current password is required'),
-  body('new_password').isLength({ min: 6 }).withMessage('New password must be at least 6 characters')
-], async (req, res) => {
+router.put('/change-password', authenticateToken, [ body('current_password').notEmpty().withMessage('Current password is required'), body('new_password').isLength({ min: 6 }).withMessage('New password must be at least 6 characters') ], async (req, res) => {
   try {
-    if (!UserMongo) return res.status(500).json({ success: false, message: 'Password change not available (MongoDB unavailable)' });
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, message: 'Validation error', errors: errors.array() });
     const { current_password, new_password } = req.body;
-    const user = await UserMongo.findById(req.user.userId).select('password_hash');
+    const user = await User.findByPk(req.user.id);
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-    const isValidPassword = await bcrypt.compare(current_password, user.password_hash);
-    if (!isValidPassword) return res.status(401).json({ success: false, message: 'Current password is incorrect' });
-    const saltRounds = 10;
-    const newPasswordHash = await bcrypt.hash(new_password, saltRounds);
-    user.password_hash = newPasswordHash;
+    const isValid = await user.comparePassword(current_password);
+    if (!isValid) return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+    user.password = new_password; // model hook will hash on save
     await user.save();
     res.json({ success: true, message: 'Password changed successfully' });
   } catch (error) {

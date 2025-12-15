@@ -1,8 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { query } = require('../database/config');
 const { isManager } = require('../middleware/auth');
 const db = require('../config/db');
+const { Op } = require('sequelize');
 const Department = db && db.Department ? db.Department : null;
 const Employee = db && db.Employee ? db.Employee : null;
 const User = db && db.User ? db.User : null;
@@ -12,30 +12,16 @@ const router = express.Router();
 // Get all departments
 router.get('/departments', async (req, res) => {
   try {
-    if (Department) {
-      const docs = await Department.aggregate([
-        { $lookup: { from: 'users', localField: 'manager_id', foreignField: '_id', as: 'manager' } },
-        { $unwind: { path: '$manager', preserveNullAndEmptyArrays: true } },
-        { $project: { name: 1, description: 1, manager_id:1, manager_name: { $concat: ['$manager.first_name',' ','$manager.last_name'] } } },
-        { $sort: { name: 1 } }
-      ]);
-      return res.json({ success: true, data: docs });
-    }
-
-    const result = await query(`
-      SELECT d.*, u.first_name, u.last_name as manager_name
-      FROM departments d
-      LEFT JOIN users u ON d.manager_id = u.id
-      ORDER BY d.name
-    `);
-
-    res.json({ success: true, data: result.rows });
+    if (!Department) return res.status(500).json({ success: false, message: 'Department model not available' });
+    const deps = await Department.findAll({ order: [['name','ASC']] });
+    const data = await Promise.all(deps.map(async (d) => {
+      const mgr = d.manager_id && User ? await User.findByPk(d.manager_id, { attributes: ['first_name','last_name'] }) : null;
+      return { id: d.id, name: d.name, description: d.description, manager_id: d.manager_id, manager_name: mgr ? `${mgr.first_name} ${mgr.last_name}` : null };
+    }));
+    return res.json({ success: true, data });
   } catch (error) {
     console.error('Departments error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error fetching departments' 
-    });
+    res.status(500).json({ success: false, message: 'Error fetching departments' });
   }
 });
 
@@ -57,43 +43,10 @@ router.post('/departments', isManager, [
 
     const { name, description, manager_id } = req.body;
 
-    if (Department) {
-      const created = await Department.create({ name, description, manager_id: manager_id || null });
-      const doc = await Department.aggregate([
-        { $match: { _id: created._id } },
-        { $lookup: { from: 'users', localField: 'manager_id', foreignField: '_id', as: 'manager' } },
-        { $unwind: { path: '$manager', preserveNullAndEmptyArrays: true } },
-        { $project: { name:1, description:1, manager_id:1, manager_name: { $concat: ['$manager.first_name',' ','$manager.last_name'] } } }
-      ]);
-      return res.status(201).json({ success: true, message: 'Department created successfully', data: doc[0] });
-    }
-
-    // mongoose doesn't support RETURNING; perform INSERT then SELECT the created row
-    const insertResult = await query(
-      'INSERT INTO departments (name, description, manager_id) VALUES (?, ?, ?)',
-      [name, description, manager_id]
-    );
-
-    // insertResult.rows for INSERT is the OkPacket object from mongoose2
-    const insertedId = insertResult.rows && insertResult.rows.insertId;
-
-    if (!insertedId) {
-      // fallback: try to fetch by unique name if insertId not available
-      const fallback = await query('SELECT * FROM departments WHERE name = ? ORDER BY id DESC LIMIT 1', [name]);
-      return res.status(201).json({
-        success: true,
-        message: 'Department created successfully',
-        data: fallback.rows[0]
-      });
-    }
-
-    const created = await query('SELECT d.*, u.first_name, u.last_name as manager_name FROM departments d LEFT JOIN users u ON d.manager_id = u.id WHERE d.id = ?', [insertedId]);
-
-    res.status(201).json({
-      success: true,
-      message: 'Department created successfully',
-      data: created.rows[0]
-    });
+    if (!Department) return res.status(500).json({ success: false, message: 'Department model not available' });
+    const created = await Department.create({ name, description, manager_id: manager_id || null });
+    const mgr = created.manager_id && User ? await User.findByPk(created.manager_id, { attributes: ['first_name','last_name'] }) : null;
+    return res.status(201).json({ success: true, message: 'Department created successfully', data: { id: created.id, name: created.name, description: created.description, manager_id: created.manager_id, manager_name: mgr ? `${mgr.first_name} ${mgr.last_name}` : null } });
   } catch (error) {
     console.error('Department creation error:', error);
     res.status(500).json({ 
@@ -122,34 +75,12 @@ router.put('/departments/:id', isManager, [
     const { id } = req.params;
     const { name, description, manager_id } = req.body;
 
-    if (Department) {
-      const updated = await Department.findByIdAndUpdate(id, { $set: { name, description, manager_id: manager_id ? manager_id : undefined } }, { new: true }).lean();
-      if (!updated) return res.status(404).json({ success: false, message: 'Department not found' });
-      const doc = await Department.aggregate([
-        { $match: { _id: updated._id } },
-        { $lookup: { from: 'users', localField: 'manager_id', foreignField: '_id', as: 'manager' } },
-        { $unwind: { path: '$manager', preserveNullAndEmptyArrays: true } },
-        { $project: { name:1, description:1, manager_id:1, manager_name: { $concat: ['$manager.first_name',' ','$manager.last_name'] } } }
-      ]);
-      return res.json({ success: true, message: 'Department updated successfully', data: doc[0] });
-    }
-
-    const updateResult = await query(
-      `UPDATE departments SET 
-       name = COALESCE(?, name),
-       description = COALESCE(?, description),
-       manager_id = COALESCE(?, manager_id)
-       WHERE id = ?`,
-      [name, description, manager_id, id]
-    );
-
-    const updated = await query('SELECT d.*, u.first_name, u.last_name as manager_name FROM departments d LEFT JOIN users u ON d.manager_id = u.id WHERE d.id = ?', [id]);
-
-    if (!updated.rows || updated.rows.length === 0) {
-      return res.status(404).json({ success: false, message: 'Department not found' });
-    }
-
-    res.json({ success: true, message: 'Department updated successfully', data: updated.rows[0] });
+    if (!Department) return res.status(500).json({ success: false, message: 'Department model not available' });
+    const dept = await Department.findByPk(id);
+    if (!dept) return res.status(404).json({ success: false, message: 'Department not found' });
+    await dept.update({ name: name || dept.name, description: description || dept.description, manager_id: manager_id ? manager_id : dept.manager_id });
+    const mgr = dept.manager_id && User ? await User.findByPk(dept.manager_id, { attributes: ['first_name','last_name'] }) : null;
+    res.json({ success: true, message: 'Department updated successfully', data: { id: dept.id, name: dept.name, description: dept.description, manager_id: dept.manager_id, manager_name: mgr ? `${mgr.first_name} ${mgr.last_name}` : null } });
   } catch (error) {
     console.error('Department update error:', error);
     res.status(500).json({ 
@@ -163,64 +94,24 @@ router.put('/departments/:id', isManager, [
 router.get('/employees', async (req, res) => {
   try {
     const { page = 1, limit = 10, department_id, status } = req.query;
-    const offset = (page - 1) * limit;
-
-    if (Employee) {
-      const filter = {};
-      if (department_id) filter.department_id = parseInt(department_id, 10);
-      if (status) filter.status = status;
-      const [items, total] = await Promise.all([
-        Employee.find(filter).populate('user_id','first_name last_name email phone').populate('department_id','name').sort({ created_at: -1 }).limit(Number(limit)).skip(Number(offset)).lean(),
-        Employee.countDocuments(filter)
-      ]);
-      return res.json({ success: true, data: items, pagination: { page: Number(page), limit: Number(limit), total, pages: Math.ceil(total / Number(limit)) } });
-    }
-
-    // reuse `page`, `limit`, `department_id`, `status` from above
-
-    let whereClause = 'WHERE 1=1';
-    const params = [];
-
-    if (department_id) {
-      whereClause += ` AND e.department_id = ?`;
-      params.push(department_id);
-    }
-
-    if (status) {
-      whereClause += ` AND e.status = ?`;
-      params.push(status);
-    }
-
-    const result = await query(`
-      SELECT e.*, u.first_name, u.last_name, u.email, u.phone,
-             d.name as department_name
-      FROM employees e
-      LEFT JOIN users u ON e.user_id = u.id
-      LEFT JOIN departments d ON e.department_id = d.id
-      ${whereClause}
-      ORDER BY e.created_at DESC
-      LIMIT ? OFFSET ?
-    `, [...params, parseInt(limit), parseInt(offset)]);
-
-    // Get total count
-    const countResult = await query(`
-      SELECT COUNT(*) as total
-      FROM employees e
-      ${whereClause}
-    `, params);
-
-    const total = parseInt(countResult.rows[0].total);
-
-    res.json({
-      success: true,
-      data: result.rows,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        pages: Math.ceil(total / limit)
-      }
+    const offset = (Number(page) - 1) * Number(limit);
+    if (!Employee) return res.status(500).json({ success: false, message: 'Employee model not available' });
+    const where = {};
+    if (department_id) where.department_id = Number(department_id);
+    if (status) where.status = status;
+    const { rows: items, count: total } = await Employee.findAndCountAll({
+      where,
+      include: [{ model: Department, attributes: ['id','name'] }],
+      order: [['created_at','DESC']],
+      limit: Number(limit),
+      offset: Number(offset)
     });
+    // Attach user info for each employee
+    const mapped = await Promise.all(items.map(async (e) => {
+      const user = e.user_id && User ? await User.findByPk(e.user_id, { attributes: ['first_name','last_name','email','phone'] }) : null;
+      return Object.assign({}, e.get ? e.get({ plain: true }) : e, { user: user ? { first_name: user.first_name, last_name: user.last_name, email: user.email, phone: user.phone } : null });
+    }));
+    res.json({ success: true, data: mapped, pagination: { page: Number(page), limit: Number(limit), total, pages: Math.ceil(total / Number(limit)) } });
   } catch (error) {
     console.error('Employees error:', error);
     res.status(500).json({ 
@@ -256,42 +147,15 @@ router.post('/employees', isManager, [
       salary, emergency_contact, emergency_phone 
     } = req.body;
 
-    if (Employee) {
-      // Check uniqueness by employee_id
-      const exists = await Employee.findOne({ $or: [{ employee_id }, { user_id }] }).lean();
-      if (exists) return res.status(409).json({ success: false, message: 'Employee already exists' });
-      const created = await Employee.create({ user_id, employee_id, department_id: department_id || null, position, hire_date, salary, emergency_contact, emergency_phone });
-      return res.status(201).json({ success: true, message: 'Employee created successfully', data: created });
-    }
-
-    // mongoose fallback
-    const existingEmployee = await query(
-      'SELECT id FROM employees WHERE employee_id = ? OR user_id = ?',
-      [employee_id, user_id]
-    );
-
-    if (existingEmployee.rows.length > 0) {
-      return res.status(409).json({ 
-        success: false, 
-        message: 'Employee already exists' 
-      });
-    }
-
-    const insertRes = await query(
-      `INSERT INTO employees (user_id, employee_id, department_id, position, hire_date, 
-       salary, emergency_contact, emergency_phone)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [user_id, employee_id, department_id, position, hire_date, salary, emergency_contact, emergency_phone]
-    );
-
-    const insertedId = insertRes.rows && insertRes.rows.insertId;
-    if (!insertedId) {
-      // fallback: return minimal info
-      return res.status(201).json({ success: true, message: 'Employee created successfully' });
-    }
-
-    const created = await query('SELECT * FROM employees WHERE id = ?', [insertedId]);
-    res.status(201).json({ success: true, message: 'Employee created successfully', data: created.rows[0] });
+    if (!Employee) return res.status(500).json({ success: false, message: 'Employee model not available' });
+    // Check uniqueness by employee_id or user_id
+    const exists = await Employee.findOne({ where: { [Op.or]: [{ employee_id }, { user_id }] } });
+    if (exists) return res.status(409).json({ success: false, message: 'Employee already exists' });
+    const created = await Employee.create({ user_id, employee_id, department_id: department_id || null, position, hire_date, salary, emergency_contact, emergency_phone });
+    // Attach user and department info
+    const user = created.user_id && User ? await User.findByPk(created.user_id, { attributes: ['first_name','last_name','email','phone'] }) : null;
+    const dept = created.department_id && Department ? await Department.findByPk(created.department_id) : null;
+    res.status(201).json({ success: true, message: 'Employee created successfully', data: Object.assign({}, created.get({ plain: true }), { user: user ? { first_name: user.first_name, last_name: user.last_name, email: user.email, phone: user.phone } : null, department_name: dept ? dept.name : null }) });
   } catch (error) {
     console.error('Employee creation error:', error);
     res.status(500).json({ 
@@ -323,31 +187,13 @@ router.put('/employees/:id', isManager, [
     const { id } = req.params;
     const { department_id, position, salary, status, emergency_contact, emergency_phone } = req.body;
 
-    if (Employee) {
-      const updated = await Employee.findByIdAndUpdate(id, { $set: { department_id: department_id ? department_id : undefined, position, salary, status, emergency_contact, emergency_phone, updated_at: new Date() } }, { new: true }).lean();
-      if (!updated) return res.status(404).json({ success: false, message: 'Employee not found' });
-      return res.json({ success: true, message: 'Employee updated successfully', data: updated });
-    }
-
-    await query(
-      `UPDATE employees SET 
-       department_id = COALESCE(?, department_id),
-       position = COALESCE(?, position),
-       salary = COALESCE(?, salary),
-       status = COALESCE(?, status),
-       emergency_contact = COALESCE(?, emergency_contact),
-       emergency_phone = COALESCE(?, emergency_phone),
-       updated_at = CURRENT_TIMESTAMP
-       WHERE id = ?`,
-      [department_id, position, salary, status, emergency_contact, emergency_phone, id]
-    );
-
-    const updatedEmp = await query('SELECT * FROM employees WHERE id = ?', [id]);
-    if (!updatedEmp.rows || updatedEmp.rows.length === 0) {
-      return res.status(404).json({ success: false, message: 'Employee not found' });
-    }
-
-    res.json({ success: true, message: 'Employee updated successfully', data: updatedEmp.rows[0] });
+    if (!Employee) return res.status(500).json({ success: false, message: 'Employee model not available' });
+    const emp = await Employee.findByPk(id);
+    if (!emp) return res.status(404).json({ success: false, message: 'Employee not found' });
+    await emp.update({ department_id: department_id ? department_id : emp.department_id, position: position || emp.position, salary: salary || emp.salary, status: status || emp.status, emergency_contact: emergency_contact || emp.emergency_contact, emergency_phone: emergency_phone || emp.emergency_phone });
+    const user = emp.user_id && User ? await User.findByPk(emp.user_id, { attributes: ['first_name','last_name','email','phone'] }) : null;
+    const dept = emp.department_id && Department ? await Department.findByPk(emp.department_id) : null;
+    res.json({ success: true, message: 'Employee updated successfully', data: Object.assign({}, emp.get({ plain: true }), { user: user ? { first_name: user.first_name, last_name: user.last_name, email: user.email, phone: user.phone } : null, department_name: dept ? dept.name : null }) });
   } catch (error) {
     console.error('Employee update error:', error);
     res.status(500).json({ 
@@ -361,26 +207,11 @@ router.put('/employees/:id', isManager, [
 router.get('/employees/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    if (Employee) {
-      const doc = await Employee.findById(id).populate('user_id','first_name last_name email phone address').populate('department_id','name').lean();
-      if (!doc) return res.status(404).json({ success: false, message: 'Employee not found' });
-      return res.json({ success: true, data: doc });
-    }
-
-    const result = await query(`
-      SELECT e.*, u.first_name, u.last_name, u.email, u.phone, u.address,
-             d.name as department_name
-      FROM employees e
-      LEFT JOIN users u ON e.user_id = u.id
-      LEFT JOIN departments d ON e.department_id = d.id
-      WHERE e.id = ?
-    `, [id]);
-
-    if (!result.rows || result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: 'Employee not found' });
-    }
-
-    res.json({ success: true, data: result.rows[0] });
+    if (!Employee) return res.status(500).json({ success: false, message: 'Employee model not available' });
+    const emp = await Employee.findByPk(id, { include: [{ model: Department, attributes: ['id','name'] }] });
+    if (!emp) return res.status(404).json({ success: false, message: 'Employee not found' });
+    const user = emp.user_id && User ? await User.findByPk(emp.user_id, { attributes: ['first_name','last_name','email','phone','address'] }) : null;
+    res.json({ success: true, data: Object.assign({}, emp.get({ plain: true }), { user: user ? user.get({ plain: true }) : null, department_name: emp.Department ? emp.Department.name : null }) });
   } catch (error) {
     console.error('Employee details error:', error);
     res.status(500).json({ 
@@ -393,86 +224,38 @@ router.get('/employees/:id', async (req, res) => {
 // Get HR dashboard statistics
 router.get('/dashboard', async (req, res) => {
   try {
-    if (Employee && Department) {
-      // Use raw queries for aggregated stats via SQL
-      // Total employees
-      const totalRes = await query('SELECT COUNT(*) as count FROM employees WHERE status = ?', ['active']);
-      const totalEmployees = parseInt(totalRes.rows[0].count || 0);
-
-      // Employees by department
-      const employeesByDept = await query(`
-        SELECT d.id, d.name, COUNT(e.id) as count
-        FROM departments d
-        LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
-        GROUP BY d.id, d.name
-        ORDER BY count DESC
-      `);
-
-      // Recent hires (last 30 days)
-      const recentHires = await query(`
-        SELECT e.*, u.first_name, u.last_name
-        FROM employees e
-        LEFT JOIN users u ON e.user_id = u.id
-        WHERE e.hire_date >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
-        ORDER BY e.hire_date DESC
-        LIMIT 5
-      `);
-
-      // Average salary by department
-      const avgSalaryByDept = await query(`
-        SELECT d.name, AVG(e.salary) as avg_salary
-        FROM departments d
-        LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
-        GROUP BY d.id, d.name
-        HAVING AVG(e.salary) IS NOT NULL
-        ORDER BY avg_salary DESC
-      `);
-
-      return res.json({ success: true, data: { totalEmployees, employeesByDepartment: employeesByDept.rows, recentHires: recentHires.rows, averageSalaryByDepartment: avgSalaryByDept.rows } });
-    }
-
+    if (!Employee || !Department) return res.status(500).json({ success: false, message: 'Models not available' });
     // Total employees
-    const totalEmployees = await query('SELECT COUNT(*) as count FROM employees WHERE status = ?', ['active']);
-    
+    const totalRes = await db.sequelize.query('SELECT COUNT(*) as count FROM employees WHERE status = ?', { replacements: ['active'], type: db.Sequelize.QueryTypes.SELECT });
+    const totalEmployees = parseInt(totalRes[0].count || 0);
     // Employees by department
-    const employeesByDept = await query(`
-      SELECT d.name, COUNT(e.id) as count
+    const employeesByDept = await db.sequelize.query(`
+      SELECT d.id, d.name, COUNT(e.id) as count
       FROM departments d
       LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
       GROUP BY d.id, d.name
       ORDER BY count DESC
-    `);
-
-    // Recent hires (last 30 days)
-    const recentHires = await query(`
-      SELECT e.*, u.first_name, u.last_name, d.name as department_name
+    `, { type: db.Sequelize.QueryTypes.SELECT });
+    // Recent hires
+    const recentHires = await db.sequelize.query(`
+      SELECT e.*, u.first_name, u.last_name
       FROM employees e
       LEFT JOIN users u ON e.user_id = u.id
-      LEFT JOIN departments d ON e.department_id = d.id
-  WHERE e.hire_date >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
+      WHERE e.hire_date >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
       ORDER BY e.hire_date DESC
       LIMIT 5
-    `);
-
+    `, { type: db.Sequelize.QueryTypes.SELECT });
     // Average salary by department
-    const avgSalaryByDept = await query(`
+    const avgSalaryByDept = await db.sequelize.query(`
       SELECT d.name, AVG(e.salary) as avg_salary
       FROM departments d
       LEFT JOIN employees e ON d.id = e.department_id AND e.status = 'active'
       GROUP BY d.id, d.name
       HAVING AVG(e.salary) IS NOT NULL
       ORDER BY avg_salary DESC
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
-    res.json({
-      success: true,
-      data: {
-        totalEmployees: parseInt(totalEmployees.rows[0].count),
-        employeesByDepartment: employeesByDept.rows,
-        recentHires: recentHires.rows,
-        averageSalaryByDepartment: avgSalaryByDept.rows
-      }
-    });
+    res.json({ success: true, data: { totalEmployees, employeesByDepartment: employeesByDept, recentHires, averageSalaryByDepartment: avgSalaryByDept } });
   } catch (error) {
     console.error('HR dashboard error:', error);
     res.status(500).json({ 
