@@ -1,0 +1,81 @@
+{
+  "timestamp": "2025-12-15T13:22:59.799Z",
+  "base": "http://localhost:5000",
+  "tests": [
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/api/health",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "rooms",
+      "method": "GET",
+      "path": "/api/rooms",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "bookings_list",
+      "method": "GET",
+      "path": "/api/bookings",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "payments",
+      "method": "GET",
+      "path": "/api/payments",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "hr_dashboard",
+      "method": "GET",
+      "path": "/api/hr/dashboard",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "guests_list",
+      "method": "GET",
+      "path": "/api/guests",
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    },
+    {
+      "name": "create_guest",
+      "method": "POST",
+      "path": "/api/guests",
+      "payload": {
+        "first_name": "Smoke",
+        "last_name": "Tester",
+        "email": "smoke+1765804993906@example.com"
+      },
+      "result": {
+        "ok": 0,
+        "status": 0,
+        "body": ""
+      }
+    }
+  ]
+}

@@ -11,13 +11,13 @@ This document describes the primary server endpoints and safe migration steps.
 1. Backup your current database:
 
 ```bash
-mongoose_dump -u $DB_USER -p $DB_NAME > backup_$(date +%Y%m%d_%H%M%S).sql
+mysqldump -u $DB_USER -p $DB_NAME > backup_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 2. Apply the schema SQL (from `server/database/schema.sql`):
 
 ```bash
-mongoose -u $DB_USER -p $DB_NAME < server/database/schema.sql
+mysql -u $DB_USER -p $DB_NAME < server/database/schema.sql
 ```
 
 Notes:

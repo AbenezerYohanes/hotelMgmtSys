@@ -1,6 +1,6 @@
 # Hotel & HR Management System MVP
 
-A complete Hotel Management System integrated with HR Management capabilities built with Node.js, mongoose, and React.js. This MVP provides essential hotel operations including booking management, room management, guest management, payment tracking, employee management, attendance tracking, and payroll generation.
+A complete Hotel Management System integrated with HR Management capabilities built with Node.js, MySQL (Sequelize), and React.js. This MVP provides essential hotel operations including booking management, room management, guest management, payment tracking, employee management, attendance tracking, and payroll generation.
 
 ## Features
 
@@ -40,7 +40,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 
 - **Node.js**: Runtime environment
 - **Express.js**: Web framework
-- **mongoose**: Database (via XAMPP)
+- **MySQL (Sequelize)**: Database (local MySQL / MariaDB or remote)
 - **JWT**: Authentication
 - **bcryptjs**: Password hashing
 - **express-validator**: Input validation
@@ -61,7 +61,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- XAMPP (for mongoose database)
+- MySQL or MariaDB server (local or remote)
 - npm or yarn
 
 ### Setup Instructions
@@ -95,12 +95,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 
 4. **Set up the database**
 
-   ```bash
-   # Start XAMPP mongoose service
-   # Then run database setup
-   setup-mongoose.bat  # Windows
-   ./setup-mongoose.sh # Linux/Mac
-   ```
+   Start your MySQL/MariaDB server, then apply the SQL schema in `server/database/schema.sql` using the `mysql` client or the provided migration scripts.
 
 5. **Start the development servers**
 
@@ -167,7 +162,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 
 ## Database Schema
 
-The system uses mongoose with the following main tables:
+The system uses MySQL (managed via Sequelize) with the following main tables:
 
 - **users**: System users and authentication
 - **departments**: Hotel departments

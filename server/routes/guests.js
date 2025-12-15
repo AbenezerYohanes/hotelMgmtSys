@@ -1,6 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { query } = require('../database/config');
+const db = require('../config/db');
+const GuestModel = db && db.Guest ? db.Guest : null;
 
 const router = express.Router();
 
@@ -12,21 +14,20 @@ router.get('/', async (req, res) => {
 
     let whereClause = 'WHERE 1=1';
     const params = [];
-    let paramCount = 0;
 
     if (search) {
-      paramCount++;
-      // mongoose doesn't support ILIKE. Use case-insensitive search via LOWER(... ) LIKE LOWER(...)
-      whereClause += ` AND (LOWER(first_name) LIKE LOWER($${paramCount}) OR LOWER(last_name) LIKE LOWER($${paramCount}) OR LOWER(email) LIKE LOWER($${paramCount}) OR LOWER(phone) LIKE LOWER($${paramCount}))`;
-      params.push(`%${search}%`);
+      // case-insensitive search via LOWER(...) LIKE ?
+      whereClause += ' AND (LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(phone) LIKE ?)';
+      const s = `%${String(search).toLowerCase()}%`;
+      params.push(s, s, s, s);
     }
 
     const result = await query(`
       SELECT * FROM guests
       ${whereClause}
       ORDER BY created_at DESC
-      LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
-    `, [...params, limit, offset]);
+      LIMIT ? OFFSET ?
+    `, [...params, Number(limit), Number(offset)]);
 
     // Get total count
     const countResult = await query(`
@@ -82,7 +83,13 @@ router.post('/', [
       id_type, id_number, nationality 
     } = req.body;
 
-    // mongoose: INSERT then SELECT the created row
+    // Prefer Sequelize model if available
+    if (GuestModel) {
+      const created = await GuestModel.create({ first_name, last_name, email, phone, address, id_type, id_number, nationality });
+      return res.status(201).json({ success: true, message: 'Guest created successfully', data: created.get({ plain: true }) });
+    }
+
+    // Fallback to raw query
     const insertResult = await query(
       `INSERT INTO guests (first_name, last_name, email, phone, address, id_type, id_number, nationality)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -91,7 +98,6 @@ router.post('/', [
 
     const insertedId = insertResult.rows && insertResult.rows.insertId;
     if (!insertedId) {
-      // fallback: try fetching by unique combination
       const fallback = await query('SELECT * FROM guests WHERE first_name = ? AND last_name = ? ORDER BY id DESC LIMIT 1', [first_name, last_name]);
       return res.status(201).json({ success: true, message: 'Guest created successfully', data: fallback.rows[0] });
     }
@@ -133,6 +139,13 @@ router.put('/:id', [
       first_name, last_name, email, phone, address, 
       id_type, id_number, nationality 
     } = req.body;
+
+    if (GuestModel) {
+      const guest = await GuestModel.findByPk(id);
+      if (!guest) return res.status(404).json({ success: false, message: 'Guest not found' });
+      await guest.update({ first_name, last_name, email, phone, address, id_type, id_number, nationality });
+      return res.json({ success: true, message: 'Guest updated successfully', data: guest.get({ plain: true }) });
+    }
 
     const updateResult = await query(
       `UPDATE guests SET 

@@ -31,13 +31,13 @@ This MVP provides a complete Hotel Management System integrated with HR Manageme
 
 - **Frontend**: React.js, Tailwind CSS, Axios
 - **Backend**: Node.js, Express.js, JWT
-  -- **Database**: mongoose (via XAMPP)
+  -- **Database**: MySQL (via local MySQL / MariaDB)
 - **Authentication**: JWT tokens
 
 ## 📋 Prerequisites
 
 1. **Node.js** (v14 or higher)
-2. **XAMPP** (for mongoose database)
+2. **MySQL / MariaDB** (local or hosted)
 3. **Git** (for cloning the repository)
 
 ## 🚀 Installation & Setup
@@ -64,19 +64,15 @@ cd ..
 
 #### Option A: Using XAMPP (Recommended for Windows)
 
-1. **Start XAMPP Services**
+1. **Start MySQL/MariaDB Service**
 
-   - Open XAMPP Control Panel
-   - Start Apache and mongoose services
+   - Ensure your MySQL or MariaDB server is running (system service or managed instance)
 
 2. **Run Database Setup**
 
    ```bash
-   # Windows
-   setup-mongoose.bat
-
-   # Linux/Mac
-   ./setup-mongoose.sh
+   # Import schema using mysql client
+   mysql -u root -p hotel_management < server/database/schema.sql
    ```
 
 #### Option B: Manual Database Setup
@@ -90,7 +86,7 @@ cd ..
 2. **Import Schema**
 
    ```bash
-   mongoose -u root -p hotel_management < server/database/schema.sql
+   mysql -u root -p hotel_management < server/database/schema.sql
    ```
 
 3. **Run Setup Script**
@@ -122,7 +118,7 @@ FRONTEND_URL=http://localhost:3000
 BACKEND_URL=http://localhost:5000
 ```
 
-**Note**: Update the `DB_PASSWORD` if your mongoose has a password, and change the `JWT_SECRET` for production use.
+**Note**: Update the `DB_PASSWORD` if your database has a password, and change the `JWT_SECRET` for production use.
 
 ### Step 4: Start the Application
 

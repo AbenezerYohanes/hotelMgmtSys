@@ -40,16 +40,16 @@ try {
   if (User && Hotel) User.belongsTo(Hotel, { foreignKey: 'hotel_id' });
   if (Hotel && User) Hotel.hasMany(User, { foreignKey: 'hotel_id' });
 
-  if (Room && RoomType) Room.belongsTo(RoomType, { foreignKey: 'room_type_id' });
-  if (RoomType && Room) RoomType.hasMany(Room, { foreignKey: 'room_type_id' });
+  if (Room && RoomType) Room.belongsTo(RoomType, { foreignKey: 'room_type_id', as: 'room_type' });
+  if (RoomType && Room) RoomType.hasMany(Room, { foreignKey: 'room_type_id', as: 'rooms' });
 
-  if (Booking && Room) Booking.belongsTo(Room, { foreignKey: 'room_id' });
-  if (Booking && Guest) Booking.belongsTo(Guest, { foreignKey: 'guest_id' });
-  if (Booking && User) Booking.belongsTo(User, { foreignKey: 'user_id' });
+  if (Booking && Room) Booking.belongsTo(Room, { foreignKey: 'room_id', as: 'room' });
+  if (Booking && Guest) Booking.belongsTo(Guest, { foreignKey: 'guest_id', as: 'guest' });
+  if (Booking && User) Booking.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 
-  if (Payment && Booking) Payment.belongsTo(Booking, { foreignKey: 'booking_id' });
+  if (Payment && Booking) Payment.belongsTo(Booking, { foreignKey: 'booking_id', as: 'booking' });
 
-  if (Employee && Department) Employee.belongsTo(Department, { foreignKey: 'department_id' });
+  if (Employee && Department) Employee.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
 } catch (e) {
   // ignore association errors at startup
 }

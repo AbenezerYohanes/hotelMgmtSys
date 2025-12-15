@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     if (!Payment) return res.status(500).json({ success: false, message: 'Payment model not available' });
-    const items = await Payment.findAll({ include: [{ model: Booking, include: [{ model: Guest }] }] });
+    const items = await Payment.findAll({ include: [{ model: Booking, as: 'booking', include: [{ model: Guest, as: 'guest' }] }] });
     const mapped = items.map(i => {
       const plain = i.get ? i.get({ plain: true }) : i;
       return {

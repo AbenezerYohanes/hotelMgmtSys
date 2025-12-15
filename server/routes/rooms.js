@@ -101,7 +101,7 @@ router.get('/', async (req, res) => {
 
     const { rows: items, count: total } = await Room.findAndCountAll({
       where,
-      include: [{ model: RoomType }],
+      include: [{ model: RoomType, as: 'room_type' }],
       order: [['room_number','ASC']],
       limit: Number(limit),
       offset
@@ -218,7 +218,7 @@ router.get('/availability', async (req, res) => {
     const where = { status: 'available' };
     if (room_type_id) where.room_type_id = Number(room_type_id);
     if (bookedRoomIds.length > 0) where.id = { [Op.notIn]: bookedRoomIds };
-    const rooms = await Room.findAll({ where, include: [{ model: RoomType }], order: [['room_number','ASC']] });
+    const rooms = await Room.findAll({ where, include: [{ model: RoomType, as: 'room_type' }], order: [['room_number','ASC']] });
     res.json({ success: true, data: rooms });
   } catch (error) {
     console.error('Room availability error:', error);
@@ -235,7 +235,7 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     if (!Room) return res.status(500).json({ success: false, message: 'Rooms model not available' });
-    const room = await Room.findByPk(id, { include: [{ model: RoomType }] });
+    const room = await Room.findByPk(id, { include: [{ model: RoomType, as: 'room_type' }] });
     if (!room) return res.status(404).json({ success: false, message: 'Room not found' });
     res.json({ success: true, data: room });
   } catch (error) {

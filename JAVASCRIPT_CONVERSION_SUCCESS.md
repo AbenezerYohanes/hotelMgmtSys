@@ -6,7 +6,7 @@
 
 - ✅ **Server**: Running on port 5000
 - ✅ **Client**: Running on port 3001 (React app)
-- ✅ **XAMPP**: mongoose and Apache services running
+  -- ✅ **XAMPP**: MySQL/MariaDB and Apache services running
 - ✅ **Database**: Connected and operational
 
 ### 🌐 **Access URLs:**
@@ -73,7 +73,8 @@ npm run check-status-win
 
 ### **Database Issues:**
 
-- Ensure XAMPP mongoose service is running
+-- Ensure MySQL/MariaDB service is running
+
 - Run `npm run test-connection` to verify database connection
 
 ### **Client Issues:**
@@ -101,4 +102,4 @@ aHotelManagementSystem/
 
 ---
 
-**🎉 Your hotel management system is now running as a pure JavaScript application with XAMPP!**
+**🎉 Your hotel management system is now running as a pure JavaScript application with MySQL/MariaDB!**

@@ -12,6 +12,7 @@ const db = require('./config/db');
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require('./routes/rooms');
+const guestsRoutes = require('./routes/guests');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const hrRoutes = require('./routes/hr');
@@ -47,6 +48,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/guests', guestsRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/hr', hrRoutes);
 

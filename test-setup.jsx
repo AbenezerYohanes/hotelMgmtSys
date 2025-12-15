@@ -40,7 +40,7 @@ try {
   const serverPkg = JSON.parse(fs.readFileSync('server/package.json', 'utf8'));
   const clientPkg = JSON.parse(fs.readFileSync('client/package.json', 'utf8'));
   
-  const requiredServerDeps = ['express', 'mongoose2', 'jsonwebtoken', 'bcryptjs'];
+  const requiredServerDeps = ['express', 'mysql2', 'jsonwebtoken', 'bcryptjs'];
   const requiredClientDeps = ['react', 'react-router-dom', 'axios', 'react-hot-toast'];
   
   let serverDepsOk = true;
@@ -166,7 +166,7 @@ try {
 console.log('🎯 MVP Setup Test Complete!');
 console.log('============================');
 console.log('\n📋 Next Steps:');
-console.log('1. Start mongoose database (XAMPP or local mongoose)');
+console.log('1. Start MySQL / MariaDB database (local or managed)');
 console.log('2. Run: npm run dev (to start both servers)');
 console.log('3. Open http://localhost:3000 in your browser');
 console.log('4. Login with: admin / admin123');

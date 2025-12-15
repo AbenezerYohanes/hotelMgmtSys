@@ -1,0 +1,270 @@
+{
+  "timestamp": "2025-12-15T13:17:34.047Z",
+  "base": "http://localhost:5000",
+  "tests": [
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/api/health",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "status": "OK",
+          "database": "MySQL (Sequelize)"
+        }
+      }
+    },
+    {
+      "name": "rooms",
+      "method": "GET",
+      "path": "/api/rooms",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "success": true,
+          "data": [
+            {
+              "amenities": [],
+              "id": 1,
+              "room_number": "101",
+              "floor": 1,
+              "hotel_id": 1,
+              "room_type_id": 1,
+              "status": "available",
+              "is_clean": true,
+              "notes": null,
+              "created_at": "2025-12-09T22:50:08.000Z",
+              "updated_at": "2025-12-09T22:50:08.000Z",
+              "room_type": {
+                "amenities": [],
+                "id": 1,
+                "name": "Single",
+                "description": "Single bed",
+                "base_price": "50.00",
+                "capacity": 1,
+                "created_at": "2025-12-09T22:50:08.000Z",
+                "updated_at": "2025-12-09T22:50:08.000Z"
+              }
+            },
+            {
+              "amenities": [],
+              "id": 2,
+              "room_number": "102",
+              "floor": 1,
+              "hotel_id": 1,
+              "room_type_id": 2,
+              "status": "available",
+              "is_clean": true,
+              "notes": null,
+              "created_at": "2025-12-09T22:50:08.000Z",
+              "updated_at": "2025-12-09T22:50:08.000Z",
+              "room_type": {
+                "amenities": [],
+                "id": 2,
+                "name": "Double",
+                "description": "Double bed",
+                "base_price": "80.00",
+                "capacity": 2,
+                "created_at": "2025-12-09T22:50:08.000Z",
+                "updated_at": "2025-12-09T22:50:08.000Z"
+              }
+            },
+            {
+              "amenities": [],
+              "id": 3,
+              "room_number": "201",
+              "floor": 2,
+              "hotel_id": 1,
+              "room_type_id": 3,
+              "status": "available",
+              "is_clean": true,
+              "notes": null,
+              "created_at": "2025-12-09T22:50:08.000Z",
+              "updated_at": "2025-12-09T22:50:08.000Z",
+              "room_type": {
+                "amenities": [],
+                "id": 3,
+                "name": "Suite",
+                "description": "Suite room",
+                "base_price": "150.00",
+                "capacity": 4,
+                "created_at": "2025-12-09T22:50:08.000Z",
+                "updated_at": "2025-12-09T22:50:08.000Z"
+              }
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "limit": 10,
+            "total": 3,
+            "pages": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "bookings_list",
+      "method": "GET",
+      "path": "/api/bookings",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "booking_number": "BK_SAMPLE_1",
+              "hotel_id": 1,
+              "room_id": 1,
+              "user_id": null,
+              "guest_id": 1,
+              "check_in_date": "2025-12-10T00:00:00.000Z",
+              "check_out_date": "2025-12-12T00:00:00.000Z",
+              "adults": 2,
+              "children": 0,
+              "nights": 2,
+              "total_amount": "100.00",
+              "status": "pending",
+              "special_requests": null,
+              "stripe_payment_intent": null,
+              "payment_status": "pending",
+              "receipt_url": null,
+              "created_at": "2025-12-09T22:50:08.000Z",
+              "updated_at": "2025-12-15T12:54:10.000Z",
+              "guest": {
+                "id": 1,
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "john.doe@example.com",
+                "phone": "+15551234567"
+              },
+              "room": {
+                "id": 1,
+                "room_number": "101",
+                "floor": 1,
+                "room_type": {
+                  "id": 1,
+                  "name": "Single",
+                  "base_price": "50.00"
+                }
+              },
+              "user": null
+            }
+          ],
+          "pagination": {
+            "page": 1,
+            "limit": 10,
+            "total": 1,
+            "pages": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "payments",
+      "method": "GET",
+      "path": "/api/payments",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "amount": "100.00",
+              "payment_date": "2025-12-09T22:50:08.000Z",
+              "payment_method": "Stripe",
+              "booking": {
+                "id": 1,
+                "booking_number": "BK_SAMPLE_1",
+                "hotel_id": 1,
+                "room_id": 1,
+                "user_id": null,
+                "guest_id": 1,
+                "check_in_date": "2025-12-10T00:00:00.000Z",
+                "check_out_date": "2025-12-12T00:00:00.000Z",
+                "adults": 2,
+                "children": 0,
+                "nights": 2,
+                "total_amount": "100.00",
+                "status": "pending",
+                "special_requests": null,
+                "stripe_payment_intent": null,
+                "payment_status": "pending",
+                "receipt_url": null,
+                "created_at": "2025-12-09T22:50:08.000Z",
+                "updated_at": "2025-12-15T12:54:10.000Z",
+                "guest": {
+                  "id": 1,
+                  "first_name": "John",
+                  "last_name": "Doe",
+                  "email": "john.doe@example.com",
+                  "phone": "+15551234567",
+                  "address": null,
+                  "id_type": null,
+                  "id_number": null,
+                  "nationality": null,
+                  "created_at": "2025-12-09T22:50:08.000Z",
+                  "updated_at": "2025-12-09T22:50:08.000Z"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "hr_dashboard",
+      "method": "GET",
+      "path": "/api/hr/dashboard",
+      "result": {
+        "ok": true,
+        "status": 200,
+        "body": {
+          "success": true,
+          "data": {
+            "totalEmployees": 0,
+            "employeesByDepartment": [],
+            "recentHires": [],
+            "averageSalaryByDepartment": []
+          }
+        }
+      }
+    },
+    {
+      "name": "guests_list",
+      "method": "GET",
+      "path": "/api/guests",
+      "result": {
+        "ok": false,
+        "status": 500,
+        "body": {
+          "success": false,
+          "message": "Error fetching guests"
+        }
+      }
+    },
+    {
+      "name": "create_guest",
+      "method": "POST",
+      "path": "/api/guests",
+      "payload": {
+        "first_name": "Smoke",
+        "last_name": "Tester",
+        "email": "smoke+1765804654654@example.com"
+      },
+      "result": {
+        "ok": false,
+        "status": 500,
+        "body": {
+          "success": false,
+          "message": "Error creating guest"
+        }
+      }
+    }
+  ]
+}
