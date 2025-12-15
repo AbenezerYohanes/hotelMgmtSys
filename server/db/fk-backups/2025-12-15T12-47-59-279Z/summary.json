@@ -1,0 +1,151 @@
+[
+  {
+    "statement": "-- Foreign key constraints for Hotel Management schema\r\n-- These were extracted from schema.sql so the main schema can be applied\r\n-- Run this file after verifying tables and column types are correct\r\n\r\nALTER TABLE `hotels` ADD CONSTRAINT `fk_hotels_created_by` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "hotels",
+      "parent": "users",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`hotels` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`hotels` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `departments` ADD CONSTRAINT `fk_departments_manager` FOREIGN KEY (`manager_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "departments",
+      "parent": "users",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`departments` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`departments` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `employees` ADD CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;",
+    "info": {
+      "child": "employees",
+      "parent": "users",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `employees` ADD CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "employees",
+      "parent": "departments",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `rooms` ADD CONSTRAINT `fk_rooms_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "rooms",
+      "parent": "hotels",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`rooms` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`rooms` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `rooms` ADD CONSTRAINT `fk_rooms_room_type` FOREIGN KEY (`room_type_id`) REFERENCES `room_types`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "rooms",
+      "parent": "room_types",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`rooms` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`rooms` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_room` FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "bookings",
+      "parent": "rooms",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_guest` FOREIGN KEY (`guest_id`) REFERENCES `guests`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "bookings",
+      "parent": "guests",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "bookings",
+      "parent": "users",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Cannot add or update a child row: a foreign key constraint fails (`hotel_management`.`#sql-2634_47`, CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)",
+      "original": "SequelizeForeignKeyConstraintError: Cannot add or update a child row: a foreign key constraint fails (`hotel_management`.`#sql-2634_47`, CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "bookings",
+      "parent": "hotels",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`bookings` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+    "info": {
+      "child": "payments",
+      "parent": "bookings",
+      "parentCol": "id"
+    },
+    "status": "error",
+    "error": {
+      "message": "Can't create table `hotel_management`.`payments` (errno: 121 \"Duplicate key on write or update\")",
+      "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`payments` (errno: 121 \"Duplicate key on write or update\")"
+    }
+  },
+  {
+    "statement": "-- Re-enable foreign key checks after applying constraints\r\nSET FOREIGN_KEY_CHECKS = 1;",
+    "info": {},
+    "status": "ok",
+    "error": null
+  }
+]

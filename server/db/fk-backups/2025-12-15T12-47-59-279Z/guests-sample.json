@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+15551234567",
+    "address": null,
+    "id_type": null,
+    "id_number": null,
+    "nationality": null,
+    "created_at": "2025-12-09T22:50:08.000Z",
+    "updated_at": "2025-12-09T22:50:08.000Z"
+  }
+]

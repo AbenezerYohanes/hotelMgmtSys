@@ -1,0 +1,14 @@
+[
+  [
+    {
+      "Table": "users",
+      "Create Table": "CREATE TABLE `users` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `username` varchar(150) DEFAULT NULL,\n  `email` varchar(255) NOT NULL,\n  `password` varchar(255) NOT NULL,\n  `first_name` varchar(150) DEFAULT NULL,\n  `last_name` varchar(150) DEFAULT NULL,\n  `phone` varchar(50) DEFAULT NULL,\n  `address` text DEFAULT NULL,\n  `role` enum('super_admin','admin','manager','staff','client') DEFAULT 'client',\n  `is_active` tinyint(1) DEFAULT 1,\n  `hotel_id` int(10) unsigned DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_users_email` (`email`),\n  UNIQUE KEY `ux_users_username` (`username`)\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  [
+    {
+      "Table": "users",
+      "Create Table": "CREATE TABLE `users` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `username` varchar(150) DEFAULT NULL,\n  `email` varchar(255) NOT NULL,\n  `password` varchar(255) NOT NULL,\n  `first_name` varchar(150) DEFAULT NULL,\n  `last_name` varchar(150) DEFAULT NULL,\n  `phone` varchar(50) DEFAULT NULL,\n  `address` text DEFAULT NULL,\n  `role` enum('super_admin','admin','manager','staff','client') DEFAULT 'client',\n  `is_active` tinyint(1) DEFAULT 1,\n  `hotel_id` int(10) unsigned DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_users_email` (`email`),\n  UNIQUE KEY `ux_users_username` (`username`)\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ]
+]

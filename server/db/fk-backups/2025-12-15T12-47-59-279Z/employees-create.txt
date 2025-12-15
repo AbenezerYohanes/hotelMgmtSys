@@ -1,0 +1,14 @@
+[
+  [
+    {
+      "Table": "employees",
+      "Create Table": "CREATE TABLE `employees` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `user_id` int(11) NOT NULL,\n  `employee_id` varchar(100) NOT NULL,\n  `department_id` int(10) unsigned DEFAULT NULL,\n  `position` varchar(150) DEFAULT NULL,\n  `hire_date` date DEFAULT NULL,\n  `salary` decimal(10,2) DEFAULT 0.00,\n  `emergency_contact` varchar(255) DEFAULT NULL,\n  `emergency_phone` varchar(50) DEFAULT NULL,\n  `status` enum('active','inactive','terminated') DEFAULT 'active',\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_employees_employee_id` (`employee_id`),\n  KEY `idx_employees_user` (`user_id`),\n  KEY `idx_employees_department` (`department_id`),\n  CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,\n  CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  [
+    {
+      "Table": "employees",
+      "Create Table": "CREATE TABLE `employees` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `user_id` int(11) NOT NULL,\n  `employee_id` varchar(100) NOT NULL,\n  `department_id` int(10) unsigned DEFAULT NULL,\n  `position` varchar(150) DEFAULT NULL,\n  `hire_date` date DEFAULT NULL,\n  `salary` decimal(10,2) DEFAULT 0.00,\n  `emergency_contact` varchar(255) DEFAULT NULL,\n  `emergency_phone` varchar(50) DEFAULT NULL,\n  `status` enum('active','inactive','terminated') DEFAULT 'active',\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_employees_employee_id` (`employee_id`),\n  KEY `idx_employees_user` (`user_id`),\n  KEY `idx_employees_department` (`department_id`),\n  CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,\n  CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ]
+]

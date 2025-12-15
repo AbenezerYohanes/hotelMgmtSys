@@ -1,0 +1,7 @@
+{
+  "statement": "ALTER TABLE `employees` ADD CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
+  "error": {
+    "message": "Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")",
+    "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`employees` (errno: 121 \"Duplicate key on write or update\")"
+  }
+}

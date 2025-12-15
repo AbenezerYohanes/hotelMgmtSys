@@ -1,0 +1,14 @@
+[
+  [
+    {
+      "Table": "rooms",
+      "Create Table": "CREATE TABLE `rooms` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `room_number` varchar(50) NOT NULL,\n  `floor` int(11) DEFAULT NULL,\n  `hotel_id` int(10) unsigned DEFAULT NULL,\n  `room_type_id` int(10) unsigned DEFAULT NULL,\n  `status` enum('available','occupied','maintenance','cleaning') DEFAULT 'available',\n  `is_clean` tinyint(1) DEFAULT 1,\n  `price` decimal(10,2) DEFAULT 0.00,\n  `amenities` text DEFAULT NULL,\n  `notes` text DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_rooms_room_number` (`room_number`),\n  KEY `idx_rooms_hotel` (`hotel_id`),\n  KEY `idx_rooms_room_type` (`room_type_id`),\n  CONSTRAINT `fk_rooms_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,\n  CONSTRAINT `fk_rooms_room_type` FOREIGN KEY (`room_type_id`) REFERENCES `room_types` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  [
+    {
+      "Table": "rooms",
+      "Create Table": "CREATE TABLE `rooms` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `room_number` varchar(50) NOT NULL,\n  `floor` int(11) DEFAULT NULL,\n  `hotel_id` int(10) unsigned DEFAULT NULL,\n  `room_type_id` int(10) unsigned DEFAULT NULL,\n  `status` enum('available','occupied','maintenance','cleaning') DEFAULT 'available',\n  `is_clean` tinyint(1) DEFAULT 1,\n  `price` decimal(10,2) DEFAULT 0.00,\n  `amenities` text DEFAULT NULL,\n  `notes` text DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  UNIQUE KEY `ux_rooms_room_number` (`room_number`),\n  KEY `idx_rooms_hotel` (`hotel_id`),\n  KEY `idx_rooms_room_type` (`room_type_id`),\n  CONSTRAINT `fk_rooms_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,\n  CONSTRAINT `fk_rooms_room_type` FOREIGN KEY (`room_type_id`) REFERENCES `room_types` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ]
+]

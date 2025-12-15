@@ -2,83 +2,92 @@ const fs = require('fs');
 const path = require('path');
 const db = require('../config/db');
 
-function splitStatements(sql) {
-  // naive split on semicolon followed by newline or end; keeps statements intact
-  return sql
-    .split(/;\s*\n/)
-    .map(s => s.trim())
-    .filter(s => s.length > 0);
-}
+const FK_FILE = path.join(__dirname, '..', 'db', 'schema-fks.sql');
+const OUT_DIR = path.join(__dirname, '..', 'db', 'fk-backups');
+const LOG_DIR = path.join(__dirname, '..', 'logs');
 
-async function main() {
-  const sqlPath = path.join(__dirname, '..', 'db', 'schema-fks.sql');
-  if (!fs.existsSync(sqlPath)) {
-    console.error('schema-fks.sql not found at', sqlPath);
-    process.exit(1);
-  }
+function ensureDir(d) { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); }
 
-  const raw = fs.readFileSync(sqlPath, 'utf8');
-  const statements = splitStatements(raw);
+function timestamp() { return new Date().toISOString().replace(/[:.]/g, '-'); }
 
-  // connect
+async function readFileSafe(p) { return fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : null; }
+
+async function dumpTableSample(table, outDir) {
   try {
-    await db.connect();
+    const rows = await db.sequelize.query(`SELECT * FROM \`${table}\` LIMIT 200`, { type: db.Sequelize.QueryTypes.SELECT });
+    fs.writeFileSync(path.join(outDir, `${table}-sample.json`), JSON.stringify(rows, null, 2));
   } catch (err) {
-    console.error('Unable to connect to DB:', err.message || err);
+    fs.writeFileSync(path.join(outDir, `${table}-sample-error.txt`), String(err));
+  }
+}
+
+async function dumpCreate(table, outDir) {
+  try {
+    const raw = await db.sequelize.query(`SHOW CREATE TABLE \`${table}\``, { raw: true });
+    fs.writeFileSync(path.join(outDir, `${table}-create.txt`), JSON.stringify(raw, null, 2));
+  } catch (err) {
+    fs.writeFileSync(path.join(outDir, `${table}-create-error.txt`), String(err));
+  }
+}
+
+function extractTablesFromAlter(stmt) {
+  const re = /ALTER\s+TABLE\s+`?(\w+)`?[\s\S]*?REFERENCES\s+`?(\w+)`?\s*\(`?(\w+)`?\)/i;
+  const m = stmt.match(re);
+  if (m) return { child: m[1], parent: m[2], parentCol: m[3] };
+  const re2 = /ALTER\s+TABLE\s+`?(\w+)`?/i;
+  const m2 = stmt.match(re2);
+  return m2 ? { child: m2[1] } : {};
+}
+
+async function apply() {
+  ensureDir(OUT_DIR);
+  ensureDir(LOG_DIR);
+  const now = timestamp();
+  const runDir = path.join(OUT_DIR, now);
+  ensureDir(runDir);
+  const logPath = path.join(LOG_DIR, `fk-apply-${now}.log`);
+
+  const sql = await readFileSafe(FK_FILE);
+  if (!sql) {
+    console.error('No schema-fks.sql found at', FK_FILE);
     process.exit(1);
   }
 
-  const sequelize = db.sequelize;
+  const parts = sql.split(/;\s*\n/).map(s => s.trim()).filter(Boolean);
 
-  // Determine tables that will be altered
-  const alterRegex = /ALTER\s+TABLE\s+`?([a-zA-Z0-9_]+)`?/i;
-  const affectedTables = new Set();
-  for (const s of statements) {
-    const m = s.match(alterRegex);
-    if (m) affectedTables.add(m[1]);
-  }
-
-  const ts = new Date().toISOString().replace(/[:.]/g, '-');
-  const backups = [];
-
-  // Create backups for affected tables
-  for (const tbl of affectedTables) {
-    const backupName = `${tbl}_backup_${ts}`;
+  const summary = [];
+  for (const stmt of parts) {
+    if (!stmt) continue;
+    const normalized = stmt.endsWith(';') ? stmt : stmt + ';';
+    const info = extractTablesFromAlter(normalized);
+    const stmtLog = { statement: normalized, info, status: 'pending', error: null };
     try {
-      console.log(`Creating backup table ${backupName} ...`);
-      await sequelize.query(`CREATE TABLE IF NOT EXISTS \`${backupName}\` LIKE \`${tbl}\``);
-      await sequelize.query(`INSERT INTO \`${backupName}\` SELECT * FROM \`${tbl}\``);
-      backups.push({ table: tbl, backup: backupName, ok: true });
+      if (info.child) await dumpCreate(info.child, runDir);
+      if (info.parent) await dumpCreate(info.parent, runDir);
+      if (info.child) await dumpTableSample(info.child, runDir);
+      if (info.parent) await dumpTableSample(info.parent, runDir);
     } catch (err) {
-      console.error(`Failed to backup table ${tbl}:`, err.message || err);
-      backups.push({ table: tbl, backup: backupName, ok: false, error: err.message || String(err) });
+      console.warn('Backup warning for', info, err.message);
     }
-  }
 
-  const results = [];
-
-  // Execute statements sequentially
-  for (const s of statements) {
     try {
-      console.log('Executing:', s.split('\n')[0].slice(0,200));
-      const res = await sequelize.query(s);
-      results.push({ statement: s, ok: true });
+      await db.sequelize.query(normalized);
+      stmtLog.status = 'ok';
+      console.log('OK:', normalized.split('\n')[0]);
     } catch (err) {
-      console.error('Statement failed:', err.message || err);
-      results.push({ statement: s, ok: false, error: err.message || String(err) });
-      // continue with remaining statements
+      stmtLog.status = 'error';
+      stmtLog.error = { message: err.message, original: String(err) };
+      console.error('FAILED:', normalized.split('\n')[0], err.message);
+      const errFile = path.join(runDir, `error-${Math.random().toString(36).slice(2,8)}.json`);
+      fs.writeFileSync(errFile, JSON.stringify({ statement: normalized, error: stmtLog.error }, null, 2));
     }
+    summary.push(stmtLog);
+    fs.appendFileSync(logPath, JSON.stringify(stmtLog) + '\n');
   }
 
-  // Write log
-  const log = { timestamp: ts, backups, results };
-  const outPath = path.join(__dirname, '..', 'db', `fk-apply-log-${ts}.json`);
-  fs.writeFileSync(outPath, JSON.stringify(log, null, 2), 'utf8');
-  console.log('Done. Log written to', outPath);
-  process.exit(0);
+  fs.writeFileSync(path.join(runDir, 'summary.json'), JSON.stringify(summary, null, 2));
+  console.log('Finished FK apply run. Log:', logPath, 'Backups:', runDir);
 }
 
-main().catch(err => {
-  console.error('Unexpected error:', err.message || err);
-  process.exit(1);
-});
+apply().then(() => process.exit(0)).catch(err => { console.error(err); process.exit(2); });
+

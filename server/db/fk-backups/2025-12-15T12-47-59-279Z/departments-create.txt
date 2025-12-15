@@ -1,0 +1,14 @@
+[
+  [
+    {
+      "Table": "departments",
+      "Create Table": "CREATE TABLE `departments` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(150) NOT NULL,\n  `description` text DEFAULT NULL,\n  `manager_id` int(11) DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `idx_departments_manager` (`manager_id`),\n  CONSTRAINT `fk_departments_manager` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  [
+    {
+      "Table": "departments",
+      "Create Table": "CREATE TABLE `departments` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(150) NOT NULL,\n  `description` text DEFAULT NULL,\n  `manager_id` int(11) DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `idx_departments_manager` (`manager_id`),\n  CONSTRAINT `fk_departments_manager` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ]
+]

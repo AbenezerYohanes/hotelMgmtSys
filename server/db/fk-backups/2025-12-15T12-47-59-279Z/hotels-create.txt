@@ -1,0 +1,14 @@
+[
+  [
+    {
+      "Table": "hotels",
+      "Create Table": "CREATE TABLE `hotels` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(255) NOT NULL,\n  `description` text DEFAULT NULL,\n  `country` varchar(100) DEFAULT NULL,\n  `city` varchar(100) DEFAULT NULL,\n  `address` varchar(255) DEFAULT NULL,\n  `created_by` int(11) DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `idx_hotels_created_by` (`created_by`),\n  CONSTRAINT `fk_hotels_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ],
+  [
+    {
+      "Table": "hotels",
+      "Create Table": "CREATE TABLE `hotels` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `name` varchar(255) NOT NULL,\n  `description` text DEFAULT NULL,\n  `country` varchar(100) DEFAULT NULL,\n  `city` varchar(100) DEFAULT NULL,\n  `address` varchar(255) DEFAULT NULL,\n  `created_by` int(11) DEFAULT NULL,\n  `created_at` datetime DEFAULT current_timestamp(),\n  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `idx_hotels_created_by` (`created_by`),\n  CONSTRAINT `fk_hotels_created_by` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE\n) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"
+    }
+  ]
+]
