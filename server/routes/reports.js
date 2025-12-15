@@ -1,5 +1,5 @@
 const express = require('express');
-const { query } = require('../database/config');
+const db = require('../config/db');
 
 const router = express.Router();
 
@@ -37,8 +37,8 @@ router.get('/revenue', async (req, res) => {
       ORDER BY DATE_FORMAT(p.payment_date, '${format}')
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Revenue report error:', error);
     res.status(500).json({ success: false, message: 'Error generating revenue report' });
@@ -67,8 +67,8 @@ router.get('/occupancy', async (req, res) => {
       ORDER BY d;
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Occupancy report error:', error);
     res.status(500).json({ success: false, message: 'Error generating occupancy report' });
@@ -100,8 +100,8 @@ router.get('/bookings', async (req, res) => {
       ORDER BY b.created_at DESC
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Booking report error:', error);
     res.status(500).json({ success: false, message: 'Error generating booking report' });
@@ -127,8 +127,8 @@ router.get('/guests', async (req, res) => {
       ORDER BY total_spent DESC
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Guest report error:', error);
     res.status(500).json({ success: false, message: 'Error generating guest report' });
@@ -155,8 +155,8 @@ router.get('/room-performance', async (req, res) => {
       ORDER BY total_revenue DESC
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Room performance report error:', error);
     res.status(500).json({ success: false, message: 'Error generating room performance report' });
@@ -185,8 +185,8 @@ router.get('/employee-performance', async (req, res) => {
       ORDER BY revenue_generated DESC
     `;
 
-    const result = await query(sql, params);
-    res.json({ success: true, data: result.rows });
+    const result = await db.sequelize.query(sql, { replacements: params, type: db.Sequelize.QueryTypes.SELECT });
+    res.json({ success: true, data: result });
   } catch (error) {
     console.error('Employee performance report error:', error);
     res.status(500).json({ success: false, message: 'Error generating employee performance report' });
@@ -197,32 +197,32 @@ router.get('/employee-performance', async (req, res) => {
 router.get('/dashboard-summary', async (req, res) => {
   try {
     // Total revenue this month
-    const monthlyRevenue = await query(`
+    const monthlyRevenue = await db.sequelize.query(`
       SELECT COALESCE(SUM(amount), 0) AS total
       FROM payments
       WHERE payment_status = 'completed'
         AND MONTH(payment_date) = MONTH(CURDATE())
         AND YEAR(payment_date) = YEAR(CURDATE())
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
     // Total bookings this month
-    const monthlyBookings = await query(`
+    const monthlyBookings = await db.sequelize.query(`
       SELECT COUNT(*) AS total
       FROM bookings
       WHERE MONTH(created_at) = MONTH(CURDATE())
         AND YEAR(created_at) = YEAR(CURDATE())
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
     // Average occupancy rate
-    const avgOccupancy = await query(`
+    const avgOccupancy = await db.sequelize.query(`
       SELECT ROUND((COUNT(CASE WHEN status IN ('confirmed','checked_in') THEN 1 END) * 100.0 /
                     (SELECT COUNT(*) FROM rooms WHERE status != 'maintenance')), 2) AS rate
       FROM bookings
       WHERE check_in_date <= CURDATE() AND check_out_date > CURDATE()
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
     // Top performing rooms
-    const topRooms = await query(`
+    const topRooms = await db.sequelize.query(`
       SELECT r.room_number, rt.name AS room_type, COUNT(b.id) AS bookings
       FROM rooms r
       LEFT JOIN room_types rt ON r.room_type_id = rt.id
@@ -231,10 +231,10 @@ router.get('/dashboard-summary', async (req, res) => {
       GROUP BY r.id, r.room_number, rt.name
       ORDER BY bookings DESC
       LIMIT 5
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
     // Recent activities
-    const recentActivities = await query(`
+    const recentActivities = await db.sequelize.query(`
       SELECT type, ref, first_name, last_name, created_at FROM (
         SELECT 'booking' AS type, b.booking_number AS ref, g.first_name, g.last_name, b.created_at
         FROM bookings b
@@ -249,7 +249,7 @@ router.get('/dashboard-summary', async (req, res) => {
       ) t
       ORDER BY created_at DESC
       LIMIT 10
-    `);
+    `, { type: db.Sequelize.QueryTypes.SELECT });
 
     res.json({
       success: true,
