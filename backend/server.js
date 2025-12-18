@@ -1,0 +1,38 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const http = require('http');
+const { initDb } = require('./config/database');
+const authRoutes = require('./routes/auth');
+const seedFlag = process.env.SEED_SAMPLE_DATA === 'true';
+
+const app = express();
+const server = http.createServer(app);
+const io = require('socket.io')(server, { cors: { origin: '*' } });
+
+app.use(cors());
+app.use(express.json());
+
+// attach socket to app for controllers
+app.set('io', io);
+
+app.use('/api/auth', authRoutes);
+
+app.get('/api/health', (req, res) => res.json({ ok: true, env: process.env.NODE_ENV || 'development' }));
+
+const PORT = process.env.PORT || 4000;
+
+initDb().then(async (sequelize) => {
+  if (seedFlag) {
+    try {
+      await require('./seeders/seed')();
+      console.log('Seed complete');
+    } catch (err) {
+      console.error('Seed error', err);
+    }
+  }
+  server.listen(PORT, () => console.log(`Backend listening on ${PORT}`));
+}).catch(err => {
+  console.error('Failed to initialize DB', err);
+  process.exit(1);
+});

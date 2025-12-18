@@ -24,7 +24,8 @@ const Register = () => {
       };
 
       // Use auth service to register and then auto-login
-      const res = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/auth/register`, {
+      const base = process.env.REACT_APP_API_URL || '/api';
+      const res = await fetch(`${base}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registrationData),
