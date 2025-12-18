@@ -1,0 +1,13 @@
+{
+  "name": "aHotelManagementSystem-frontend",
+  "private": true,
+  "workspaces": [
+    "superadmin",
+    "admin",
+    "staff",
+    "receptionist",
+    "guest",
+    "common"
+  ],
+  "devDependencies": {}
+}
