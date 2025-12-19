@@ -1,0 +1,7 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+.container { padding: 20px; max-width: 900px; margin: 0 auto; }
+.card { padding: 16px; background: #fff; border: 1px solid #eee; }
+.nav { display:flex; justify-content:space-between; padding:12px 20px; background:#0b5; color:#fff }
+.nav .links a, .nav .links button { margin-left:12px; color:#fff }
+.panel { border:1px solid #eee; padding:12px; margin:8px 0 }
+.error { color: red }
