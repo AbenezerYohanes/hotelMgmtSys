@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - DB_FORCE_SQLITE=true
+    volumes:
+      - ./backend:/usr/src/app
+
+  superadmin:
+    build: ./frontend/superadmin
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://backend:4000/api
+    depends_on:
+      - backend
