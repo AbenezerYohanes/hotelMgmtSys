@@ -8,6 +8,13 @@ services:
       - DB_FORCE_SQLITE=true
     volumes:
       - ./backend:/usr/src/app
+      - backend_data:/usr/src/app/dev.sqlite
+    healthcheck:
+      test: ["CMD","node","-e","require('./server') || true"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
   superadmin:
     build: ./frontend/superadmin
@@ -17,3 +24,6 @@ services:
       - NEXT_PUBLIC_API_BASE=http://backend:4000/api
     depends_on:
       - backend
+
+volumes:
+  backend_data:

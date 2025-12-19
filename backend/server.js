@@ -10,6 +10,7 @@ const staffRoutes = require('./routes/staff');
 const receptionistRoutes = require('./routes/receptionist');
 const guestRoutes = require('./routes/guest');
 const paymentsRoutes = require('./routes/payments');
+const reportsRoutes = require('./routes/reports');
 const seedFlag = process.env.SEED_SAMPLE_DATA === 'true';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/staff', staffRoutes);
 app.use('/api/receptionist', receptionistRoutes);
 app.use('/api/guest', guestRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // basic error handler
 app.use((err, req, res, next) => {

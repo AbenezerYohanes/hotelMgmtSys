@@ -237,3 +237,17 @@ This project is licensed under the MIT License.
 ## Support
 
 For support and questions, please open an issue in the repository.
+
+## Stripe (optional)
+
+- To enable Stripe payment processing, add the following variables to `backend/.env`:
+
+  - `STRIPE_SECRET` — your Stripe secret key
+  - `STRIPE_WEBHOOK_SECRET` — your webhook signing secret
+
+- Endpoints:
+  - `POST /api/payments/intent` — create a PaymentIntent (returns `clientSecret`)
+  - `POST /api/payments` — record a payment (demo fallback when Stripe is not configured)
+  - `POST /api/payments/webhook` — Stripe webhook endpoint (expects raw body; verify signatures in production)
+
+Make sure webhooks are routed to your running backend (or use a tunneling service such as `ngrok` during development).
