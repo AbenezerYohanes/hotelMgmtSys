@@ -1,7 +1,0 @@
-{
-  "statement": "ALTER TABLE `payments` ADD CONSTRAINT `fk_payments_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
-  "error": {
-    "message": "Can't create table `hotel_management`.`payments` (errno: 121 \"Duplicate key on write or update\")",
-    "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`payments` (errno: 121 \"Duplicate key on write or update\")"
-  }
-}

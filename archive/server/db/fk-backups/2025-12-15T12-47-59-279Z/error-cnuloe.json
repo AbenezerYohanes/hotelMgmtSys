@@ -1,7 +1,0 @@
-{
-  "statement": "-- Foreign key constraints for Hotel Management schema\r\n-- These were extracted from schema.sql so the main schema can be applied\r\n-- Run this file after verifying tables and column types are correct\r\n\r\nALTER TABLE `hotels` ADD CONSTRAINT `fk_hotels_created_by` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
-  "error": {
-    "message": "Can't create table `hotel_management`.`hotels` (errno: 121 \"Duplicate key on write or update\")",
-    "original": "SequelizeDatabaseError: Can't create table `hotel_management`.`hotels` (errno: 121 \"Duplicate key on write or update\")"
-  }
-}

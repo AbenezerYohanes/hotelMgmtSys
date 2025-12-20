@@ -50,14 +50,16 @@ git clone <repository-url>
 cd aHotelManagementSystem
 
 # Install backend dependencies
-cd archive/server
+cd backend
 npm install
 cd ..
 
-# Install frontend dependencies
-cd archive/client
-npm install
-cd ..
+# Install frontend dependencies (for each SPA)
+cd frontend/staff && npm install && cd ../..
+cd frontend/receptionist && npm install && cd ../..
+cd frontend/admin && npm install && cd ../..
+cd frontend/superadmin && npm install && cd ../..
+cd frontend/guest && npm install && cd ../..
 ```
 
 ### Step 2: Database Setup
@@ -72,7 +74,7 @@ cd ..
 
    ```bash
    # Import schema using mysql client
-   mysql -u root -p hotel_management < archive/server/database/schema.sql
+   mysql -u root -p hotel_management < schema.sql
    ```
 
 #### Option B: Manual Database Setup
@@ -86,13 +88,13 @@ cd ..
 2. **Import Schema**
 
    ```bash
-   mysql -u root -p hotel_management < archive/server/database/schema.sql
+   mysql -u root -p hotel_management < schema.sql
    ```
 
 3. **Run Setup Script**
    ```bash
-   cd archive/server
-   node database/setup.js
+   cd backend
+   npm run seed
    cd ..
    ```
 
@@ -128,10 +130,18 @@ npm run dev
 
 # Or start them separately:
 # Backend only
-cd archive/server && npm run dev
+cd backend && npm start
 
-# Frontend only
-cd archive/client && npm start
+# Frontend only (choose one SPA)
+cd frontend/staff && npm start
+# OR
+cd frontend/receptionist && npm start
+# OR
+cd frontend/admin && npm start
+# OR
+cd frontend/superadmin && npm start
+# OR
+cd frontend/guest && npm run dev
 ```
 
 ## 🔑 Default Login Credentials
@@ -207,14 +217,14 @@ After setup, you can log in with:
 
 ### Backend Configuration
 
-- Database connection settings in `archive/server/database/config.js`
-- JWT secret and expiration in `config.env`
-- CORS settings for frontend communication
+- Database connection settings in `backend/config/db.js`
+- JWT secret and expiration in `.env` file (create from `.env.example`)
+- CORS settings in `backend/server.js`
 
 ### Frontend Configuration
 
-- API base URL in `archive/client/src/services/api.js`
-- Proxy configuration in `archive/client/package.json`
+- API base URL in `frontend/common/utils/apiService.js`
+- Environment variables: `REACT_APP_API_URL` or `NEXT_PUBLIC_API_URL`
 
 ## 🐛 Troubleshooting
 
@@ -242,9 +252,9 @@ After setup, you can log in with:
 
 ### Logs
 
-- Backend logs: `archive/server/logs/`
-- Error logs: `archive/server/logs/error.log`
-- Combined logs: `archive/server/logs/combined.log`
+- Backend logs: Check console output when running `npm start` in `backend/`
+- Error logs: Check server console for error messages
+- Database logs: Check MySQL/MariaDB logs in XAMPP
 
 ## 📈 MVP Usage Guide
 
@@ -326,8 +336,9 @@ After setup, you can log in with:
 For issues and questions:
 
 1. Check the troubleshooting section
-2. Review logs in `archive/server/logs/`
+2. Review backend console output
 3. Verify database connectivity
+4. Check `QUICK_START.md` for setup instructions
 4. Check API endpoints with Postman/curl
 
 ## 📄 License

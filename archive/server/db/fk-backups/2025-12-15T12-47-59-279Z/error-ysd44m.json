@@ -1,7 +1,0 @@
-{
-  "statement": "ALTER TABLE `bookings` ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;",
-  "error": {
-    "message": "Cannot add or update a child row: a foreign key constraint fails (`hotel_management`.`#sql-2634_47`, CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)",
-    "original": "SequelizeForeignKeyConstraintError: Cannot add or update a child row: a foreign key constraint fails (`hotel_management`.`#sql-2634_47`, CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)"
-  }
-}

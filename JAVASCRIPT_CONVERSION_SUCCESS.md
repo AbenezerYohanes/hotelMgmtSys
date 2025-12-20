@@ -55,7 +55,12 @@ npm run dev
 npm run server
 
 # Start client (in another terminal)
-cd archive/client && npm start
+cd frontend/guest && npm run dev
+# Or for other frontends:
+# cd frontend/staff && npm start
+# cd frontend/receptionist && npm start
+# cd frontend/admin && npm start
+# cd frontend/superadmin && npm start
 ```
 
 ### **Option 3: Check Status**
@@ -86,11 +91,15 @@ npm run check-status-win
 
 ```
 aHotelManagementSystem/
-├── archive/server/           # Node.js backend (archived)
-├── archive/client/           # React frontend (archived)
-├── config.env        # Environment configuration
-├── package.json      # Root package.json
-└── setup scripts     # XAMPP setup and status check
+├── backend/          # Node.js backend (Express + Sequelize)
+├── frontend/         # React/Next.js frontend SPAs
+│   ├── staff/        # Staff dashboard
+│   ├── receptionist/ # Receptionist dashboard
+│   ├── admin/        # Admin dashboard
+│   ├── superadmin/   # SuperAdmin dashboard
+│   └── guest/        # Guest portal (Next.js)
+├── schema.sql        # Database schema
+└── package.json      # Root package.json
 ```
 
 ## 🎯 **Next Steps:**
