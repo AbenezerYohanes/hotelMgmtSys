@@ -1,17 +1,20 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Employee', {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        hotel_id: { type: DataTypes.INTEGER },
-        first_name: { type: DataTypes.STRING, allowNull: false },
-        last_name: { type: DataTypes.STRING, allowNull: true },
-        email: { type: DataTypes.STRING, allowNull: false, unique: true },
-        password: { type: DataTypes.STRING, allowNull: false },
-        contact: { type: DataTypes.STRING },
-        address: { type: DataTypes.STRING },
-        role_id: { type: DataTypes.INTEGER },
-        working_year: { type: DataTypes.INTEGER },
-        total_working_year: { type: DataTypes.INTEGER },
-        status: { type: DataTypes.STRING, defaultValue: 'active' },
-        picture: { type: DataTypes.STRING }
+        id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
+        hotel_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+        first_name: { type: DataTypes.STRING(150), allowNull: false },
+        last_name: { type: DataTypes.STRING(150), allowNull: false },
+        email: { type: DataTypes.STRING(255), allowNull: false, unique: true },
+        password: { type: DataTypes.STRING(255), allowNull: false },
+        contact: { type: DataTypes.STRING(50), allowNull: true },
+        address: { type: DataTypes.TEXT, allowNull: true },
+        role_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
+        working_year: { type: DataTypes.INTEGER, defaultValue: 0 },
+        total_working_year: { type: DataTypes.INTEGER, defaultValue: 0 },
+        status: { 
+            type: DataTypes.ENUM('active', 'inactive', 'terminated'), 
+            defaultValue: 'active' 
+        },
+        picture: { type: DataTypes.STRING(500), allowNull: true }
     }, { tableName: 'employees', timestamps: true });
 };

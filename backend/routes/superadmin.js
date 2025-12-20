@@ -1,38 +1,103 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate, authorize } = require('../middleware/auth');
-const rooms = require('../controllers/roomsController');
-const users = require('../controllers/usersController');
-let hrRoutes;
-try {
-	if (process.env.ENABLE_HR === 'true') hrRoutes = require('../superadmin/hr/routes/hrRoutes');
-} catch (err) {
-	// hr module not present or disabled
-	hrRoutes = null;
-}
+const { Hotel, Employee, Role, Department } = require('../models');
+const superAdminAuth = require('../middleware/superAdminAuth');
 
-// Superadmin can manage rooms and users (users endpoints minimal here)
-router.use(authenticate, authorize(['superadmin']));
+// Hotel Management
+router.get('/hotels', superAdminAuth, async (req, res, next) => {
+    try {
+        const hotels = await Hotel.findAll({
+            include: [
+                { model: Employee, as: 'employees' },
+                { model: Department, as: 'departments' }
+            ]
+        });
+        res.json({ hotels });
+    } catch (err) {
+        next(err);
+    }
+});
 
-router.get('/rooms', rooms.listRooms);
-router.post('/rooms', rooms.createRoom);
-router.get('/rooms/:id', rooms.getRoom);
-router.put('/rooms/:id', rooms.updateRoom);
-router.delete('/rooms/:id', rooms.deleteRoom);
+router.post('/hotels', superAdminAuth, async (req, res, next) => {
+    try {
+        const { name, location, contact, email } = req.body;
+        const hotel = await Hotel.create({ name, location, contact, email });
+        res.status(201).json({ hotel });
+    } catch (err) {
+        next(err);
+    }
+});
 
-// user management
-const { body } = require('express-validator');
-const { runValidation } = require('../middleware/validation');
+router.put('/hotels/:id', superAdminAuth, async (req, res, next) => {
+    try {
+        const hotel = await Hotel.findByPk(req.params.id);
+        if (!hotel) return res.status(404).json({ error: 'Hotel not found' });
+        await hotel.update(req.body);
+        res.json({ hotel });
+    } catch (err) {
+        next(err);
+    }
+});
 
-router.get('/users', users.listUsers);
-router.post('/users', [body('email').isEmail(), body('password').isLength({ min: 6 }), body('role').isIn(['superadmin','admin','staff','receptionist','guest']), runValidation], users.createUser);
-router.get('/users/:id', users.getUser);
-router.put('/users/:id', [body('email').optional().isEmail(), body('role').optional().isIn(['superadmin','admin','staff','receptionist','guest']), runValidation], users.updateUser);
-router.delete('/users/:id', users.deleteUser);
+router.delete('/hotels/:id', superAdminAuth, async (req, res, next) => {
+    try {
+        const hotel = await Hotel.findByPk(req.params.id);
+        if (!hotel) return res.status(404).json({ error: 'Hotel not found' });
+        await hotel.destroy();
+        res.json({ message: 'Hotel deleted' });
+    } catch (err) {
+        next(err);
+    }
+});
 
-// HR module (superadmin) — mount only when enabled and present
-if (hrRoutes) {
-	router.use('/hr', hrRoutes);
-}
+// Role Management
+router.get('/roles', superAdminAuth, async (req, res, next) => {
+    try {
+        const roles = await Role.findAll();
+        res.json({ roles });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/roles', superAdminAuth, async (req, res, next) => {
+    try {
+        const { name, permissions } = req.body;
+        const role = await Role.create({ name, permissions });
+        res.status(201).json({ role });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put('/roles/:id', superAdminAuth, async (req, res, next) => {
+    try {
+        const role = await Role.findByPk(req.params.id);
+        if (!role) return res.status(404).json({ error: 'Role not found' });
+        await role.update(req.body);
+        res.json({ role });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Global Analytics
+router.get('/analytics', superAdminAuth, async (req, res, next) => {
+    try {
+        const totalHotels = await Hotel.count();
+        const totalEmployees = await Employee.count({ where: { status: 'active' } });
+        const totalDepartments = await Department.count();
+
+        res.json({
+            analytics: {
+                totalHotels,
+                totalEmployees,
+                totalDepartments
+            }
+        });
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router;

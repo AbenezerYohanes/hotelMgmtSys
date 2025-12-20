@@ -8,9 +8,14 @@ const { sequelize, initDb } = require('./config/db');
 
 const authRoutes = require('./routes/auth');
 const employeesRoutes = require('./routes/employees');
+const guestsRoutes = require('./routes/guests');
 const roomsRoutes = require('./routes/rooms');
 const reservationsRoutes = require('./routes/reservations');
 const billingRoutes = require('./routes/billing');
+const documentsRoutes = require('./routes/documents');
+const adminRoutes = require('./routes/admin');
+const superadminRoutes = require('./routes/superadmin');
+const receptionistsRoutes = require('./routes/receptionists');
 
 const app = express();
 const server = http.createServer(app);
@@ -30,9 +35,14 @@ app.set('io', io);
 // API v1 routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/employees', employeesRoutes);
+app.use('/api/v1/guests', guestsRoutes);
 app.use('/api/v1/rooms', roomsRoutes);
 app.use('/api/v1/reservations', reservationsRoutes);
 app.use('/api/v1/billing', billingRoutes);
+app.use('/api/v1/documents', documentsRoutes);
+app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/superadmin', superadminRoutes);
+app.use('/api/v1/receptionists', receptionistsRoutes);
 
 // health
 app.get('/api/v1/health', (req, res) => res.json({ ok: true, env: process.env.NODE_ENV || 'development' }));

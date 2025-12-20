@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Guest', {
-        id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        first_name: { type: DataTypes.STRING },
-        last_name: { type: DataTypes.STRING },
-        email: { type: DataTypes.STRING, unique: true },
-        password: { type: DataTypes.STRING },
-        contact: { type: DataTypes.STRING },
-        address: { type: DataTypes.STRING }
+        id: { type: DataTypes.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true },
+        first_name: { type: DataTypes.STRING(150), allowNull: false },
+        last_name: { type: DataTypes.STRING(150), allowNull: false },
+        email: { type: DataTypes.STRING(255), allowNull: false, unique: true },
+        password: { type: DataTypes.STRING(255), allowNull: false },
+        contact: { type: DataTypes.STRING(50), allowNull: true },
+        address: { type: DataTypes.TEXT, allowNull: true }
     }, { tableName: 'guests', timestamps: true });
 };

@@ -1,218 +1,276 @@
--- Full Schema for Hotel Management System (MySQL)
--- Generated from Sequelize models in server/models
+-- Complete Schema for Hotel + HR Management System (MySQL/XAMPP)
+-- Multi-role support: SuperAdmin, Admin, Staff, Receptionist, Guest
 
 CREATE DATABASE IF NOT EXISTS `hotel_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `hotel_management`;
 
--- Drop existing tables to ensure schema can be applied cleanly
 SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS `payments`;
-DROP TABLE IF EXISTS `bookings`;
-DROP TABLE IF EXISTS `guests`;
+
+-- Drop existing tables
+DROP TABLE IF EXISTS `employee_documents`;
+DROP TABLE IF EXISTS `performance_reviews`;
+DROP TABLE IF EXISTS `payroll`;
+DROP TABLE IF EXISTS `leave_requests`;
+DROP TABLE IF EXISTS `attendance`;
+DROP TABLE IF EXISTS `shifts`;
+DROP TABLE IF EXISTS `billing`;
+DROP TABLE IF EXISTS `reservations`;
 DROP TABLE IF EXISTS `rooms`;
-DROP TABLE IF EXISTS `room_types`;
+DROP TABLE IF EXISTS `guests`;
 DROP TABLE IF EXISTS `employees`;
 DROP TABLE IF EXISTS `departments`;
+DROP TABLE IF EXISTS `roles`;
 DROP TABLE IF EXISTS `hotels`;
-DROP TABLE IF EXISTS `users`;
--- Keep FOREIGN_KEY_CHECKS disabled while creating tables and adding constraints
 
--- Users
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(150) DEFAULT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `first_name` VARCHAR(150) DEFAULT NULL,
-  `last_name` VARCHAR(150) DEFAULT NULL,
-  `phone` VARCHAR(50) DEFAULT NULL,
-  `address` TEXT,
-  `role` ENUM('super_admin','admin','manager','staff','client') DEFAULT 'client',
-  `is_active` TINYINT(1) DEFAULT 1,
+-- Hotels
+CREATE TABLE `hotels` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `location` VARCHAR(255) DEFAULT NULL,
+  `contact` VARCHAR(100) DEFAULT NULL,
+  `email` VARCHAR(255) DEFAULT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Roles
+CREATE TABLE `roles` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL UNIQUE,
+  `permissions` JSON DEFAULT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Departments
+CREATE TABLE `departments` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
   `hotel_id` INT UNSIGNED DEFAULT NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ux_users_email` (`email`),
-  UNIQUE KEY `ux_users_username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Hotels
-CREATE TABLE IF NOT EXISTS `hotels` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `description` TEXT,
-  `country` VARCHAR(100) DEFAULT NULL,
-  `city` VARCHAR(100) DEFAULT NULL,
-  `address` VARCHAR(255) DEFAULT NULL,
-  `created_by` INT UNSIGNED DEFAULT NULL,
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_hotels_created_by` (`created_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Departments
-CREATE TABLE IF NOT EXISTS `departments` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(150) NOT NULL,
-  `description` TEXT,
-  `manager_id` INT UNSIGNED DEFAULT NULL,
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_departments_manager` (`manager_id`)
+  KEY `idx_departments_hotel` (`hotel_id`),
+  CONSTRAINT `fk_departments_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Employees
-CREATE TABLE IF NOT EXISTS `employees` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `employee_id` VARCHAR(100) NOT NULL,
-  `department_id` INT UNSIGNED DEFAULT NULL,
-  `position` VARCHAR(150) DEFAULT NULL,
-  `hire_date` DATE DEFAULT NULL,
-  `salary` DECIMAL(10,2) DEFAULT 0.00,
-  `emergency_contact` VARCHAR(255) DEFAULT NULL,
-  `emergency_phone` VARCHAR(50) DEFAULT NULL,
-  `status` ENUM('active','inactive','terminated') DEFAULT 'active',
+CREATE TABLE `employees` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `hotel_id` INT UNSIGNED DEFAULT NULL,
+  `first_name` VARCHAR(150) NOT NULL,
+  `last_name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `contact` VARCHAR(50) DEFAULT NULL,
+  `address` TEXT DEFAULT NULL,
+  `role_id` INT UNSIGNED NOT NULL,
+  `working_year` INT DEFAULT 0,
+  `total_working_year` INT DEFAULT 0,
+  `status` ENUM('active', 'inactive', 'terminated') DEFAULT 'active',
+  `picture` VARCHAR(500) DEFAULT NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ux_employees_employee_id` (`employee_id`),
-  KEY `idx_employees_user` (`user_id`),
-  KEY `idx_employees_department` (`department_id`)
+  KEY `idx_employees_hotel` (`hotel_id`),
+  KEY `idx_employees_role` (`role_id`),
+  CONSTRAINT `fk_employees_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_employees_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Room types
-CREATE TABLE IF NOT EXISTS `room_types` (
+-- Shifts
+CREATE TABLE `shifts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(150) NOT NULL,
-  `description` TEXT,
-  `base_price` DECIMAL(10,2) DEFAULT 0.00,
-  `capacity` INT DEFAULT 1,
-  `amenities` TEXT DEFAULT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Attendance
+CREATE TABLE `attendance` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `date` DATE NOT NULL,
+  `clock_in` DATETIME DEFAULT NULL,
+  `clock_out` DATETIME DEFAULT NULL,
+  `status` ENUM('present', 'absent', 'late', 'on_leave') DEFAULT 'absent',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_attendance_employee_date` (`employee_id`, `date`),
+  KEY `idx_attendance_employee` (`employee_id`),
+  CONSTRAINT `fk_attendance_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Leave Requests
+CREATE TABLE `leave_requests` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `type` ENUM('sick', 'vacation', 'personal', 'other') DEFAULT 'personal',
+  `status` ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+  `reason` TEXT DEFAULT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_leave_employee` (`employee_id`),
+  CONSTRAINT `fk_leave_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Payroll
+CREATE TABLE `payroll` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `salary` DECIMAL(10, 2) DEFAULT 0.00,
+  `allowances` DECIMAL(10, 2) DEFAULT 0.00,
+  `deductions` DECIMAL(10, 2) DEFAULT 0.00,
+  `date` DATE NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_payroll_employee` (`employee_id`),
+  CONSTRAINT `fk_payroll_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Performance Reviews
+CREATE TABLE `performance_reviews` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `reviewer_id` INT UNSIGNED DEFAULT NULL,
+  `rating` INT DEFAULT 0 CHECK (`rating` >= 0 AND `rating` <= 10),
+  `comments` TEXT DEFAULT NULL,
+  `date` DATE NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_reviews_employee` (`employee_id`),
+  KEY `idx_reviews_reviewer` (`reviewer_id`),
+  CONSTRAINT `fk_reviews_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_reviews_reviewer` FOREIGN KEY (`reviewer_id`) REFERENCES `employees` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Employee Documents
+CREATE TABLE `employee_documents` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `employee_id` INT UNSIGNED NOT NULL,
+  `type` VARCHAR(100) NOT NULL,
+  `document_path` VARCHAR(500) NOT NULL,
+  `status` ENUM('pending', 'verified', 'rejected') DEFAULT 'pending',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_documents_employee` (`employee_id`),
+  CONSTRAINT `fk_documents_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Guests
+CREATE TABLE `guests` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(150) NOT NULL,
+  `last_name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `contact` VARCHAR(50) DEFAULT NULL,
+  `address` TEXT DEFAULT NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Rooms
-CREATE TABLE IF NOT EXISTS `rooms` (
+CREATE TABLE `rooms` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `room_number` VARCHAR(50) NOT NULL,
-  `floor` INT DEFAULT NULL,
   `hotel_id` INT UNSIGNED DEFAULT NULL,
-  `room_type_id` INT UNSIGNED DEFAULT NULL,
-  `status` ENUM('available','occupied','maintenance','cleaning') DEFAULT 'available',
-  `is_clean` TINYINT(1) DEFAULT 1,
-  `price` DECIMAL(10,2) DEFAULT 0.00,
-  `amenities` TEXT DEFAULT NULL,
-  `notes` TEXT DEFAULT NULL,
+  `room_type` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(255) DEFAULT NULL,
+  `capacity` INT DEFAULT 1,
+  `amenities` JSON DEFAULT NULL,
+  `price` DECIMAL(10, 2) DEFAULT 0.00,
+  `status` ENUM('available', 'occupied', 'maintenance', 'cleaning') DEFAULT 'available',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ux_rooms_room_number` (`room_number`),
   KEY `idx_rooms_hotel` (`hotel_id`),
-  KEY `idx_rooms_room_type` (`room_type_id`)
+  CONSTRAINT `fk_rooms_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Guests
-CREATE TABLE IF NOT EXISTS `guests` (
+-- Reservations
+CREATE TABLE `reservations` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(150) NOT NULL,
-  `last_name` VARCHAR(150) NOT NULL,
-  `email` VARCHAR(255) DEFAULT NULL,
-  `phone` VARCHAR(50) DEFAULT NULL,
-  `address` TEXT DEFAULT NULL,
-  `id_type` VARCHAR(100) DEFAULT NULL,
-  `id_number` VARCHAR(255) DEFAULT NULL,
-  `nationality` VARCHAR(100) DEFAULT NULL,
+  `guest_id` INT UNSIGNED NOT NULL,
+  `room_id` INT UNSIGNED NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `status` ENUM('pending', 'confirmed', 'cancelled', 'checked_in', 'checked_out') DEFAULT 'pending',
+  `total_price` DECIMAL(10, 2) DEFAULT 0.00,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `ux_guests_email` (`email`)
+  KEY `idx_reservations_guest` (`guest_id`),
+  KEY `idx_reservations_room` (`room_id`),
+  CONSTRAINT `fk_reservations_guest` FOREIGN KEY (`guest_id`) REFERENCES `guests` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_reservations_room` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Bookings
-CREATE TABLE IF NOT EXISTS `bookings` (
+-- Billing
+CREATE TABLE `billing` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `booking_number` VARCHAR(100) NOT NULL,
-  `hotel_id` INT UNSIGNED DEFAULT NULL,
-  `room_id` INT UNSIGNED DEFAULT NULL,
-  `user_id` INT UNSIGNED DEFAULT NULL,
-  `guest_id` INT UNSIGNED DEFAULT NULL,
-  `check_in_date` DATETIME NOT NULL,
-  `check_out_date` DATETIME NOT NULL,
-  `adults` INT DEFAULT 1,
-  `children` INT DEFAULT 0,
-  `nights` INT DEFAULT NULL,
-  `total_amount` DECIMAL(10,2) DEFAULT 0.00,
-  `status` ENUM('pending','confirmed','cancelled','checked_in','checked_out') DEFAULT 'pending',
-  `special_requests` TEXT DEFAULT NULL,
-  `stripe_payment_intent` VARCHAR(255) DEFAULT NULL,
-  `payment_status` ENUM('pending','succeeded','refunded') DEFAULT 'pending',
-  `receipt_url` VARCHAR(1024) DEFAULT NULL,
-  `created_by` INT UNSIGNED DEFAULT NULL,
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ux_bookings_number` (`booking_number`),
-  KEY `idx_bookings_room` (`room_id`),
-  KEY `idx_bookings_guest` (`guest_id`),
-  KEY `idx_bookings_user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Payments
-CREATE TABLE IF NOT EXISTS `payments` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `booking_id` INT UNSIGNED DEFAULT NULL,
-  `amount` DECIMAL(10,2) NOT NULL,
-  `currency` VARCHAR(10) DEFAULT 'USD',
-  `payment_method` VARCHAR(100) DEFAULT NULL,
-  `payment_status` VARCHAR(50) DEFAULT 'pending',
-  `payment_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `reservation_id` INT UNSIGNED DEFAULT NULL,
+  `guest_id` INT UNSIGNED NOT NULL,
+  `amount` DECIMAL(10, 2) NOT NULL,
+  `payment_method` ENUM('credit_card', 'debit_card', 'paypal', 'cash', 'chapa') DEFAULT 'cash',
+  `status` ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
   `transaction_id` VARCHAR(255) DEFAULT NULL,
-  `notes` TEXT DEFAULT NULL,
-  `metadata` JSON DEFAULT NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `idx_payments_booking` (`booking_id`)
+  KEY `idx_billing_reservation` (`reservation_id`),
+  KEY `idx_billing_guest` (`guest_id`),
+  CONSTRAINT `fk_billing_reservation` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_billing_guest` FOREIGN KEY (`guest_id`) REFERENCES `guests` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Sample seed data
-INSERT INTO `users` (`username`, `email`, `password`, `first_name`, `last_name`, `role`) VALUES
-('superadmin','superadmin@example.com','$2a$10$ExampleHashedPassword','Super','Admin','super_admin');
-
-INSERT INTO `hotels` (`name`,`description`,`country`,`city`,`address`,`created_by`) VALUES
-('Demo Hotel','Sample hotel used for local development','USA','Demo City','123 Demo Street',1);
-
-INSERT INTO `room_types` (`name`,`description`,`base_price`,`capacity`) VALUES
-('Single','Single bed',50.00,1),
-('Double','Double bed',80.00,2),
-('Suite','Suite room',150.00,4);
-
-INSERT INTO `rooms` (`room_number`,`floor`,`hotel_id`,`room_type_id`,`status`,`price`) VALUES
-('101',1,1,1,'available',50.00),
-('102',1,1,2,'available',80.00),
-('201',2,1,3,'available',150.00);
-
-INSERT INTO `guests` (`first_name`,`last_name`,`email`,`phone`) VALUES
-('John','Doe','john.doe@example.com','+15551234567');
-
-INSERT INTO `bookings` (`booking_number`,`hotel_id`,`room_id`,`guest_id`,`check_in_date`,`check_out_date`,`adults`,`children`,`nights`,`total_amount`,`status`,`created_by`) VALUES
-('BK_SAMPLE_1',1,1,1,DATE_ADD(CURDATE(), INTERVAL 1 DAY),DATE_ADD(CURDATE(), INTERVAL 3 DAY),2,0,2,100.00,'pending',1);
-
-INSERT INTO `payments` (`booking_id`,`amount`,`currency`,`payment_method`,`payment_status`,`transaction_id`) VALUES
-(1,100.00,'USD','Stripe','pending','txn_sample_1');
-
--- Add foreign key constraints after all tables are created
--- Foreign key constraints have been extracted to `schema-fks.sql`.
--- If you want to apply constraints after creating tables, run:
---   mysql -u <user> -p < server/db/schema-fks.sql
--- or use the node script: `node scripts/apply-fks.js` (not created by default).
-
--- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
 
+-- Seed Data
+-- Insert Roles
+INSERT INTO `roles` (`name`, `permissions`) VALUES
+('superadmin', '{"all": true}'),
+('admin', '{"hr": true, "hotel": true, "reports": true}'),
+('staff', '{"view_own": true}'),
+('receptionist', '{"bookings": true, "guests": true, "view_own": true}'),
+('guest', '{"bookings": true, "profile": true}');
+
+-- Insert Default Hotel
+INSERT INTO `hotels` (`name`, `location`, `contact`, `email`) VALUES
+('Grand Hotel', '123 Main Street, City, Country', '+1234567890', 'info@grandhotel.com');
+
+-- Insert Default SuperAdmin (password: admin123)
+INSERT INTO `employees` (`hotel_id`, `first_name`, `last_name`, `email`, `password`, `role_id`, `status`) VALUES
+(1, 'Super', 'Admin', 'superadmin@hotel.com', '$2a$10$rOzJqJqJqJqJqJqJqJqJqOqJqJqJqJqJqJqJqJqJqJqJqJqJqJqJq', 1, 'active');
+
+-- Insert Sample Departments
+INSERT INTO `departments` (`name`, `hotel_id`) VALUES
+('Front Desk', 1),
+('Housekeeping', 1),
+('Maintenance', 1),
+('Food & Beverage', 1),
+('Management', 1);
+
+-- Insert Sample Shifts
+INSERT INTO `shifts` (`name`, `start_time`, `end_time`) VALUES
+('Morning', '08:00:00', '16:00:00'),
+('Evening', '16:00:00', '00:00:00'),
+('Night', '00:00:00', '08:00:00');
+
+-- Insert Sample Rooms
+INSERT INTO `rooms` (`hotel_id`, `room_type`, `location`, `capacity`, `amenities`, `price`, `status`) VALUES
+(1, 'Single', 'Floor 1', 1, '["WiFi", "TV", "AC"]', 50.00, 'available'),
+(1, 'Double', 'Floor 1', 2, '["WiFi", "TV", "AC", "Mini Bar"]', 80.00, 'available'),
+(1, 'Suite', 'Floor 2', 4, '["WiFi", "TV", "AC", "Mini Bar", "Jacuzzi"]', 150.00, 'available');
