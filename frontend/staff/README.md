@@ -1,3 +1,13 @@
+# Staff React App (skeleton)
+
+This is a minimal skeleton for the staff SPA. Use CRA or your preferred setup to expand.
+
+Install and run (example using CRA):
+
+```
+cd frontend/staff
+# npx create-react-app .  (or use your toolchain)
+```
 # Staff Module - Frontend (Next.js)
 
 This is the staff-facing Next.js app. It communicates with the Staff Backend API.

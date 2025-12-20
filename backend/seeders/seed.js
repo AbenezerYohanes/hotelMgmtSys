@@ -1,3 +1,33 @@
+require('dotenv').config();
+const bcrypt = require('bcrypt');
+const { sequelize, Role, Hotel, Employee, Room } = require('../models');
+
+async function seed() {
+  try {
+    await sequelize.sync({ alter: true });
+
+    const [superRole] = await Role.findOrCreate({ where: { name: 'superadmin' }, defaults: { permissions: {} } });
+    const [adminRole] = await Role.findOrCreate({ where: { name: 'admin' }, defaults: { permissions: {} } });
+    const [receptionRole] = await Role.findOrCreate({ where: { name: 'receptionist' }, defaults: { permissions: {} } });
+
+    const [hotel] = await Hotel.findOrCreate({ where: { name: 'Default Hotel' }, defaults: { location: 'City', contact: '', email: '' } });
+
+    const password = await bcrypt.hash('admin123', 10);
+    await Employee.findOrCreate({ where: { email: 'admin@hotel.test' }, defaults: { first_name: 'Admin', last_name: 'User', email: 'admin@hotel.test', password, role_id: adminRole.id, hotel_id: hotel.id } });
+
+    // sample rooms
+    await Room.findOrCreate({ where: { id: 1 }, defaults: { hotel_id: hotel.id, room_type: 'Deluxe', price: 120.00, capacity: 2, amenities: { wifi: true } } });
+    await Room.findOrCreate({ where: { id: 2 }, defaults: { hotel_id: hotel.id, room_type: 'Suite', price: 220.00, capacity: 4, amenities: { wifi: true, minibar: true } } });
+
+    console.log('Seeding complete');
+    process.exit(0);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+seed();
 const path = require('path');
 require('dotenv').config();
 const { initDb } = require('../config/database');

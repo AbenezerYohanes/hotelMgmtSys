@@ -1,5 +1,46 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const { sequelize } = require('./models');
+
+const app = express();
+
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const limiter = rateLimit({ windowMs: 1 * 60 * 1000, max: 200 });
+app.use(limiter);
+
+app.use('/uploads', express.static('uploads'));
+
+// API routes
+app.use('/api/v1/auth', require('./routes/auth'));
+app.use('/api/v1/employees', require('./routes/employees'));
+app.use('/api/v1/rooms', require('./routes/rooms'));
+app.use('/api/v1/reservations', require('./routes/reservations'));
+app.use('/api/v1/billing', require('./routes/billing'));
+
+const PORT = process.env.PORT || 5000;
+
+async function start() {
+  try {
+    await sequelize.authenticate();
+    console.log('Database connected.');
+    await sequelize.sync();
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.error('Failed to start server', err);
+    process.exit(1);
+  }
+}
+
+start();
+require('dotenv').config();
+const express = require('express');
 const http = require('http');
 const { initDb } = require('./config/database');
 const { helmet, apiLimiter, cors: corsMiddleware } = require('./middleware/security');
