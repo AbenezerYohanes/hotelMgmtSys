@@ -55,7 +55,7 @@ npm run dev
 npm run server
 
 # Start client (in another terminal)
-cd client && npm start
+cd archive/client && npm start
 ```
 
 ### **Option 3: Check Status**
@@ -86,8 +86,8 @@ npm run check-status-win
 
 ```
 aHotelManagementSystem/
-├── server/           # Node.js backend (JavaScript)
-├── client/           # React frontend (JavaScript)
+├── archive/server/           # Node.js backend (archived)
+├── archive/client/           # React frontend (archived)
 ├── config.env        # Environment configuration
 ├── package.json      # Root package.json
 └── setup scripts     # XAMPP setup and status check

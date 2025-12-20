@@ -5,5 +5,5 @@ build/
 .env
 .next/
 server/config/text environment
-client/node_modules/
-server/node_modules/
+archive/client/node_modules/
+archive/server/node_modules/

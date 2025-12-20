@@ -80,7 +80,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
    npm install
 
    # Install frontend dependencies
-   cd client
+   cd archive/client
    npm install
    cd ..
    ```
@@ -95,7 +95,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
 
 4. **Set up the database**
 
-   Start your MySQL/MariaDB server, then apply the SQL schema in `server/database/schema.sql` using the `mysql` client or the provided migration scripts.
+   Start your MySQL/MariaDB server, then apply the SQL schema in `archive/server/database/schema.sql` using the `mysql` client or the provided migration scripts.
 
 5. **Start the development servers**
 
@@ -108,7 +108,7 @@ A complete Hotel Management System integrated with HR Management capabilities bu
    npm run server
 
    # Frontend only
-   cd client && npm start
+   cd archive/client && npm start
    ```
 
 ## API Endpoints
@@ -188,12 +188,12 @@ After running the database setup, you can log in with:
 
 ```
 hotel-management-system/
-├── server/                 # Backend code
+├── archive/server/                 # Backend code (archived)
 │   ├── database/          # Database configuration
 │   ├── middleware/        # Express middleware
 │   ├── routes/           # API routes
 │   └── index.js          # Server entry point
-├── client/               # Frontend code
+├── archive/client/               # Frontend code (archived)
 │   ├── src/
 │   │   ├── components/   # React components
 │   │   ├── contexts/     # React contexts
@@ -202,7 +202,7 @@ hotel-management-system/
 │   │   └── App.tsx       # Main app component
 │   └── public/           # Static files
 ├── package.json          # Backend dependencies
-└── client/package.json   # Frontend dependencies
+└── archive/client/package.json   # Frontend dependencies
 ```
 
 ### Available Scripts

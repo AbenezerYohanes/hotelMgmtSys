@@ -50,12 +50,12 @@ git clone <repository-url>
 cd aHotelManagementSystem
 
 # Install backend dependencies
-cd server
+cd archive/server
 npm install
 cd ..
 
 # Install frontend dependencies
-cd client
+cd archive/client
 npm install
 cd ..
 ```
@@ -72,7 +72,7 @@ cd ..
 
    ```bash
    # Import schema using mysql client
-   mysql -u root -p hotel_management < server/database/schema.sql
+   mysql -u root -p hotel_management < archive/server/database/schema.sql
    ```
 
 #### Option B: Manual Database Setup
@@ -86,12 +86,12 @@ cd ..
 2. **Import Schema**
 
    ```bash
-   mysql -u root -p hotel_management < server/database/schema.sql
+   mysql -u root -p hotel_management < archive/server/database/schema.sql
    ```
 
 3. **Run Setup Script**
    ```bash
-   cd server
+   cd archive/server
    node database/setup.js
    cd ..
    ```
@@ -128,10 +128,10 @@ npm run dev
 
 # Or start them separately:
 # Backend only
-cd server && npm run dev
+cd archive/server && npm run dev
 
 # Frontend only
-cd client && npm start
+cd archive/client && npm start
 ```
 
 ## 🔑 Default Login Credentials
@@ -207,14 +207,14 @@ After setup, you can log in with:
 
 ### Backend Configuration
 
-- Database connection settings in `server/database/config.js`
+- Database connection settings in `archive/server/database/config.js`
 - JWT secret and expiration in `config.env`
 - CORS settings for frontend communication
 
 ### Frontend Configuration
 
-- API base URL in `client/src/services/api.js`
-- Proxy configuration in `client/package.json`
+- API base URL in `archive/client/src/services/api.js`
+- Proxy configuration in `archive/client/package.json`
 
 ## 🐛 Troubleshooting
 
@@ -242,9 +242,9 @@ After setup, you can log in with:
 
 ### Logs
 
-- Backend logs: `server/logs/`
-- Error logs: `server/logs/error.log`
-- Combined logs: `server/logs/combined.log`
+- Backend logs: `archive/server/logs/`
+- Error logs: `archive/server/logs/error.log`
+- Combined logs: `archive/server/logs/combined.log`
 
 ## 📈 MVP Usage Guide
 
@@ -326,7 +326,7 @@ After setup, you can log in with:
 For issues and questions:
 
 1. Check the troubleshooting section
-2. Review logs in `server/logs/`
+2. Review logs in `archive/server/logs/`
 3. Verify database connectivity
 4. Check API endpoints with Postman/curl
 
