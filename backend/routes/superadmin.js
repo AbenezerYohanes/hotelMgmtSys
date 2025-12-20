@@ -3,7 +3,13 @@ const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const rooms = require('../controllers/roomsController');
 const users = require('../controllers/usersController');
-const hrRoutes = require('../superadmin/hr/routes/hrRoutes');
+let hrRoutes;
+try {
+	if (process.env.ENABLE_HR === 'true') hrRoutes = require('../superadmin/hr/routes/hrRoutes');
+} catch (err) {
+	// hr module not present or disabled
+	hrRoutes = null;
+}
 
 // Superadmin can manage rooms and users (users endpoints minimal here)
 router.use(authenticate, authorize(['superadmin']));
@@ -24,7 +30,9 @@ router.get('/users/:id', users.getUser);
 router.put('/users/:id', [body('email').optional().isEmail(), body('role').optional().isIn(['superadmin','admin','staff','receptionist','guest']), runValidation], users.updateUser);
 router.delete('/users/:id', users.deleteUser);
 
-// HR module (superadmin)
-router.use('/hr', hrRoutes);
+// HR module (superadmin) — mount only when enabled and present
+if (hrRoutes) {
+	router.use('/hr', hrRoutes);
+}
 
 module.exports = router;

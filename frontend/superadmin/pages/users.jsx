@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import axios from 'axios'
 import Table from '../../common/components/Table'
 import toast from 'react-hot-toast'
@@ -25,10 +26,17 @@ function EditUserForm({ user, onUpdated, onClose }) {
 
   return (
     <form onSubmit={submit}>
-      <div style={{ marginBottom: 8 }}><label>Email</label><br/><input value={email} onChange={e=>setEmail(e.target.value)} /></div>
-      <div style={{ marginBottom: 8 }}><label>Name</label><br/><input value={name} onChange={e=>setName(e.target.value)} /></div>
-      <div style={{ marginBottom: 8 }}><label>Role</label><br/>
-        <select value={role} onChange={e=>setRole(e.target.value)}>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="user-email">Email</label><br/>
+        <input id="user-email" value={email} onChange={e=>setEmail(e.target.value)} />
+      </div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="user-name">Name</label><br/>
+        <input id="user-name" value={name} onChange={e=>setName(e.target.value)} />
+      </div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="user-role">Role</label><br/>
+        <select id="user-role" value={role} onChange={e=>setRole(e.target.value)}>
           <option value="guest">Guest</option>
           <option value="receptionist">Receptionist</option>
           <option value="staff">Staff</option>
@@ -40,6 +48,14 @@ function EditUserForm({ user, onUpdated, onClose }) {
     </form>
   )
 }
+  
+// Prop types for components
+EditUserForm.propTypes = {
+  user: PropTypes.object,
+  onUpdated: PropTypes.func,
+  onClose: PropTypes.func
+}
+
 
 function CreateUserForm({ onCreated, onClose }) {
   const [email, setEmail] = useState('');
@@ -50,7 +66,7 @@ function CreateUserForm({ onCreated, onClose }) {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post((process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000') + '/api/superadmin/users', { email, name, password, role }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } });
+      await axios.post((process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000') + '/api/superadmin/users', { email, name, password, role }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } });
       toast.success('User created');
       onCreated();
       onClose();
@@ -62,11 +78,21 @@ function CreateUserForm({ onCreated, onClose }) {
 
   return (
     <form onSubmit={submit}>
-      <div style={{ marginBottom: 8 }}><label>Email</label><br/><input value={email} onChange={e=>setEmail(e.target.value)} /></div>
-      <div style={{ marginBottom: 8 }}><label>Name</label><br/><input value={name} onChange={e=>setName(e.target.value)} /></div>
-      <div style={{ marginBottom: 8 }}><label>Password</label><br/><input type="password" value={password} onChange={e=>setPassword(e.target.value)} /></div>
-      <div style={{ marginBottom: 8 }}><label>Role</label><br/>
-        <select value={role} onChange={e=>setRole(e.target.value)}>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="create-email">Email</label><br/>
+        <input id="create-email" value={email} onChange={e=>setEmail(e.target.value)} />
+      </div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="create-name">Name</label><br/>
+        <input id="create-name" value={name} onChange={e=>setName(e.target.value)} />
+      </div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="create-password">Password</label><br/>
+        <input id="create-password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
+      </div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor="create-role">Role</label><br/>
+        <select id="create-role" value={role} onChange={e=>setRole(e.target.value)}>
           <option value="guest">Guest</option>
           <option value="receptionist">Receptionist</option>
           <option value="staff">Staff</option>
@@ -77,6 +103,11 @@ function CreateUserForm({ onCreated, onClose }) {
       <div><button type="submit">Create</button></div>
     </form>
   )
+}
+  
+CreateUserForm.propTypes = {
+  onCreated: PropTypes.func,
+  onClose: PropTypes.func
 }
 
 export default function UsersPage() {

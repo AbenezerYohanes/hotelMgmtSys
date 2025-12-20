@@ -13,6 +13,7 @@ export default function Login() {
       localStorage.setItem('token', res.data.token);
       setMsg('Logged in — token saved to localStorage');
     } catch (err) {
+      console.error(err);
       setMsg('Login failed');
     }
   };

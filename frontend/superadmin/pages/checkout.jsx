@@ -30,7 +30,7 @@ function CheckoutForm() {
       }
 
       // record payment server-side
-      const record = await axios.post((process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000') + '/api/payments', { bookingId, amount, method: 'card', stripePaymentIntentId: confirm.paymentIntent?.id });
+      await axios.post((process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000') + '/api/payments', { bookingId, amount, method: 'card', stripePaymentIntentId: confirm.paymentIntent?.id });
       toast.success('Payment successful');
       setLoading(false);
     } catch (err) {
@@ -44,12 +44,12 @@ function CheckoutForm() {
     <form onSubmit={handlePay} style={{ padding: 24 }}>
       <h2>Checkout (Stripe Elements)</h2>
       <div style={{ marginBottom: 8 }}>
-        <label>Booking ID</label><br/>
-        <input value={bookingId} onChange={e=>setBookingId(e.target.value)} />
+        <label htmlFor="checkout-bookingId">Booking ID</label><br/>
+        <input id="checkout-bookingId" value={bookingId} onChange={e=>setBookingId(e.target.value)} />
       </div>
       <div style={{ marginBottom: 8 }}>
-        <label>Amount</label><br/>
-        <input value={amount} onChange={e=>setAmount(e.target.value)} />
+        <label htmlFor="checkout-amount">Amount</label><br/>
+        <input id="checkout-amount" value={amount} onChange={e=>setAmount(e.target.value)} />
       </div>
       <div style={{ marginBottom: 12 }}>
         <CardElement />

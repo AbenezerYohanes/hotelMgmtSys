@@ -11,18 +11,20 @@ module.exports = (sequelize) => {
   // HR models (optional, integrated if present under superadmin/hr models)
   let Role, Department, Employee, Shift, Attendance, LeaveRequest, Payroll, PayrollItem, PerformanceReview, HRPolicy;
   try {
-    Role = require('../superadmin/hr/models/Role')(sequelize);
-    Department = require('../superadmin/hr/models/Department')(sequelize);
-    Employee = require('../superadmin/hr/models/Employee')(sequelize);
-    Shift = require('../superadmin/hr/models/Shift')(sequelize);
-    Attendance = require('../superadmin/hr/models/Attendance')(sequelize);
-    LeaveRequest = require('../superadmin/hr/models/LeaveRequest')(sequelize);
-    Payroll = require('../superadmin/hr/models/Payroll')(sequelize);
-    PayrollItem = require('../superadmin/hr/models/PayrollItem')(sequelize);
-    PerformanceReview = require('../superadmin/hr/models/PerformanceReview')(sequelize);
-    HRPolicy = require('../superadmin/hr/models/HRPolicy')(sequelize);
+    if (process.env.ENABLE_HR === 'true') {
+      Role = require('../superadmin/hr/models/Role')(sequelize);
+      Department = require('../superadmin/hr/models/Department')(sequelize);
+      Employee = require('../superadmin/hr/models/Employee')(sequelize);
+      Shift = require('../superadmin/hr/models/Shift')(sequelize);
+      Attendance = require('../superadmin/hr/models/Attendance')(sequelize);
+      LeaveRequest = require('../superadmin/hr/models/LeaveRequest')(sequelize);
+      Payroll = require('../superadmin/hr/models/Payroll')(sequelize);
+      PayrollItem = require('../superadmin/hr/models/PayrollItem')(sequelize);
+      PerformanceReview = require('../superadmin/hr/models/PerformanceReview')(sequelize);
+      HRPolicy = require('../superadmin/hr/models/HRPolicy')(sequelize);
+    }
   } catch (err) {
-    // models may not exist yet during initial setup
+    // models may not exist yet during initial setup or hr disabled
   }
 
   // Associations

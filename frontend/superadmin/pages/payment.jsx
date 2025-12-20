@@ -31,12 +31,12 @@ export default function PaymentPage() {
       <h2>Payment (demo)</h2>
       <form onSubmit={payNow}>
         <div>
-          <label>Booking ID</label>
-          <input value={bookingId} onChange={e => setBookingId(e.target.value)} />
+          <label htmlFor="payment-bookingId">Booking ID</label>
+          <input id="payment-bookingId" value={bookingId} onChange={e => setBookingId(e.target.value)} />
         </div>
         <div>
-          <label>Amount</label>
-          <input value={amount} onChange={e => setAmount(e.target.value)} />
+          <label htmlFor="payment-amount">Amount</label>
+          <input id="payment-amount" value={amount} onChange={e => setAmount(e.target.value)} />
         </div>
         <button type="submit">Pay</button>
       </form>
