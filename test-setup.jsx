@@ -19,7 +19,7 @@ const requiredFiles = [
   'archive/client/src/App.jsx',
   'archive/client/src/pages/HR.jsx',
   'archive/client/src/pages/Dashboard.jsx',
-  'MVP_SETUP_GUIDE.md'
+  'docs/MVP_SETUP_GUIDE.md'
 ];
 
 let allFilesExist = true;
@@ -170,7 +170,7 @@ console.log('1. Start MySQL / MariaDB database (local or managed)');
 console.log('2. Run: npm run dev (to start both servers)');
 console.log('3. Open http://localhost:3000 in your browser');
 console.log('4. Login with: admin / admin123');
-console.log('\n📖 For detailed setup instructions, see MVP_SETUP_GUIDE.md');
+console.log('\n📖 For detailed setup instructions, see docs/MVP_SETUP_GUIDE.md');
 console.log('\n🏨 Happy Hotel Managing! ✨');
 
 

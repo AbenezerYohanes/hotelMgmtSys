@@ -420,6 +420,18 @@ This is a complete, production-ready system. Feel free to extend it with:
 - Reporting features
 - Mobile apps
 
+## 📚 Documentation
+
+Additional documentation is available in the [`docs/`](./docs/) folder:
+
+- **[Quick Start Guide](./docs/QUICK_START.md)** - Get started in 5 steps
+- **[Setup Summary](./docs/SETUP_SUMMARY.md)** - Detailed setup instructions
+- **[Frontend Guide](./docs/FRONTEND_GUIDE.md)** - Frontend development guide
+- **[What's Left](./docs/WHAT_IS_LEFT.md)** - Remaining tasks and enhancements
+- **[TODO](./docs/TODO.md)** - Current task list
+
+See the [`docs/`](./docs/) folder for all documentation files.
+
 ## 📄 License
 
 This project is provided as-is for educational and commercial use.
