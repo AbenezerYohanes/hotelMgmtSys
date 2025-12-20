@@ -7,17 +7,17 @@ const DB_PASS = process.env.DB_PASS || '';
 const DB_PORT = process.env.DB_PORT || 3306;
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
-  host: DB_HOST,
-  port: DB_PORT,
-  dialect: 'mysql',
-  logging: false,
-  pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: 'mysql',
+    logging: false,
+    pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
 });
 
 async function initDb() {
-  // test connection
-  await sequelize.authenticate();
-  return sequelize;
+    // test connection
+    await sequelize.authenticate();
+    return sequelize;
 }
 
 module.exports = { sequelize, initDb };
