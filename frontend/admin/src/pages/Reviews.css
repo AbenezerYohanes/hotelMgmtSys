@@ -1,0 +1,51 @@
+.reviews-page {
+  padding: 2rem;
+}
+
+.review-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.review-form select,
+.review-form input,
+.review-form textarea {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.review-form button {
+  padding: 0.75rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reviews-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.review-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.review-card h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.review-card p {
+  margin-bottom: 0.5rem;
+}
+

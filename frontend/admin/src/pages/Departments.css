@@ -1,0 +1,47 @@
+.departments-page {
+  padding: 2rem;
+}
+
+.department-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.department-form input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.department-form button {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.department-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.department-card h3 {
+  color: #2c3e50;
+}
+

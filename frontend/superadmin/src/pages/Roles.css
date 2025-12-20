@@ -1,0 +1,52 @@
+.roles-page {
+  padding: 2rem;
+}
+
+.role-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.role-form input,
+.role-form textarea {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.role-form button {
+  padding: 0.75rem;
+  background: #9b59b6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table thead {
+  background: #9b59b6;
+  color: white;
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+

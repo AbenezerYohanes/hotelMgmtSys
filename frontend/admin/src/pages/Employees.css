@@ -1,0 +1,88 @@
+.employees-page {
+  padding: 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.employee-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.employee-form input {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.employee-form button {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table thead {
+  background: #27ae60;
+  color: white;
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+

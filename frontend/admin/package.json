@@ -1,16 +1,19 @@
 {
-  "name": "frontend-admin",
-  "version": "0.1.0",
+  "name": "admin-dashboard",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3010",
-    "build": "next build",
-    "start": "next start -p 3010"
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "start": "react-scripts start"
   },
   "dependencies": {
-    "next": "^13.5.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
     "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1"
   }
 }

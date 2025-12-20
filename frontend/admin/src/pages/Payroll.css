@@ -1,0 +1,50 @@
+.payroll-page {
+  padding: 2rem;
+}
+
+.payroll-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.payroll-form select,
+.payroll-form input {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.payroll-form button {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table thead {
+  background: #27ae60;
+  color: white;
+}
+
+table th, table td {
+  padding: 1rem;
+  text-align: left;
+}
+
