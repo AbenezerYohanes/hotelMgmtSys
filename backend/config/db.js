@@ -23,6 +23,13 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     dialectOptions: {
         // Enable multiple statements for migrations
         multipleStatements: true
+    },
+    // Use snake_case for timestamps to match database schema
+    define: {
+        underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     }
 });
 
