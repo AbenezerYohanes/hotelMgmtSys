@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Hotels.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -21,10 +21,13 @@ const Hotels = () => {
 
   const fetchHotels = async () => {
     try {
-      const res = await axios.get(`${API_URL}/superadmin/hotels`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getHotels();
       setHotels(res.data.hotels);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load hotels');
+      console.error('Error fetching hotels:', err);
     } finally {
       setLoading(false);
     }
@@ -33,28 +36,34 @@ const Hotels = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/superadmin/hotels`, formData);
-      alert('Hotel created!');
+      setError(null);
+      await apiService.createHotel(formData);
+      setSuccessMessage('Hotel created!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ name: '', location: '', contact: '', email: '' });
       fetchHotels();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to create hotel');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this hotel?')) return;
     try {
-      await axios.delete(`${API_URL}/superadmin/hotels/${id}`);
-      alert('Hotel deleted!');
+      setError(null);
+      await apiService.deleteHotel(id);
+      setSuccessMessage('Hotel deleted!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchHotels();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to delete hotel');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="hotels-page">
@@ -64,6 +73,8 @@ const Hotels = () => {
           {showForm ? 'Cancel' : 'Add Hotel'}
         </button>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {showForm && (
         <form onSubmit={handleSubmit} className="hotel-form">
           <input

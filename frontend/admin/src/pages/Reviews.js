@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Reviews.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     employee_id: '',
@@ -22,14 +22,17 @@ const Reviews = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const [reviewsRes, employeesRes] = await Promise.all([
-        axios.get(`${API_URL}/admin/hr/reviews`),
-        axios.get(`${API_URL}/employees`)
+        apiService.getReviews(),
+        apiService.getEmployees()
       ]);
       setReviews(reviewsRes.data.reviews);
       setEmployees(employeesRes.data.employees);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load data');
+      console.error('Error fetching data:', err);
     } finally {
       setLoading(false);
     }
@@ -38,17 +41,20 @@ const Reviews = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/admin/hr/reviews`, formData);
-      alert('Review created!');
+      setError(null);
+      await apiService.createReview(formData);
+      setSuccessMessage('Review created!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ employee_id: '', rating: 5, comments: '', date: new Date().toISOString().split('T')[0] });
       fetchData();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to create review');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="reviews-page">
@@ -58,6 +64,8 @@ const Reviews = () => {
           {showForm ? 'Cancel' : 'Add Review'}
         </button>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {showForm && (
         <form onSubmit={handleSubmit} className="review-form">
           <select

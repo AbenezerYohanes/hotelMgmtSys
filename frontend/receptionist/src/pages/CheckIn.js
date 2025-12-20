@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './CheckIn.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const CheckIn = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedReservation, setSelectedReservation] = useState(null);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     fetchPendingCheckIns();
@@ -15,10 +14,13 @@ const CheckIn = () => {
 
   const fetchPendingCheckIns = async () => {
     try {
-      const res = await axios.get(`${API_URL}/reservations`, { params: { status: 'confirmed' } });
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getReservations({ status: 'confirmed' });
       setReservations(res.data.reservations);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load reservations');
+      console.error('Error fetching reservations:', err);
     } finally {
       setLoading(false);
     }
@@ -28,19 +30,23 @@ const CheckIn = () => {
     if (!window.confirm('Confirm check-in?')) return;
     
     try {
-      await axios.put(`${API_URL}/reservations/${id}/checkin`);
-      alert('Check-in successful!');
+      await apiService.checkIn(id);
+      setSuccessMessage('Check-in successful!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchPendingCheckIns();
     } catch (err) {
-      alert('Check-in failed: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Check-in failed');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="checkin-page">
       <h2>Check-In</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       <div className="reservations-list">
         {reservations.length === 0 ? (
           <p>No pending check-ins</p>

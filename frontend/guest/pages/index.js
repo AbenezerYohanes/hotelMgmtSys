@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
 
 export default function Home() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchRooms();
@@ -15,10 +14,13 @@ export default function Home() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get(`${API_URL}/rooms`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getRooms();
       setRooms(res.data.rooms);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load rooms');
+      console.error('Error fetching rooms:', err);
     } finally {
       setLoading(false);
     }
@@ -36,6 +38,7 @@ export default function Home() {
       <main className={styles.main}>
         <h2>Welcome to Grand Hotel</h2>
         <p>Book your perfect stay with us</p>
+        {error && <div className={styles.error}>{error}</div>}
         {loading ? (
           <p>Loading rooms...</p>
         ) : (

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import Link from 'next/link';
 import styles from '../styles/Dashboard.module.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
 
 export default function Dashboard() {
   const [guest, setGuest] = useState(null);
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,20 +17,22 @@ export default function Dashboard() {
       router.push('/login');
       return;
     }
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const [guestRes, reservationsRes] = await Promise.all([
-        axios.get(`${API_URL}/guests/me/profile`),
-        axios.get(`${API_URL}/guests/me/reservations`)
+        apiService.getMyGuestProfile(),
+        apiService.getMyReservations()
       ]);
       setGuest(guestRes.data.guest);
       setReservations(reservationsRes.data.reservations);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load data');
+      console.error('Error fetching data:', err);
       if (err.response?.status === 401) {
         router.push('/login');
       }
@@ -59,6 +60,7 @@ export default function Dashboard() {
       </nav>
       <main className={styles.main}>
         <h2>Welcome, {guest?.first_name} {guest?.last_name}</h2>
+        {error && <div className={styles.error}>{error}</div>}
         <div className={styles.section}>
           <h3>My Reservations</h3>
           {reservations.length === 0 ? (

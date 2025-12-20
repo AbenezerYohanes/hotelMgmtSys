@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Employees.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchEmployees();
@@ -14,20 +13,25 @@ const Employees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getEmployees();
       setEmployees(res.data.employees);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load employees');
+      console.error('Error fetching employees:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="employees-page">
       <h2>All Employees (Global View)</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {employees.length === 0 && !loading && <p>No employees found</p>}
       <table>
         <thead>
           <tr>

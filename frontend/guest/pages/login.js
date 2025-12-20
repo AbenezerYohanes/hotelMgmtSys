@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import styles from '../styles/Login.module.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/auth/guest/login`, { email, password });
+      const res = await apiService.guestLogin(email, password);
       localStorage.setItem('token', res.data.token);
       router.push('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +45,9 @@ export default function Login() {
             required
           />
           {error && <div className={styles.error}>{error}</div>}
-          <button type="submit">Login</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
         <p>
           Don't have an account? <a href="/register">Register</a>

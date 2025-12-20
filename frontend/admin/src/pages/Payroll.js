@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Payroll.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Payroll = () => {
   const [payrolls, setPayrolls] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     employee_id: '',
@@ -23,14 +23,17 @@ const Payroll = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const [payrollsRes, employeesRes] = await Promise.all([
-        axios.get(`${API_URL}/admin/hr/payroll`),
-        axios.get(`${API_URL}/employees`)
+        apiService.getPayrolls(),
+        apiService.getEmployees()
       ]);
       setPayrolls(payrollsRes.data.payrolls);
       setEmployees(employeesRes.data.employees);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load data');
+      console.error('Error fetching data:', err);
     } finally {
       setLoading(false);
     }
@@ -39,17 +42,20 @@ const Payroll = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/admin/hr/payroll`, formData);
-      alert('Payroll created!');
+      setError(null);
+      await apiService.createPayroll(formData);
+      setSuccessMessage('Payroll created!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ employee_id: '', salary: '', allowances: '', deductions: '', date: new Date().toISOString().split('T')[0] });
       fetchData();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to create payroll');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="payroll-page">
@@ -59,6 +65,8 @@ const Payroll = () => {
           {showForm ? 'Cancel' : 'Add Payroll'}
         </button>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {showForm && (
         <form onSubmit={handleSubmit} className="payroll-form">
           <select

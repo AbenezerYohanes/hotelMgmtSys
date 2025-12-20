@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Reviews.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchReviews();
@@ -14,20 +13,25 @@ const Reviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees/me/reviews`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getMyReviews();
       setReviews(res.data.reviews);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load reviews');
+      console.error('Error fetching reviews:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="reviews-page">
       <h2>My Performance Reviews</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {reviews.length === 0 && !loading && <p>No performance reviews found</p>}
       <div className="reviews-list">
         {reviews.map((review) => (
           <div key={review.id} className="review-card">

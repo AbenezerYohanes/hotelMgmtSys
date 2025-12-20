@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Leaves.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Leaves = () => {
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [filter, setFilter] = useState('pending');
 
   useEffect(() => {
@@ -15,37 +15,48 @@ const Leaves = () => {
 
   const fetchLeaves = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const params = filter !== 'all' ? { status: filter } : {};
-      const res = await axios.get(`${API_URL}/admin/hr/leaves`, { params });
+      const res = await apiService.getLeaves(params);
       setLeaves(res.data.leaves);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load leave requests');
+      console.error('Error fetching leaves:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleApprove = async (id) => {
+    if (!window.confirm('Approve this leave request?')) return;
     try {
-      await axios.put(`${API_URL}/admin/hr/leaves/${id}`, { status: 'approved' });
-      alert('Leave approved!');
+      setError(null);
+      await apiService.updateLeave(id, { status: 'approved' });
+      setSuccessMessage('Leave approved!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchLeaves();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to approve leave');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
   const handleReject = async (id) => {
+    if (!window.confirm('Reject this leave request?')) return;
     try {
-      await axios.put(`${API_URL}/admin/hr/leaves/${id}`, { status: 'rejected' });
-      alert('Leave rejected!');
+      setError(null);
+      await apiService.updateLeave(id, { status: 'rejected' });
+      setSuccessMessage('Leave rejected!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchLeaves();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to reject leave');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="leaves-page">
@@ -58,6 +69,9 @@ const Leaves = () => {
           <option value="rejected">Rejected</option>
         </select>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
+      {leaves.length === 0 && !loading && <p>No leave requests found</p>}
       <table>
         <thead>
           <tr>

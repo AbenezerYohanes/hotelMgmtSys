@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Reservations.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Reservations = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     fetchReservations();
@@ -15,37 +15,46 @@ const Reservations = () => {
 
   const fetchReservations = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const params = filter !== 'all' ? { status: filter } : {};
-      const res = await axios.get(`${API_URL}/reservations`, { params });
+      const res = await apiService.getReservations(params);
       setReservations(res.data.reservations);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load reservations');
+      console.error('Error fetching reservations:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCheckIn = async (id) => {
+    if (!window.confirm('Confirm check-in?')) return;
     try {
-      await axios.put(`${API_URL}/reservations/${id}/checkin`);
+      await apiService.checkIn(id);
+      setSuccessMessage('Check-in successful!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchReservations();
-      alert('Check-in successful!');
     } catch (err) {
-      alert('Check-in failed: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Check-in failed');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
   const handleCheckOut = async (id) => {
+    if (!window.confirm('Confirm check-out?')) return;
     try {
-      await axios.put(`${API_URL}/reservations/${id}/checkout`);
+      await apiService.checkOut(id);
+      setSuccessMessage('Check-out successful!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchReservations();
-      alert('Check-out successful!');
     } catch (err) {
-      alert('Check-out failed: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Check-out failed');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="reservations-page">
@@ -60,6 +69,9 @@ const Reservations = () => {
           <option value="cancelled">Cancelled</option>
         </select>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
+      {reservations.length === 0 && !loading && <p>No reservations found</p>}
       <table>
         <thead>
           <tr>

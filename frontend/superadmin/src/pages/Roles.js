@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Roles.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -19,10 +19,13 @@ const Roles = () => {
 
   const fetchRoles = async () => {
     try {
-      const res = await axios.get(`${API_URL}/superadmin/roles`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getRoles();
       setRoles(res.data.roles);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load roles');
+      console.error('Error fetching roles:', err);
     } finally {
       setLoading(false);
     }
@@ -31,18 +34,21 @@ const Roles = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setError(null);
       const permissions = JSON.parse(formData.permissions);
-      await axios.post(`${API_URL}/superadmin/roles`, { name: formData.name, permissions });
-      alert('Role created!');
+      await apiService.createRole({ name: formData.name, permissions });
+      setSuccessMessage('Role created!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ name: '', permissions: '{}' });
       fetchRoles();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to create role');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="roles-page">
@@ -52,6 +58,8 @@ const Roles = () => {
           {showForm ? 'Cancel' : 'Add Role'}
         </button>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {showForm && (
         <form onSubmit={handleSubmit} className="role-form">
           <input

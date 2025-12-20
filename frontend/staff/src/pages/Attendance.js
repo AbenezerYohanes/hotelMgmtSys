@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Attendance.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Attendance = () => {
   const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchAttendance();
@@ -14,20 +13,25 @@ const Attendance = () => {
 
   const fetchAttendance = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees/me/attendance`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getMyAttendance();
       setAttendance(res.data.attendance);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load attendance');
+      console.error('Error fetching attendance:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="attendance-page">
       <h2>My Attendance</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {attendance.length === 0 && !loading && <p>No attendance records found</p>}
       <table>
         <thead>
           <tr>

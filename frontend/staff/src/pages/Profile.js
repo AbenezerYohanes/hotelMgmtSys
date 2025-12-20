@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Profile.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Profile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProfile();
@@ -16,21 +15,26 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees/me/profile`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getMyProfile();
       setProfile(res.data.employee);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load profile');
+      console.error('Error fetching profile:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error-message">{error}</div>;
   if (!profile) return <div>Profile not found</div>;
 
   return (
     <div className="profile-page">
       <h2>My Profile</h2>
+      {error && <div className="error-banner">{error}</div>}
       <div className="profile-details">
         <p><strong>First Name:</strong> {profile.first_name}</p>
         <p><strong>Last Name:</strong> {profile.last_name}</p>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Guests.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Guests = () => {
   const [guests, setGuests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -15,10 +14,13 @@ const Guests = () => {
 
   const fetchGuests = async () => {
     try {
-      const res = await axios.get(`${API_URL}/guests`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getGuests();
       setGuests(res.data.guests);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load guests');
+      console.error('Error fetching guests:', err);
     } finally {
       setLoading(false);
     }
@@ -30,7 +32,7 @@ const Guests = () => {
     guest.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="guests-page">
@@ -44,6 +46,8 @@ const Guests = () => {
           className="search-input"
         />
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {filteredGuests.length === 0 && !loading && <p>No guests found</p>}
       <table>
         <thead>
           <tr>

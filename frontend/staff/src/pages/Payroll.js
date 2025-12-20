@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Payroll.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Payroll = () => {
   const [payrolls, setPayrolls] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchPayrolls();
@@ -14,20 +13,25 @@ const Payroll = () => {
 
   const fetchPayrolls = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees/me/payroll`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getMyPayroll();
       setPayrolls(res.data.payrolls);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load payroll');
+      console.error('Error fetching payroll:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="payroll-page">
       <h2>My Payroll</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {payrolls.length === 0 && !loading && <p>No payroll records found</p>}
       <table>
         <thead>
           <tr>

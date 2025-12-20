@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { apiService } from '../utils/apiService';
 import styles from '../styles/Register.module.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -15,6 +13,7 @@ export default function Register() {
     address: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -24,12 +23,15 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/auth/guest/register`, formData);
+      const res = await apiService.guestRegister(formData);
       localStorage.setItem('token', res.data.token);
       router.push('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,7 +87,9 @@ export default function Register() {
             onChange={handleChange}
           />
           {error && <div className={styles.error}>{error}</div>}
-          <button type="submit">Register</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
         </form>
         <p>
           Already have an account? <a href="/login">Login</a>

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Attendance.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
-
 const Attendance = () => {
-  const [attendance, setAttendance] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [formData, setFormData] = useState({
     employee_id: '',
     date: new Date().toISOString().split('T')[0],
@@ -20,13 +19,14 @@ const Attendance = () => {
 
   const fetchData = async () => {
     try {
-      const [employeesRes] = await Promise.all([
-        axios.get(`${API_URL}/employees`)
-      ]);
+      setLoading(true);
+      setError(null);
+      const employeesRes = await apiService.getEmployees();
       setEmployees(employeesRes.data.employees);
-      setLoading(false);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load employees');
+      console.error('Error fetching employees:', err);
+    } finally {
       setLoading(false);
     }
   };
@@ -34,19 +34,24 @@ const Attendance = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/admin/hr/attendance`, formData);
-      alert('Attendance recorded!');
+      setError(null);
+      await apiService.createAttendance(formData);
+      setSuccessMessage('Attendance recorded!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setFormData({ employee_id: '', date: new Date().toISOString().split('T')[0], status: 'present' });
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to record attendance');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="attendance-page">
       <h2>Attendance Management</h2>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       <form onSubmit={handleSubmit} className="attendance-form">
         <select
           value={formData.employee_id}

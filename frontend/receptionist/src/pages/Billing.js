@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Billing.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Billing = () => {
   const [billings, setBillings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -15,27 +15,33 @@ const Billing = () => {
 
   const fetchBillings = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const params = filter !== 'all' ? { status: filter } : {};
-      const res = await axios.get(`${API_URL}/billing`, { params });
+      const res = await apiService.getBillings(params);
       setBillings(res.data.billings);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load billings');
+      console.error('Error fetching billings:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const handlePayment = async (id, paymentMethod) => {
+    if (!window.confirm(`Process payment as ${paymentMethod}?`)) return;
     try {
-      await axios.put(`${API_URL}/billing/${id}/pay`, { payment_method: paymentMethod });
-      alert('Payment processed successfully!');
+      await apiService.processPayment(id, { payment_method: paymentMethod });
+      setSuccessMessage('Payment processed successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       fetchBillings();
     } catch (err) {
-      alert('Payment failed: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Payment failed');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="billing-page">
@@ -48,6 +54,9 @@ const Billing = () => {
           <option value="failed">Failed</option>
         </select>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
+      {billings.length === 0 && !loading && <p>No billings found</p>}
       <table>
         <thead>
           <tr>

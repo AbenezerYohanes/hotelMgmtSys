@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Rooms.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -15,17 +14,20 @@ const Rooms = () => {
 
   const fetchRooms = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const params = filter !== 'all' ? { status: filter } : {};
-      const res = await axios.get(`${API_URL}/rooms`, { params });
+      const res = await apiService.getRooms(params);
       setRooms(res.data.rooms);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load rooms');
+      console.error('Error fetching rooms:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="rooms-page">
@@ -39,6 +41,8 @@ const Rooms = () => {
           <option value="cleaning">Cleaning</option>
         </select>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {rooms.length === 0 && !loading && <p>No rooms found</p>}
       <div className="rooms-grid">
         {rooms.map((room) => (
           <div key={room.id} className={`room-card status-${room.status}`}>

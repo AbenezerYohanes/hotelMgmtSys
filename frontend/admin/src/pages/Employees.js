@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../../../common/utils/apiService';
 import './Employees.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -24,10 +24,13 @@ const Employees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get(`${API_URL}/employees`);
+      setLoading(true);
+      setError(null);
+      const res = await apiService.getEmployees();
       setEmployees(res.data.employees);
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.error || 'Failed to load employees');
+      console.error('Error fetching employees:', err);
     } finally {
       setLoading(false);
     }
@@ -36,17 +39,20 @@ const Employees = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/employees`, formData);
-      alert('Employee created successfully!');
+      setError(null);
+      await apiService.createEmployee(formData);
+      setSuccessMessage('Employee created successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ first_name: '', last_name: '', email: '', password: '', role_id: '', contact: '', address: '' });
       fetchEmployees();
     } catch (err) {
-      alert('Error: ' + (err.response?.data?.error || 'Unknown error'));
+      setError(err.response?.data?.error || 'Failed to create employee');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="loading">Loading...</div>;
 
   return (
     <div className="employees-page">
@@ -56,6 +62,8 @@ const Employees = () => {
           {showForm ? 'Cancel' : 'Add Employee'}
         </button>
       </div>
+      {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {showForm && (
         <form onSubmit={handleSubmit} className="employee-form">
           <input
