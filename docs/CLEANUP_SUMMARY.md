@@ -16,7 +16,7 @@
 - `backend/models/Pricing.js` - Not used
 - `backend/models/StaffSchedule.js` - Not used
 - `backend/config/database.js` - Duplicate (using db.js)
-- `backend/dev.sqlite` - Development SQLite file (using MySQL)
+- `backend/dev.sqlite` - Removed SQLite file (using MySQL via XAMPP only)
 
 ### Frontend Unused Files
 - `frontend/staff/pages/` - Old Next.js pages (using React SPA in `src/`)

@@ -1,40 +1,46 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const DB_HOST = process.env.DB_HOST || '127.0.0.1';
-const DB_NAME = process.env.DB_NAME || 'hotel_db';
+// MySQL Database Configuration for XAMPP
+const DB_HOST = process.env.DB_HOST || 'localhost';
+const DB_NAME = process.env.DB_NAME || 'hotel_hr_management';
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASS = process.env.DB_PASS || '';
 const DB_PORT = process.env.DB_PORT || 3306;
 
+// Create Sequelize instance with MySQL dialect
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: DB_PORT,
     dialect: 'mysql',
-    logging: false,
-    pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
+    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    pool: {
+        max: 10,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    dialectOptions: {
+        // Enable multiple statements for migrations
+        multipleStatements: true
+    }
 });
 
+// Initialize database connection
 async function initDb() {
-    // test connection
-    await sequelize.authenticate();
-    return sequelize;
+    try {
+        // Test connection
+        await sequelize.authenticate();
+        console.log('✅ MySQL Connected successfully via XAMPP');
+        return sequelize;
+    } catch (error) {
+        console.error('❌ Unable to connect to MySQL database:', error.message);
+        console.error('\n📝 Please ensure:');
+        console.error('   1. XAMPP MySQL service is running');
+        console.error('   2. Database "hotel_hr_management" exists');
+        console.error('   3. MySQL credentials in .env are correct');
+        throw error;
+    }
 }
 
 module.exports = { sequelize, initDb };
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
-
-const DB_NAME = process.env.DB_NAME || 'hotel_db';
-const DB_USER = process.env.DB_USER || 'root';
-const DB_PASS = process.env.DB_PASS || '';
-const DB_HOST = process.env.DB_HOST || '127.0.0.1';
-const DB_PORT = process.env.DB_PORT || 3306;
-
-const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: 'mysql',
-    logging: false
-});
-
-module.exports = { sequelize };

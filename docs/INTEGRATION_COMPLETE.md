@@ -40,7 +40,7 @@ All frontend pages now:
 - ❌ `backend/models/Pricing.js` (unused)
 - ❌ `backend/models/StaffSchedule.js` (unused)
 - ❌ `backend/config/database.js` (duplicate - using db.js)
-- ❌ `backend/dev.sqlite` (development file)
+- ❌ `backend/dev.sqlite` (removed - using MySQL via XAMPP only)
 - ❌ `backend/TEST_CREATE.txt` (test file)
 
 **Note**: Old subdirectories (`backend/admin/`, `backend/receptionist/`, `backend/staff/`, `backend/superadmin/`) are not imported in `server.js` but kept for reference. They can be manually deleted if needed.

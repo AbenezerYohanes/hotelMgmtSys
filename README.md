@@ -134,7 +134,7 @@ aHotelManagementSystem/
    Create `.env` file in `backend/`:
    ```env
    DB_HOST=127.0.0.1
-   DB_NAME=hotel_management
+   DB_NAME=hotel_hr_management
    DB_USER=root
    DB_PASS=
    DB_PORT=3306
@@ -385,7 +385,7 @@ Create `.env` files in each directory:
 **backend/.env:**
 ```env
 DB_HOST=127.0.0.1
-DB_NAME=hotel_management
+DB_NAME=hotel_hr_management
 DB_USER=root
 DB_PASS=
 DB_PORT=3306

@@ -37,7 +37,7 @@
 - ❌ `backend/models/Pricing.js`
 - ❌ `backend/models/StaffSchedule.js`
 - ❌ `backend/config/database.js` (duplicate)
-- ❌ `backend/dev.sqlite`
+- ❌ `backend/dev.sqlite` (removed - using MySQL via XAMPP only)
 - ❌ `backend/TEST_CREATE.txt`
 
 **Note**: Old subdirectories (`backend/admin/`, `backend/receptionist/`, `backend/staff/`, `backend/superadmin/`) are not used but kept for reference. Can be manually deleted.

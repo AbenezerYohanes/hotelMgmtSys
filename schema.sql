@@ -1,8 +1,8 @@
 -- Complete Schema for Hotel + HR Management System (MySQL/XAMPP)
 -- Multi-role support: SuperAdmin, Admin, Staff, Receptionist, Guest
 
-CREATE DATABASE IF NOT EXISTS `hotel_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `hotel_management`;
+CREATE DATABASE IF NOT EXISTS `hotel_hr_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `hotel_hr_management`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
