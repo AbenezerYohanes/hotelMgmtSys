@@ -27,13 +27,3 @@ coverage/
 # Misc
 logs/
 *.log
-node_modules/
-.cache/
-dist/
-build/
-.env
-.next/
-client/node_modules/
-server/node_modules/
-server/config/text environment
-
