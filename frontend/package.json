@@ -1,13 +1,5 @@
 {
   "name": "aHotelManagementSystem-frontend",
   "private": true,
-  "workspaces": [
-    "superadmin",
-    "admin",
-    "staff",
-    "receptionist",
-    "guest",
-    "common"
-  ],
-  "devDependencies": {}
+  "description": "Frontend applications for Hotel + HR Management System"
 }

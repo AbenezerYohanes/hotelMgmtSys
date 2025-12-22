@@ -17,12 +17,16 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     pool: {
         max: 10,
         min: 0,
-        acquire: 30000,
+        acquire: 60000,  // 60 seconds
         idle: 10000
     },
     dialectOptions: {
         // Enable multiple statements for migrations
-        multipleStatements: true
+        multipleStatements: true,
+        connectTimeout: 60000  // 60 seconds connection timeout
+    },
+    retry: {
+        max: 3  // Retry connection up to 3 times
     },
     // Use snake_case for timestamps to match database schema
     define: {
