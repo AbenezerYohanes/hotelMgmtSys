@@ -25,6 +25,32 @@ const Attendance = () => {
     }
   };
 
+  const handleClockIn = async () => {
+    try {
+      setError(null);
+      await apiService.clockIn();
+      setSuccessMessage('Clocked in successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+      fetchAttendance();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to clock in');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
+
+  const handleClockOut = async () => {
+    try {
+      setError(null);
+      await apiService.clockOut();
+      setSuccessMessage('Clocked out successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+      fetchAttendance();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to clock out');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (

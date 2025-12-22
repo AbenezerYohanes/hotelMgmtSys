@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { apiService } from '../../../common/utils/apiService';
+import Modal from '../../../common/components/Modal';
 import './Rooms.css';
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [newStatus, setNewStatus] = useState('');
 
   useEffect(() => {
     fetchRooms();
@@ -27,6 +32,28 @@ const Rooms = () => {
     }
   };
 
+  const openStatusModal = (room) => {
+    setSelectedRoom(room);
+    setNewStatus(room.status);
+    setShowStatusModal(true);
+  };
+
+  const handleStatusUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      setError(null);
+      await apiService.updateRoomStatus(selectedRoom.id, { status: newStatus });
+      setSuccessMessage('Room status updated successfully!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+      setShowStatusModal(false);
+      setSelectedRoom(null);
+      fetchRooms();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to update room status');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
@@ -42,6 +69,7 @@ const Rooms = () => {
         </select>
       </div>
       {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
       {rooms.length === 0 && !loading && <p>No rooms found</p>}
       <div className="rooms-grid">
         {rooms.map((room) => (
@@ -50,7 +78,7 @@ const Rooms = () => {
             <p><strong>Location:</strong> {room.location || 'N/A'}</p>
             <p><strong>Capacity:</strong> {room.capacity}</p>
             <p><strong>Price:</strong> ${room.price}/night</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Status:</strong>
               <span className={`status-badge status-${room.status}`}>
                 {room.status}
               </span>

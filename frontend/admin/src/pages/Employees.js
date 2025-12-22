@@ -43,7 +43,7 @@ const Employees = () => {
       await apiService.createEmployee(formData);
       setSuccessMessage('Employee created successfully!');
       setTimeout(() => setSuccessMessage(null), 3000);
-      setShowForm(false);
+      setShowCreateModal(false);
       setFormData({ first_name: '', last_name: '', email: '', password: '', role_id: '', contact: '', address: '' });
       fetchEmployees();
     } catch (err) {
@@ -58,57 +58,88 @@ const Employees = () => {
     <div className="employees-page">
       <div className="page-header">
         <h2>Employees</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
-          {showForm ? 'Cancel' : 'Add Employee'}
+        <button onClick={() => setShowCreateModal(true)} className="btn-primary">
+          Add Employee
         </button>
       </div>
       {error && <div className="error-banner">{error}</div>}
       {successMessage && <div className="success-banner">{successMessage}</div>}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="employee-form">
-          <input
-            type="text"
-            placeholder="First Name"
-            value={formData.first_name}
-            onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            value={formData.last_name}
-            onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Contact"
-            value={formData.contact}
-            onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Address"
-            value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-          />
-          <button type="submit">Create Employee</button>
+      <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add New Employee">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="first_name">First Name</label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={formData.first_name}
+              onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="last_name">Last Name</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={formData.last_name}
+              onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="contact">Contact</label>
+            <input
+              type="text"
+              id="contact"
+              name="contact"
+              value={formData.contact}
+              onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="address">Address</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="button" onClick={() => setShowCreateModal(false)} className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="submit-button">
+              Create Employee
+            </button>
+          </div>
         </form>
-      )}
+      </Modal>
       <table>
         <thead>
           <tr>

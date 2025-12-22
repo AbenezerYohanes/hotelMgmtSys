@@ -75,36 +75,59 @@ const Hotels = () => {
       </div>
       {error && <div className="error-banner">{error}</div>}
       {successMessage && <div className="success-banner">{successMessage}</div>}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="hotel-form">
-          <input
-            type="text"
-            placeholder="Hotel Name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Contact"
-            value={formData.contact}
-            onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-          <button type="submit">Create Hotel</button>
+      <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add New Hotel">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Hotel Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="contact">Contact</label>
+            <input
+              type="text"
+              id="contact"
+              name="contact"
+              value={formData.contact}
+              onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="button" onClick={() => setShowCreateModal(false)} className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="submit-button">
+              Create Hotel
+            </button>
+          </div>
         </form>
-      )}
+      </Modal>
       <div className="hotels-grid">
         {hotels.map((hotel) => (
           <div key={hotel.id} className="hotel-card">
