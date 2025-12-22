@@ -22,10 +22,10 @@
 ### Admin Frontend
 - [x] Update Employees.js: Add form to add/edit employees.
 - [x] Update Attendance.js: Add form to mark attendance.
-- [ ] Update Payroll.js: Add form to create payroll entries.
-- [ ] Update Reviews.js: Add form to create performance reviews.
-- [ ] Update Departments.js: Add form to add/edit departments.
-- [ ] Update Rooms.js: Add form to manage rooms.
+- [x] Update Payroll.js: Add form to create payroll entries.
+- [x] Update Reviews.js: Add form to create performance reviews.
+- [x] Update Departments.js: Add form to add/edit departments.
+- [x] Update Rooms.js: Add form to manage rooms.
 
 ### Guest Frontend
 - [x] Update rooms.js: Add booking modal/form for selecting dates and booking rooms.
@@ -33,7 +33,7 @@
 
 ### Staff Frontend
 - [x] Update Attendance.js: Add form to clock in/out.
-- [ ] Update Leaves.js: Add form to request leave.
+- [x] Update Leaves.js: Add form to request leave.
 - [ ] Update Profile.js: Add form to update profile.
 
 ### Superadmin Frontend

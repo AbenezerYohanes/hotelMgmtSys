@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { apiService } from '../../../common/utils/apiService';
+import Modal from '../../../common/components/Modal';
 import './Profile.css';
 
 const Profile = () => {
@@ -8,6 +9,15 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    contact: '',
+    address: ''
+  });
 
   useEffect(() => {
     fetchProfile();
@@ -19,11 +29,33 @@ const Profile = () => {
       setError(null);
       const res = await apiService.getMyProfile();
       setProfile(res.data.employee);
+      setFormData({
+        first_name: res.data.employee.first_name,
+        last_name: res.data.employee.last_name,
+        email: res.data.employee.email,
+        contact: res.data.employee.contact || '',
+        address: res.data.employee.address || ''
+      });
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load profile');
       console.error('Error fetching profile:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setError(null);
+      await apiService.updateMyProfile(formData);
+      setSuccessMessage('Profile updated!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+      setShowEditModal(false);
+      fetchProfile();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to update profile');
+      setTimeout(() => setError(null), 5000);
     }
   };
 
@@ -33,8 +65,52 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      <h2>My Profile</h2>
+      <div className="page-header">
+        <h2>My Profile</h2>
+        <button onClick={() => setShowEditModal(true)} className="btn-primary">
+          Edit Profile
+        </button>
+      </div>
       {error && <div className="error-banner">{error}</div>}
+      {successMessage && <div className="success-banner">{successMessage}</div>}
+      <Modal show={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Profile">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="First Name"
+            value={formData.first_name}
+            onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={formData.last_name}
+            onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Contact"
+            value={formData.contact}
+            onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+          />
+          <textarea
+            placeholder="Address"
+            value={formData.address}
+            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            rows="3"
+          />
+          <button type="submit">Update Profile</button>
+        </form>
+      </Modal>
       <div className="profile-details">
         <p><strong>First Name:</strong> {profile.first_name}</p>
         <p><strong>Last Name:</strong> {profile.last_name}</p>

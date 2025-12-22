@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
+import { apiService } from 'frontend-common/utils/apiService';
+import Modal from '../components/Modal';
 import './Reviews.css';
 
 const Reviews = () => {
@@ -8,7 +9,7 @@ const Reviews = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [formData, setFormData] = useState({
     employee_id: '',
     rating: 5,
@@ -45,7 +46,7 @@ const Reviews = () => {
       await apiService.createReview(formData);
       setSuccessMessage('Review created!');
       setTimeout(() => setSuccessMessage(null), 3000);
-      setShowForm(false);
+      setShowCreateModal(false);
       setFormData({ employee_id: '', rating: 5, comments: '', date: new Date().toISOString().split('T')[0] });
       fetchData();
     } catch (err) {
@@ -60,14 +61,14 @@ const Reviews = () => {
     <div className="reviews-page">
       <div className="page-header">
         <h2>Performance Reviews</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
-          {showForm ? 'Cancel' : 'Add Review'}
+        <button onClick={() => setShowCreateModal(true)} className="btn-primary">
+          Add Review
         </button>
       </div>
       {error && <div className="error-banner">{error}</div>}
       {successMessage && <div className="success-banner">{successMessage}</div>}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="review-form">
+      <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add Performance Review">
+        <form onSubmit={handleSubmit}>
           <select
             value={formData.employee_id}
             onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
@@ -103,7 +104,7 @@ const Reviews = () => {
           />
           <button type="submit">Create Review</button>
         </form>
-      )}
+      </Modal>
       <div className="reviews-list">
         {reviews.map((review) => (
           <div key={review.id} className="review-card">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
+import { apiService } from '../utils/apiService';
+import Modal from '../components/Modal';
 import './Payroll.css';
 
 const Payroll = () => {
@@ -46,7 +47,7 @@ const Payroll = () => {
       await apiService.createPayroll(formData);
       setSuccessMessage('Payroll created!');
       setTimeout(() => setSuccessMessage(null), 3000);
-      setShowForm(false);
+      setShowCreateModal(false);
       setFormData({ employee_id: '', salary: '', allowances: '', deductions: '', date: new Date().toISOString().split('T')[0] });
       fetchData();
     } catch (err) {
@@ -61,8 +62,8 @@ const Payroll = () => {
     <div className="payroll-page">
       <div className="page-header">
         <h2>Payroll Management</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
-          {showForm ? 'Cancel' : 'Add Payroll'}
+        <button onClick={() => setShowCreateModal(true)} className="btn-primary">
+          Add Payroll
         </button>
       </div>
       {error && <div className="error-banner">{error}</div>}

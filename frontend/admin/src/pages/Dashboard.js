@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { apiService } from '../../../common/utils/apiService';
-import './Dashboard.css';
+import { apiService } from '../utils/apiService';
+
 
 const Dashboard = () => {
   const { user, logout } = useAuth();

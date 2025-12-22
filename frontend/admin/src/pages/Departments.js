@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
+import { apiService } from 'frontend-common/utils/apiService';
 import './Departments.css';
 
 const Departments = () => {
@@ -7,7 +7,7 @@ const Departments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [formData, setFormData] = useState({ name: '' });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Departments = () => {
       await apiService.createDepartment(formData);
       setSuccessMessage('Department created!');
       setTimeout(() => setSuccessMessage(null), 3000);
-      setShowForm(false);
+      setShowCreateModal(false);
       setFormData({ name: '' });
       fetchDepartments();
     } catch (err) {
@@ -50,14 +50,14 @@ const Departments = () => {
     <div className="departments-page">
       <div className="page-header">
         <h2>Departments</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
-          {showForm ? 'Cancel' : 'Add Department'}
+        <button onClick={() => setShowCreateModal(true)} className="btn-primary">
+          Add Department
         </button>
       </div>
       {error && <div className="error-banner">{error}</div>}
       {successMessage && <div className="success-banner">{successMessage}</div>}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="department-form">
+      <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add New Department">
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Department Name"
@@ -67,7 +67,7 @@ const Departments = () => {
           />
           <button type="submit">Create Department</button>
         </form>
-      )}
+      </Modal>
       <div className="departments-grid">
         {departments.map((dept) => (
           <div key={dept.id} className="department-card">
