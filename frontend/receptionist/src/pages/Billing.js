@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
-import Modal from '../../../common/components/Modal';
+import { apiService } from '../common/utils/apiService';
+import Modal from '../common/components/Modal';
 import './Billing.css';
 
 const Billing = () => {

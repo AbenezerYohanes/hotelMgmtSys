@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
+import { apiService } from '../common/utils/apiService';
 import './CheckIn.css';
 
 const CheckIn = () => {
@@ -28,7 +28,7 @@ const CheckIn = () => {
 
   const handleCheckIn = async (id) => {
     if (!window.confirm('Confirm check-in?')) return;
-    
+
     try {
       await apiService.checkIn(id);
       setSuccessMessage('Check-in successful!');
