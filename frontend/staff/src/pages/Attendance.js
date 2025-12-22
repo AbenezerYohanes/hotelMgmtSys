@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from '../../../common/utils/apiService';
+import { apiService } from '../common/utils/apiService';
 import './Attendance.css';
 
 const Attendance = () => {

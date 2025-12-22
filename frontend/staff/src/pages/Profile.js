@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { apiService } from '../../../common/utils/apiService';
-import Modal from '../../../common/components/Modal';
+import { apiService } from '../common/utils/apiService';
+import Modal from '../common/components/Modal';
 import './Profile.css';
 
 const Profile = () => {
