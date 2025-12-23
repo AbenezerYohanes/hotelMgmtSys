@@ -13,7 +13,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: DB_PORT,
     dialect: 'mysql',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    logging: false,
     pool: {
         max: 10,
         min: 0,
@@ -38,7 +38,7 @@ async function initDb() {
         // Test connection
         await sequelize.authenticate();
         console.log('✅ MySQL Connected successfully');
-        return sequelize;
+        // return sequelize;
     } catch (error) {
         console.error('❌ Unable to connect to MySQL database:', error.message);
         console.error('\n📝 Please ensure:');
