@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from 'frontend-common/utils/apiService';
+import { apiService } from '../utils/apiService';
 import './Employees.css';
 
 const Employees = () => {

@@ -6,7 +6,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DB_HOST=localhost
+      - DB_HOST=mysql
       - DB_NAME=hotel_hr_management
       - DB_USER=root
       - DB_PASS=
@@ -18,7 +18,7 @@ services:
       - ./backend:/usr/src/app
       - ./backend/uploads:/usr/src/app/uploads
     healthcheck:
-      test: ["CMD", "node", "-e", "require('./server') || true"]
+      test: [ "CMD", "node", "-e", "require('./server') || true" ]
       interval: 10s
       timeout: 5s
       retries: 5

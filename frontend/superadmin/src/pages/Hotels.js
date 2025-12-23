@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiService } from 'frontend-common';
+import { apiService } from '../utils/apiService';
 import './Hotels.css';
 
 const Hotels = () => {

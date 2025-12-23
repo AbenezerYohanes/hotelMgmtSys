@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { apiService } from 'frontend-common/utils/apiService';
+import { apiService } from '../utils/apiService';
 import './Dashboard.css';
 
 const Dashboard = () => {
