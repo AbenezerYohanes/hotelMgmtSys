@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { login, register } = require('../controllers/authController');
+const { Employee, Guest, Role } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { Employee, Guest, Role } = require('../models');
 
 // Employee/Staff/Receptionist/Admin/SuperAdmin Login
 router.post('/login', async (req, res, next) => {
@@ -12,7 +13,7 @@ router.post('/login', async (req, res, next) => {
             return res.status(400).json({ error: 'Email and password required' });
         }
 
-        const employee = await Employee.findOne({ 
+        const employee = await Employee.findOne({
             where: { email },
             include: [{ model: Role, as: 'role' }]
         });
@@ -31,9 +32,9 @@ router.post('/login', async (req, res, next) => {
         }
 
         const roleName = employee.role ? employee.role.name : 'staff';
-        const payload = { 
-            id: employee.id, 
-            email: employee.email, 
+        const payload = {
+            id: employee.id,
+            email: employee.email,
             role: roleName,
             role_id: employee.role_id,
             hotel_id: employee.hotel_id,
@@ -42,8 +43,8 @@ router.post('/login', async (req, res, next) => {
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', { expiresIn: '8h' });
-        res.json({ 
-            token, 
+        res.json({
+            token,
             user: {
                 id: employee.id,
                 email: employee.email,
@@ -62,7 +63,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/guest/register', async (req, res, next) => {
     try {
         const { email, password, first_name, last_name, contact, address } = req.body;
-        
+
         if (!email || !password || !first_name || !last_name) {
             return res.status(400).json({ error: 'Email, password, first name, and last name are required' });
         }
@@ -73,10 +74,10 @@ router.post('/guest/register', async (req, res, next) => {
         }
 
         const hashed = await bcrypt.hash(password, 10);
-        const guest = await Guest.create({ 
-            email, 
-            password: hashed, 
-            first_name, 
+        const guest = await Guest.create({
+            email,
+            password: hashed,
+            first_name,
             last_name,
             contact: contact || null,
             address: address || null
@@ -85,7 +86,7 @@ router.post('/guest/register', async (req, res, next) => {
         const payload = { id: guest.id, email: guest.email, role: 'guest' };
         const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', { expiresIn: '8h' });
 
-        res.status(201).json({ 
+        res.status(201).json({
             token,
             guest: {
                 id: guest.id,
@@ -103,7 +104,7 @@ router.post('/guest/register', async (req, res, next) => {
 router.post('/guest/login', async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        
+
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password required' });
         }
@@ -121,8 +122,8 @@ router.post('/guest/login', async (req, res, next) => {
         const payload = { id: guest.id, email: guest.email, role: 'guest' };
         const token = jwt.sign(payload, process.env.JWT_SECRET || 'secret', { expiresIn: '8h' });
 
-        res.json({ 
-            token, 
+        res.json({
+            token,
             guest: {
                 id: guest.id,
                 email: guest.email,
@@ -144,7 +145,7 @@ router.get('/me', async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
-        
+
         if (decoded.role === 'guest') {
             const guest = await Guest.findByPk(decoded.id);
             if (!guest) return res.status(404).json({ error: 'Guest not found' });
@@ -154,7 +155,7 @@ router.get('/me', async (req, res, next) => {
                 include: [{ model: Role, as: 'role' }]
             });
             if (!employee) return res.status(404).json({ error: 'Employee not found' });
-            return res.json({ 
+            return res.json({
                 user: {
                     id: employee.id,
                     email: employee.email,
@@ -168,6 +169,15 @@ router.get('/me', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
+
+// Test endpoint for Thunder Client
+router.get('/test', (req, res) => {
+    res.json({
+        message: 'Backend is running and accessible',
+        timestamp: new Date().toISOString(),
+        status: 'success'
+    });
 });
 
 module.exports = router;
