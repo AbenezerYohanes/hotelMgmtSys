@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { apiService } from '../utils/apiService';
-import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import React, { useEffect, useState } from "react";
+import BookingModal from "../components/BookingModal";
+import { apiService } from "../utils/apiService";
+import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function GuestHome() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterGuests, setFilterGuests] = useState(1);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roomTypeFilter, setRoomTypeFilter] = useState('All');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   useEffect(() => {
     fetchRooms();
@@ -15,46 +22,97 @@ export default function Home() {
   const fetchRooms = async () => {
     try {
       setLoading(true);
-      setError(null);
       const res = await apiService.getRooms();
-      setRooms(res.data.rooms);
+      setRooms(res.data.rooms || res.data || []);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to load rooms');
-      console.error('Error fetching rooms:', err);
+      setError("Failed to load rooms");
     } finally {
       setLoading(false);
     }
   };
 
+  const openBooking = (room) => {
+    setSelectedRoom(room);
+    setIsModalOpen(true);
+  };
+
+  const available = (r) => {
+    const okCapacity = (r.capacity || 1) >= filterGuests;
+    const statusOk = r.status === "available" || !r.status;
+    const searchOk = !searchTerm || (r.room_type || '').toLowerCase().includes(searchTerm.toLowerCase()) || (r.description || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const typeOk = roomTypeFilter === 'All' || (r.room_type || '').toLowerCase() === roomTypeFilter.toLowerCase();
+    const price = r.price || 0;
+    const minPriceOk = !minPrice || price >= Number(minPrice);
+    const maxPriceOk = !maxPrice || price <= Number(maxPrice);
+    return okCapacity && statusOk && searchOk && typeOk && minPriceOk && maxPriceOk;
+  };
+
   return (
-    <div className={styles.container}>
-      <nav className={styles.navbar}>
-        <h1>Grand Hotel</h1>
-        <div>
-          <Link href="/login">Login</Link>
-          <Link href="/register">Register</Link>
-        </div>
-      </nav>
-      <main className={styles.main}>
-        <h2>Welcome to Grand Hotel</h2>
-        <p>Book your perfect stay with us</p>
-        {error && <div className={styles.error}>{error}</div>}
-        {loading ? (
-          <p>Loading rooms...</p>
-        ) : (
-          <div className={styles.roomsGrid}>
-            {rooms.map((room) => (
-              <div key={room.id} className={styles.roomCard}>
-                <h3>{room.room_type}</h3>
-                <p>Capacity: {room.capacity}</p>
-                <p>Price: ${room.price}/night</p>
-                <p>Status: {room.status}</p>
-                <Link href={`/rooms/${room.id}`}>View Details</Link>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="app">
+
+      {/* HEADER */}
+      <header className="header">
+        <div className="logo">🏨 Heaven Hotel</div>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+          <a href="/services">Services</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </header>
+
+      {/* HERO */}
+      <section className="hero">
+        <h1>Welcome to Heaven Hotel</h1>
+        <p>Comfort • Luxury • Peace</p>
+      </section>
+
+      {/* FILTER */}
+      <section className="filter">
+        <label>
+          Guests:
+          <input
+            type="number"
+            min="1"
+            value={filterGuests}
+            onChange={(e) => setFilterGuests(Number(e.target.value))}
+          />
+        </label>
+        <button onClick={fetchRooms}>Refresh</button>
+      </section>
+
+      {/* ROOMS */}
+      <main className="container">
+        {loading && <p>Loading rooms...</p>}
+        {error && <p className="error">{error}</p>}
+
+        <ul className="rooms-list">
+          {rooms.filter(available).map((room) => (
+            <li key={room.id} className="room-card">
+              <h3>{room.room_type}</h3>
+              <p>{room.description}</p>
+              <p>
+                <strong>${room.price}</strong> / night
+              </p>
+              <p>Capacity: {room.capacity}</p>
+              <button onClick={() => openBooking(room)}>Book Now</button>
+            </li>
+          ))}
+        </ul>
       </main>
+
+      {/* MODAL */}
+      <BookingModal
+        open={isModalOpen}
+        room={selectedRoom}
+        onClose={() => setIsModalOpen(false)}
+        onBooked={fetchRooms}
+      />
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <p>© {new Date().getFullYear()} Heaven Hotel</p>
+      </footer>
     </div>
   );
 }

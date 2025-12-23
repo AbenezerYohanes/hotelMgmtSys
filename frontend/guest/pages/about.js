@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 
 export default function About() {
+    const [showMore, setShowMore] = useState(false);
     return (
         <>
             <Head>
@@ -22,7 +23,6 @@ export default function About() {
                             <div className="contact-info">
                                 <p className="phone">Call us : <a href="#">980XXXXXXXX</a></p>
                                 <p className="gpa">Gpa : <a href="#">View map</a></p>
-                                <p className="code">BROUGHT TO YOU BY:<a href="https://www.code-projects.org">CODE-PROJECTS</a></p>
                             </div>
                             <div className="clear"></div>
                         </div>
@@ -110,28 +110,8 @@ export default function About() {
                     <div className="clear"></div>
 
                     {/* Boxes */}
-                    <div className="boxs">
-                        <div className="wrap">
-                            <div className="box"></div>
-                            <div className="box center-box">
-                                <ul>
-                                    <li><a href="https://www.code-projects.org">Leave a Feedback</a></li>
-                                    <li><a href="https://www.code-projects.org">Reviews and Ratings</a></li>
-                                    <li><a href="https://www.code-projects.org">FAQs</a></li>
-                                    <li><a href="https://www.code-projects.org">Packages</a></li>
-                                    <li><a href="https://www.code-projects.org">Know about Moutaineering and trekking here</a></li>
-                                    <li><a href="https://www.code-projects.org">www.code-projects.org</a></li>
-                                </ul>
-                            </div>
-                            <div className="clear"></div>
-                        </div>
-                    </div>
                 </div>
 
-                {/* Footer */}
-                <div className="copy-tight">
-                    <p>&copy HOTEL,Nepal 2017 "THIS PROJECT IS BROUGHT TO YOU BY <a href="http://www.code-projects.org/">CODE-PROJECTS"</a></p>
-                </div>
             </div>
         </>
     )

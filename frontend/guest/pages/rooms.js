@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../utils/apiService';
+import Modal from '../../common/components/Modal';
 import styles from '../styles/Rooms.module.css';
 
 export default function Rooms() {

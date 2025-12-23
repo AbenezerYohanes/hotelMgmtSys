@@ -8,6 +8,7 @@ const login = async (req, res) => {
     const sequelize = await initDb();
     const models = require('../models');
     const { email, password } = req.body;
+    console.log(email, password);
     const user = await models.Employee.findOne({
       where: { email },
       include: [{ model: models.Role, as: 'role' }]
