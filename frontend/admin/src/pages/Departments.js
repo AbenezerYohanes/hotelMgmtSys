@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiService } from '../utils/apiService';
+import Modal from '../components/Modal';
 import './Departments.css';
 
 const Departments = () => {

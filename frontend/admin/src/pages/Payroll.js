@@ -10,6 +10,7 @@ const Payroll = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     employee_id: '',
     salary: '',

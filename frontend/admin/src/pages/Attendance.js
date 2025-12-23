@@ -8,6 +8,7 @@ const Attendance = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [formData, setFormData] = useState({
     employee_id: '',
     date: new Date().toISOString().split('T')[0],

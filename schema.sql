@@ -60,6 +60,7 @@ CREATE TABLE `departments` (
 CREATE TABLE `employees` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `hotel_id` INT UNSIGNED DEFAULT NULL,
+  `department_id` INT UNSIGNED DEFAULT NULL,
   `first_name` VARCHAR(150) NOT NULL,
   `last_name` VARCHAR(150) NOT NULL,
   `email` VARCHAR(255) NOT NULL UNIQUE,
@@ -76,8 +77,10 @@ CREATE TABLE `employees` (
   PRIMARY KEY (`id`),
   KEY `idx_employees_hotel` (`hotel_id`),
   KEY `idx_employees_role` (`role_id`),
+  KEY `idx_employees_department` (`department_id`),
   CONSTRAINT `fk_employees_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotels` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `fk_employees_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE RESTRICT
+  CONSTRAINT `fk_employees_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Shifts

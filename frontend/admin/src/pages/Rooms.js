@@ -7,6 +7,9 @@ const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [formData, setFormData] = useState({ room_type: '', location: '', capacity: 1, price: 0, status: 'available' });
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     fetchRooms();

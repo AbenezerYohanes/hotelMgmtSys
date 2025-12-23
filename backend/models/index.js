@@ -29,6 +29,10 @@ Room.belongsTo(Hotel, { foreignKey: 'hotel_id', as: 'hotel' });
 Hotel.hasMany(Department, { foreignKey: 'hotel_id', as: 'departments' });
 Department.belongsTo(Hotel, { foreignKey: 'hotel_id', as: 'hotel' });
 
+// Employee-Department Association
+Department.hasMany(Employee, { foreignKey: 'department_id', as: 'employees' });
+Employee.belongsTo(Department, { foreignKey: 'department_id', as: 'department' });
+
 // Role Associations
 Role.hasMany(Employee, { foreignKey: 'role_id', as: 'employees' });
 Employee.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });

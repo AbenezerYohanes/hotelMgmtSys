@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Modal from '../components/Modal';
 import { apiService } from '../utils/apiService';
 import './Employees.css';
 
@@ -8,6 +9,7 @@ const Employees = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
