@@ -56,7 +56,7 @@ router.get('/:id', adminAuth, async (req, res, next) => {
 router.post('/', adminAuth, upload.single('picture'), async (req, res, next) => {
     try {
         const { first_name, last_name, email, password, role_id, hotel_id, contact, address, working_year } = req.body;
-        
+
         const exists = await Employee.findOne({ where: { email } });
         if (exists) return res.status(400).json({ error: 'Email already exists' });
 
@@ -103,6 +103,35 @@ router.put('/:id', adminAuth, upload.single('picture'), async (req, res, next) =
         }
 
         await employee.update(updates);
+        const updated = await Employee.findByPk(employee.id, {
+            include: [{ model: Role, as: 'role' }]
+        });
+
+        res.json({ employee: updated });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Update employee status (Admin only)
+router.put('/:id/status', adminAuth, async (req, res, next) => {
+    try {
+        const employee = await Employee.findByPk(req.params.id, {
+            include: [{ model: Role, as: 'role' }]
+        });
+        if (!employee) return res.status(404).json({ error: 'Employee not found' });
+
+        // Prevent deactivating admin or superadmin roles
+        if (employee.role && ['admin', 'superadmin'].includes(employee.role.name.toLowerCase())) {
+            return res.status(403).json({ error: 'Cannot deactivate admin or superadmin accounts' });
+        }
+
+        const { status } = req.body;
+        if (!['active', 'inactive'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status. Must be active or inactive' });
+        }
+
+        await employee.update({ status });
         const updated = await Employee.findByPk(employee.id, {
             include: [{ model: Role, as: 'role' }]
         });

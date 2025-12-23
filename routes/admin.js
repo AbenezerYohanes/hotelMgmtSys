@@ -9,14 +9,14 @@ const adminAuth = require('../middleware/adminAuth');
 router.get('/hr/dashboard', adminAuth, async (req, res, next) => {
     try {
         const hotel_id = req.user.hotel_id;
-        
+
         const totalEmployees = await Employee.count({ where: { hotel_id, status: 'active' } });
         const totalDepartments = await Department.count({ where: { hotel_id } });
-        const pendingLeaves = await LeaveRequest.count({ 
+        const pendingLeaves = await LeaveRequest.count({
             where: { status: 'pending' },
             include: [{ model: Employee, as: 'employee', where: { hotel_id } }]
         });
-        const todayAttendance = await Attendance.count({ 
+        const todayAttendance = await Attendance.count({
             where: { date: new Date().toISOString().split('T')[0], status: 'present' },
             include: [{ model: Employee, as: 'employee', where: { hotel_id } }]
         });
@@ -38,7 +38,7 @@ router.get('/hr/dashboard', adminAuth, async (req, res, next) => {
 router.post('/hr/attendance', adminAuth, async (req, res, next) => {
     try {
         const { employee_id, date, clock_in, clock_out, status } = req.body;
-        
+
         const [attendance, created] = await Attendance.findOrCreate({
             where: { employee_id, date },
             defaults: { employee_id, date, clock_in, clock_out, status: status || 'present' }
@@ -89,7 +89,7 @@ router.put('/hr/leaves/:id', adminAuth, async (req, res, next) => {
 router.post('/hr/payroll', adminAuth, async (req, res, next) => {
     try {
         const { employee_id, salary, allowances, deductions, date } = req.body;
-        
+
         const payroll = await Payroll.create({
             employee_id,
             salary,
@@ -126,7 +126,7 @@ router.get('/hr/payroll', adminAuth, async (req, res, next) => {
 router.post('/hr/reviews', adminAuth, async (req, res, next) => {
     try {
         const { employee_id, rating, comments, date } = req.body;
-        
+
         const review = await PerformanceReview.create({
             employee_id,
             reviewer_id: req.user.id,
@@ -156,6 +156,23 @@ router.get('/hr/reviews', adminAuth, async (req, res, next) => {
             order: [['date', 'DESC']]
         });
         res.json({ reviews });
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Role Management for Admin
+router.get('/hr/roles', adminAuth, async (req, res, next) => {
+    try {
+        const { Role } = require('../models');
+        const roles = await Role.findAll({
+            where: {
+                name: {
+                    [require('sequelize').Op.in]: ['staff', 'receptionist', 'admin']
+                }
+            }
+        });
+        res.json({ roles });
     } catch (err) {
         next(err);
     }
