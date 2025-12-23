@@ -81,6 +81,17 @@ router.put('/roles/:id', superAdminAuth, async (req, res, next) => {
     }
 });
 
+router.delete('/roles/:id', superAdminAuth, async (req, res, next) => {
+    try {
+        const role = await Role.findByPk(req.params.id);
+        if (!role) return res.status(404).json({ error: 'Role not found' });
+        await role.destroy();
+        res.json({ message: 'Role deleted' });
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Global Analytics
 router.get('/analytics', superAdminAuth, async (req, res, next) => {
     try {
