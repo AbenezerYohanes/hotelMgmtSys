@@ -1,27 +1,24 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-// PostgreSQL Database Configuration for Render
+// MySQL Database Configuration
 const DB_HOST = process.env.DB_HOST || 'localhost';
 const DB_NAME = process.env.DB_NAME || 'hotel_hr_management';
-const DB_USER = process.env.DB_USER || 'postgres';
+const DB_USER = process.env.DB_USER || 'root';
 const DB_PASS = process.env.DB_PASS || '';
-const DB_PORT = process.env.DB_PORT || 5432;
+const DB_PORT = process.env.DB_PORT || 3306;
 
-// Create Sequelize instance with PostgreSQL dialect
+// Create Sequelize instance with MySQL dialect
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: DB_PORT,
-    dialect: 'postgres',
+    dialect: 'mysql',
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
         max: 10,
         min: 0,
         acquire: 60000,  // 60 seconds
         idle: 10000
-    },
-    dialectOptions: {
-        ssl: process.env.NODE_ENV === 'production' ? { require: true, rejectUnauthorized: false } : false
     },
     retry: {
         max: 3  // Retry connection up to 3 times
@@ -40,14 +37,14 @@ async function initDb() {
     try {
         // Test connection
         await sequelize.authenticate();
-        console.log('✅ PostgreSQL Connected successfully');
+        console.log('✅ MySQL Connected successfully');
         return sequelize;
     } catch (error) {
-        console.error('❌ Unable to connect to PostgreSQL database:', error.message);
+        console.error('❌ Unable to connect to MySQL database:', error.message);
         console.error('\n📝 Please ensure:');
-        console.error('   1. PostgreSQL database is running');
+        console.error('   1. MySQL database is running');
         console.error('   2. Database "hotel_hr_management" exists');
-        console.error('   3. PostgreSQL credentials in .env are correct');
+        console.error('   3. MySQL credentials in .env are correct');
         throw error;
     }
 }
