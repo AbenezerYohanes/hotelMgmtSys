@@ -208,14 +208,7 @@ const Employees = () => {
                 </span>
               </td>
               <td>
-                <button
-                  className={`status-toggle-button ${employee.status === 'active' ? 'deactivate' : 'activate'}`}
-                  onClick={() => handleToggleStatus(employee.id, employee.status)}
-                  disabled={employee.role && ['admin', 'superadmin'].includes(employee.role.name.toLowerCase()) && employee.status === 'active'}
-                  title={employee.role && ['admin', 'superadmin'].includes(employee.role.name.toLowerCase()) && employee.status === 'active' ? 'Cannot deactivate admin or superadmin accounts' : ''}
-                >
-                  {employee.status === 'active' ? 'Deactivate' : 'Activate'}
-                </button>
+                <button>Edit</button>
               </td>
             </tr>
           ))}
