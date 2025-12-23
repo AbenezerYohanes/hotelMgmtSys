@@ -10,3 +10,10 @@
 
 ## Summary
 The roles management in superadmin page is now interactive. Both the Dashboard modal and the separate Roles page support full CRUD operations (Create, Read, Update, Delete) for roles.
+
+## Login Issue Fix
+- [x] Fixed bcryptjs import to bcrypt in authController.js
+- [x] Installed backend dependencies
+- [ ] Run database seed script
+- [ ] Start backend server
+- [ ] Test login with admin@hotel.com / admin123
