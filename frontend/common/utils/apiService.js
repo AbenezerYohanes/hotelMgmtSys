@@ -52,6 +52,7 @@ export const apiService = {
   getEmployee: (id) => api.get(`/employees/${id}`),
   createEmployee: (data) => api.post('/employees', data),
   updateEmployee: (id, data) => api.put(`/employees/${id}`, data),
+  updateEmployeeStatus: (id, data) => api.put(`/employees/${id}/status`, data),
   deleteEmployee: (id) => api.delete(`/employees/${id}`),
   getMyProfile: () => api.get('/employees/me/profile'),
   getMyAttendance: () => api.get('/employees/me/attendance'),

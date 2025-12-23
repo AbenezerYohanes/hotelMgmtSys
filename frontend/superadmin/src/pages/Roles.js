@@ -8,6 +8,7 @@ const Roles = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [editingRole, setEditingRole] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     permissions: '{}'
@@ -36,14 +37,39 @@ const Roles = () => {
     try {
       setError(null);
       const permissions = JSON.parse(formData.permissions);
-      await apiService.createRole({ name: formData.name, permissions });
-      setSuccessMessage('Role created!');
+      if (editingRole) {
+        await apiService.updateRole(editingRole, { name: formData.name, permissions });
+        setSuccessMessage('Role updated!');
+        setEditingRole(null);
+      } else {
+        await apiService.createRole({ name: formData.name, permissions });
+        setSuccessMessage('Role created!');
+      }
       setTimeout(() => setSuccessMessage(null), 3000);
       setShowForm(false);
       setFormData({ name: '', permissions: '{}' });
       fetchRoles();
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to create role');
+      setError(err.response?.data?.error || 'Failed to save role');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
+
+  const handleEdit = (role) => {
+    setEditingRole(role.id);
+    setFormData({ name: role.name, permissions: JSON.stringify(role.permissions) });
+    setShowForm(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this role?')) return;
+    try {
+      await apiService.deleteRole(id);
+      setSuccessMessage('Role deleted!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+      fetchRoles();
+    } catch (err) {
+      setError('Failed to delete role');
       setTimeout(() => setError(null), 5000);
     }
   };
@@ -54,7 +80,7 @@ const Roles = () => {
     <div className="roles-page">
       <div className="page-header">
         <h2>Roles Management</h2>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">
+        <button onClick={() => { setShowForm(!showForm); setEditingRole(null); setFormData({ name: '', permissions: '{}' }); }} className="btn-primary">
           {showForm ? 'Cancel' : 'Add Role'}
         </button>
       </div>
@@ -75,7 +101,7 @@ const Roles = () => {
             onChange={(e) => setFormData({ ...formData, permissions: e.target.value })}
             rows="4"
           />
-          <button type="submit">Create Role</button>
+          <button type="submit">{editingRole ? 'Update Role' : 'Create Role'}</button>
         </form>
       )}
       <table>
@@ -84,6 +110,7 @@ const Roles = () => {
             <th>ID</th>
             <th>Name</th>
             <th>Permissions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -92,6 +119,12 @@ const Roles = () => {
               <td>{role.id}</td>
               <td>{role.name}</td>
               <td>{JSON.stringify(role.permissions)}</td>
+              <td>
+                <div className="action-buttons">
+                  <button onClick={() => handleEdit(role)}>Edit</button>
+                  <button onClick={() => handleDelete(role.id)}>Delete</button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

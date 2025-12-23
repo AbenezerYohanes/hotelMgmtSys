@@ -54,6 +54,20 @@ const Employees = () => {
     }
   };
 
+  const handleToggleStatus = async (employeeId, currentStatus) => {
+    try {
+      setError(null);
+      const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+      await apiService.updateEmployeeStatus(employeeId, { status: newStatus });
+      setSuccessMessage(`Employee ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully!`);
+      setTimeout(() => setSuccessMessage(null), 3000);
+      fetchEmployees();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to update employee status');
+      setTimeout(() => setError(null), 5000);
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
@@ -166,7 +180,12 @@ const Employees = () => {
                 </span>
               </td>
               <td>
-                <button>Edit</button>
+                <button
+                  className={`status-toggle-button ${employee.status === 'active' ? 'deactivate' : 'activate'}`}
+                  onClick={() => handleToggleStatus(employee.id, employee.status)}
+                >
+                  {employee.status === 'active' ? 'Deactivate' : 'Activate'}
+                </button>
               </td>
             </tr>
           ))}

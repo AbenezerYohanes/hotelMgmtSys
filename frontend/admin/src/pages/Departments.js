@@ -59,14 +59,25 @@ const Departments = () => {
       {successMessage && <div className="success-banner">{successMessage}</div>}
       <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add New Department">
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Department Name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-          />
-          <button type="submit">Create Department</button>
+          <div className="form-group">
+            <label htmlFor="department_name">Department Name</label>
+            <input
+              type="text"
+              id="department_name"
+              name="department_name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-actions">
+            <button type="button" onClick={() => setShowCreateModal(false)} className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="submit-button">
+              Create Department
+            </button>
+          </div>
         </form>
       </Modal>
       <div className="departments-grid">

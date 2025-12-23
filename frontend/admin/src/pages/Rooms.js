@@ -59,46 +59,74 @@ const Rooms = () => {
       {successMessage && <div className="success-banner">{successMessage}</div>}
       <Modal show={showCreateModal} onClose={() => setShowCreateModal(false)} title="Add New Room">
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Room Type"
-            value={formData.room_type}
-            onChange={(e) => setFormData({ ...formData, room_type: e.target.value })}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-          />
-          <input
-            type="number"
-            min="1"
-            placeholder="Capacity"
-            value={formData.capacity}
-            onChange={(e) => setFormData({ ...formData, capacity: parseInt(e.target.value) })}
-            required
-          />
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Price per night"
-            value={formData.price}
-            onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-            required
-          />
-          <select
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            required
-          >
-            <option value="available">Available</option>
-            <option value="occupied">Occupied</option>
-            <option value="maintenance">Maintenance</option>
-          </select>
-          <button type="submit">Create Room</button>
+          <div className="form-group">
+            <label htmlFor="room_type">Room Type</label>
+            <input
+              type="text"
+              id="room_type"
+              name="room_type"
+              value={formData.room_type}
+              onChange={(e) => setFormData({ ...formData, room_type: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="capacity">Capacity</label>
+            <input
+              type="number"
+              id="capacity"
+              name="capacity"
+              min="1"
+              value={formData.capacity}
+              onChange={(e) => setFormData({ ...formData, capacity: parseInt(e.target.value) })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="price">Price per night</label>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              min="0"
+              step="0.01"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="status">Status</label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              required
+            >
+              <option value="available">Available</option>
+              <option value="occupied">Occupied</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+          <div className="form-actions">
+            <button type="button" onClick={() => setShowCreateModal(false)} className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="submit-button">
+              Create Room
+            </button>
+          </div>
         </form>
       </Modal>
       {rooms.length === 0 && !loading && <p>No rooms found</p>}
