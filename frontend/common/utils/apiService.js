@@ -115,6 +115,7 @@ export const apiService = {
   getReviews: (params) => api.get('/admin/hr/reviews', { params }),
   getDepartments: () => api.get('/admin/hr/departments'),
   createDepartment: (data) => api.post('/admin/hr/departments', data),
+  getRoles: () => api.get('/admin/hr/roles'),
 
   // Receptionist
   getReceptionistDashboard: () => api.get('/receptionists/dashboard'),

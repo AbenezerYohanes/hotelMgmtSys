@@ -5,6 +5,7 @@ import './Employees.css';
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -22,6 +23,7 @@ const Employees = () => {
 
   useEffect(() => {
     fetchEmployees();
+    fetchRoles();
   }, []);
 
   const fetchEmployees = async () => {
@@ -35,6 +37,15 @@ const Employees = () => {
       console.error('Error fetching employees:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchRoles = async () => {
+    try {
+      const res = await apiService.getRoles();
+      setRoles(res.data.roles);
+    } catch (err) {
+      console.error('Error fetching roles:', err);
     }
   };
 
@@ -127,6 +138,23 @@ const Employees = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="role_id">Role</label>
+            <select
+              id="role_id"
+              name="role_id"
+              value={formData.role_id}
+              onChange={(e) => setFormData({ ...formData, role_id: e.target.value })}
+              required
+            >
+              <option value="">Select Role</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
             <label htmlFor="contact">Contact</label>
             <input
               type="text"
@@ -183,6 +211,8 @@ const Employees = () => {
                 <button
                   className={`status-toggle-button ${employee.status === 'active' ? 'deactivate' : 'activate'}`}
                   onClick={() => handleToggleStatus(employee.id, employee.status)}
+                  disabled={employee.role && ['admin', 'superadmin'].includes(employee.role.name.toLowerCase()) && employee.status === 'active'}
+                  title={employee.role && ['admin', 'superadmin'].includes(employee.role.name.toLowerCase()) && employee.status === 'active' ? 'Cannot deactivate admin or superadmin accounts' : ''}
                 >
                   {employee.status === 'active' ? 'Deactivate' : 'Activate'}
                 </button>
