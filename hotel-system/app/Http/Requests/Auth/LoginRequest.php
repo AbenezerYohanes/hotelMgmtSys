@@ -36,6 +36,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = $this->user();
+        if ($user && $user->employee && ! $user->employee->is_active) {
+            Auth::logout();
+            RateLimiter::clear($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Your account is suspended. Please contact the administrator.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

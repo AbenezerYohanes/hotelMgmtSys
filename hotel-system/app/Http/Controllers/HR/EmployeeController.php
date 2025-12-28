@@ -200,7 +200,7 @@ class EmployeeController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:255'],
             'position_title' => ['required', 'string', 'max:255'],
-            'hire_date' => ['required', 'date'],
+            'hire_date' => ['required', 'date', 'before_or_equal:today'],
             'salary' => ['nullable', 'numeric', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [], [
@@ -224,7 +224,7 @@ class EmployeeController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'address' => ['required', 'string', 'max:255'],
             'position_title' => ['required', 'string', 'max:255'],
-            'hire_date' => ['required', 'date'],
+            'hire_date' => ['required', 'date', 'before_or_equal:today'],
             'salary' => ['nullable', 'numeric', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [], [

@@ -56,6 +56,9 @@
         <a class="list-group-item list-group-item-action {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
             Admin Dashboard
         </a>
+        <a class="list-group-item list-group-item-action {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}" href="{{ route('admin.bookings.index') }}">
+            Bookings
+        </a>
         <a class="list-group-item list-group-item-action {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
             Reports
         </a>
@@ -70,3 +73,4 @@
         </a>
     @endrole
 </div>
+

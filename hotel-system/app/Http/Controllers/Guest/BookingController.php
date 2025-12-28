@@ -88,7 +88,7 @@ class BookingController extends Controller
             'status' => 'pending',
             'adults' => $data['adults'],
             'children' => $data['children'],
-            'notes' => $data['notes'],
+            'notes' => $data['notes'] ?? null,
         ]);
 
         $this->logAudit($request->user()->id, 'booking.created', $booking->id, [
@@ -179,3 +179,4 @@ class BookingController extends Controller
         ]);
     }
 }
+

@@ -31,6 +31,7 @@
                     <div class="d-flex flex-wrap gap-2">
                         <a class="btn btn-sm btn-outline-primary" href="{{ route('frontdesk.dashboard') }}">Dashboard</a>
                         <a class="btn btn-sm btn-outline-primary" href="{{ route('frontdesk.calendar') }}">Calendar</a>
+                        <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.bookings.index') }}">Bookings</a>
                         <a class="btn btn-sm btn-outline-primary" href="{{ route('frontdesk.bookings.create') }}">Walk-in</a>
                     </div>
                 </div>
@@ -87,3 +88,4 @@
         </div>
     </div>
 @endsection
+

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
@@ -81,6 +82,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:Admin')->prefix('admin')->as('admin.')->group(function () {
         Route::view('/', 'modules.admin')->name('dashboard');
+        Route::get('bookings', [BookingController::class, 'index'])->name('bookings.index');
+        Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
         Route::get('audit-logs', [\App\Http\Controllers\Admin\AuditLogController::class, 'index'])->name('audit-logs.index');
         Route::resource('room-types', RoomTypeController::class)->except('show');
         Route::patch('room-types/{room_type}/toggle', [RoomTypeController::class, 'toggle'])->name('room-types.toggle');
@@ -90,3 +93,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
