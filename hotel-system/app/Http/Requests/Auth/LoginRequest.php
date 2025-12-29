@@ -37,13 +37,27 @@ class LoginRequest extends FormRequest
         }
 
         $user = $this->user();
-        if ($user && $user->employee && ! $user->employee->is_active) {
-            Auth::logout();
-            RateLimiter::clear($this->throttleKey());
+        if ($user) {
+            $isPrivileged = $user->hasRole(['Admin', 'HRManager'])
+                || in_array($user->role, ['Admin', 'HRManager'], true);
 
-            throw ValidationException::withMessages([
-                'email' => 'Your account is suspended. Please contact the administrator.',
-            ]);
+            if (! $isPrivileged && ! $user->employee) {
+                Auth::logout();
+                RateLimiter::clear($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => 'Your account is not assigned to an employee profile. Please contact the administrator.',
+                ]);
+            }
+
+            if ($user->employee && ! $user->employee->is_active) {
+                Auth::logout();
+                RateLimiter::clear($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => 'Your account is suspended. Please contact the administrator.',
+                ]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());

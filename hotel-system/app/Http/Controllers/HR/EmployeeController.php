@@ -11,7 +11,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
@@ -76,14 +75,9 @@ class EmployeeController extends Controller
     {
         $this->authorizeManage($request);
 
-        $users = User::whereDoesntHave('employee')
-            ->orderBy('name')
-            ->get(['id', 'name', 'email', 'role']);
-
         $roles = Role::whereIn('name', self::STAFF_ROLES)->orderBy('name')->pluck('name');
 
         return view('hr.employees.create', [
-            'users' => $users,
             'roles' => $roles,
             'canManageSalary' => $request->user()->can('hr.manage_salary'),
             'defaultPassword' => self::DEFAULT_PASSWORD,
@@ -96,7 +90,7 @@ class EmployeeController extends Controller
 
         $data = $this->validateCreate($request);
 
-        $user = $this->resolveUser($request, $data);
+        $user = $this->resolveUser($data);
         $employee = Employee::create($this->employeePayload($request, $data, $user->id));
 
         $this->logAudit($request->user()->id, 'employee.created', $employee->id, [
@@ -174,6 +168,16 @@ class EmployeeController extends Controller
     {
         $this->authorizeManage($request);
 
+        $targetUser = $employee->user;
+        if ($targetUser) {
+            $targetIsAdmin = $targetUser->hasRole('Admin') || $targetUser->role === 'Admin';
+            $actorIsAdmin = $request->user()->hasRole('Admin') || $request->user()->role === 'Admin';
+
+            if ($targetIsAdmin && ! $actorIsAdmin) {
+                return back()->with('error', 'Admin accounts can only be deleted by another admin.');
+            }
+        }
+
         try {
             $employeeId = $employee->id;
             $employee->delete();
@@ -191,9 +195,8 @@ class EmployeeController extends Controller
     private function validateCreate(Request $request): array
     {
         return $request->validate([
-            'user_id' => ['nullable', 'exists:users,id', Rule::unique('employees', 'user_id')],
-            'user_name' => ['required_without:user_id', 'string', 'max:255'],
-            'user_email' => ['required_without:user_id', 'email', 'max:255', 'unique:users,email'],
+            'user_name' => ['required', 'string', 'max:255'],
+            'user_email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'user_role' => ['required', 'in:'.implode(',', self::STAFF_ROLES)],
             'user_password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'full_name' => ['required', 'string', 'max:255'],
@@ -204,7 +207,6 @@ class EmployeeController extends Controller
             'salary' => ['nullable', 'numeric', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ], [], [
-            'user_id' => 'existing user',
             'user_name' => 'user name',
             'user_email' => 'user email',
             'user_role' => 'user role',
@@ -234,26 +236,8 @@ class EmployeeController extends Controller
         ]);
     }
 
-    private function resolveUser(Request $request, array $data): User
+    private function resolveUser(array $data): User
     {
-        if (! empty($data['user_id'])) {
-            $user = User::find($data['user_id']);
-            if (! $user) {
-                throw ValidationException::withMessages([
-                    'user_id' => 'Selected user is invalid.',
-                ]);
-            }
-
-            $role = $data['user_role'] ?? $this->resolveUserRole($user);
-            if ($role) {
-                Role::firstOrCreate(['name' => $role]);
-                $user->update(['role' => $role]);
-                $user->syncRoles([$role]);
-            }
-
-            return $user;
-        }
-
         $password = $data['user_password'] ?: self::DEFAULT_PASSWORD;
         $role = $data['user_role'];
 

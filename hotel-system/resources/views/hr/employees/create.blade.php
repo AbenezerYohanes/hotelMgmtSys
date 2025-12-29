@@ -6,7 +6,7 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div>
             <h1 class="h4 mb-1">Add employee</h1>
-            <p class="text-muted mb-0">Create a new employee profile and link a user account.</p>
+            <p class="text-muted mb-0">Create a new employee profile with a user account.</p>
         </div>
         <div class="d-flex flex-wrap gap-2">
             <a class="btn btn-outline-secondary" href="{{ route('hr.employees.index') }}">Back to directory</a>
@@ -21,14 +21,6 @@
 
                 <h2 class="h6 mb-3">User account</h2>
                 <div class="row">
-                    <div class="col-md-6">
-                        <x-form.select
-                            name="user_id"
-                            label="Link existing user (optional)"
-                            :options="$users->mapWithKeys(fn ($user) => [$user->id => $user->name.' ('.$user->email.')'])->all()"
-                            placeholder="Select a user"
-                        />
-                    </div>
                     <div class="col-md-6">
                         <x-form.select
                             name="user_role"
@@ -56,8 +48,7 @@
                     </div>
                 </div>
                 <p class="text-muted small mb-4">
-                    If you select an existing user, name/email/password fields are ignored. Leaving password blank uses
-                    the default password {{ $defaultPassword }}.
+                    Leaving the password blank uses the default password {{ $defaultPassword }}.
                 </p>
 
                 <h2 class="h6 mb-3">Employee profile</h2>
