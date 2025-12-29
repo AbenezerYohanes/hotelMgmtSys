@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <p class="text-muted small">
-                    If you select an existing guest, the name/email fields are ignored.
+                    Selecting an existing guest auto-fills the name and email.
                 </p>
 
                 <hr class="my-4">
@@ -106,4 +106,50 @@
             </form>
         </div>
     </div>
+    @push('scripts')
+        <script>
+            (() => {
+                const guests = @json($guests->mapWithKeys(fn ($guest) => [$guest->id => ['name' => $guest->name, 'email' => $guest->email]]));
+                const select = document.getElementById('guest_user_id');
+                const nameInput = document.getElementById('guest_name');
+                const emailInput = document.getElementById('guest_email');
+
+                if (!select || !nameInput || !emailInput) {
+                    return;
+                }
+
+                const clearAutofill = () => {
+                    if (nameInput.dataset.autofilled === 'true') {
+                        nameInput.value = '';
+                        delete nameInput.dataset.autofilled;
+                    }
+                    if (emailInput.dataset.autofilled === 'true') {
+                        emailInput.value = '';
+                        delete emailInput.dataset.autofilled;
+                    }
+                };
+
+                const syncGuestDetails = () => {
+                    const guest = guests[select.value];
+
+                    if (guest) {
+                        nameInput.value = guest.name || '';
+                        emailInput.value = guest.email || '';
+                        nameInput.dataset.autofilled = 'true';
+                        emailInput.dataset.autofilled = 'true';
+                        nameInput.readOnly = true;
+                        emailInput.readOnly = true;
+                        return;
+                    }
+
+                    clearAutofill();
+                    nameInput.readOnly = false;
+                    emailInput.readOnly = false;
+                };
+
+                select.addEventListener('change', syncGuestDetails);
+                syncGuestDetails();
+            })();
+        </script>
+    @endpush
 @endsection

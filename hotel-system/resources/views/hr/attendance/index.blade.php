@@ -11,9 +11,6 @@
         <div class="d-flex flex-wrap gap-2">
             <a class="btn btn-outline-secondary" href="{{ route('hr.employees.index') }}">Employee directory</a>
             <a class="btn btn-outline-secondary" href="{{ route('hr.schedule.index') }}">Shift schedule</a>
-            <a class="btn btn-outline-primary" href="{{ route('hr.attendance.index', array_merge(request()->query(), ['export' => 'csv'])) }}">
-                Export CSV
-            </a>
         </div>
     </div>
 
