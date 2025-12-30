@@ -5,12 +5,12 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Guest\BookingController as GuestBookingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::post('/quick-book', [LandingController::class, 'quickBook'])->name('quick-book');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

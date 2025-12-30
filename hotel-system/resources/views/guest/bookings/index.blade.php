@@ -2,41 +2,59 @@
 
 @section('title', 'My Bookings')
 
-@section('content')
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-        <div>
-            <h1 class="h4 mb-1">My Bookings</h1>
-            <p class="text-muted mb-0">Track your reservations and status.</p>
+@section('hero')
+    <section class="site-hero site-hero-innerpage overlay" data-stellar-background-ratio="0.5"
+        style="background-image: url({{ asset('heaven/images/big_image_1.jpg') }});">
+        <div class="container">
+            <div class="row align-items-center site-hero-inner justify-content-center">
+                <div class="col-md-12 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1>My Bookings</h1>
+                        <p>Track your reservations and status.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a class="btn btn-outline-primary" href="{{ route('guest.bookings.search') }}">Search availability</a>
+    </section>
+@endsection
+
+@section('content')
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <h2 class="h4 mb-1">Your reservations</h2>
+            <p class="text-muted mb-0">Manage upcoming stays and booking status.</p>
+        </div>
+        <div class="col-md-4 text-md-right">
+            <a class="btn btn-primary btn-sm" href="{{ route('guest.bookings.search') }}">Search availability</a>
+        </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="sidebar-box ihms-table-card">
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
-                <thead class="table-light">
+            <table class="table table-striped mb-0">
+                <thead>
                     <tr>
                         <th>Booking code</th>
                         <th>Room</th>
                         <th>Type</th>
                         <th>Dates</th>
                         <th>Status</th>
-                        <th class="text-end">Action</th>
+                        <th class="text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($bookings as $booking)
                         @php
                             $statusClass = match ($booking->status) {
-                                'confirmed' => 'bg-primary',
-                                'checked_in' => 'bg-success',
-                                'checked_out' => 'bg-secondary',
-                                'cancelled' => 'bg-danger',
-                                default => 'bg-warning text-dark',
+                                'confirmed' => 'badge-primary',
+                                'checked_in' => 'badge-success',
+                                'checked_out' => 'badge-secondary',
+                                'cancelled' => 'badge-danger',
+                                default => 'badge-warning',
                             };
                         @endphp
                         <tr>
-                            <td class="fw-semibold">{{ $booking->booking_code }}</td>
+                            <td class="font-weight-bold">{{ $booking->booking_code }}</td>
                             <td>{{ $booking->room?->room_number }}</td>
                             <td>{{ $booking->room?->roomType?->name }}</td>
                             <td>
@@ -47,9 +65,10 @@
                                     {{ ucfirst(str_replace('_', ' ', $booking->status)) }}
                                 </span>
                             </td>
-                            <td class="text-end">
+                            <td class="text-right">
                                 @if ($booking->isCancellable())
-                                    <form method="POST" action="{{ route('guest.bookings.cancel', $booking) }}" onsubmit="return confirm('Cancel this booking?');">
+                                    <form method="POST" action="{{ route('guest.bookings.cancel', $booking) }}"
+                                        onsubmit="return confirm('Cancel this booking?');">
                                         @csrf
                                         @method('PATCH')
                                         <button class="btn btn-sm btn-outline-danger" type="submit">Cancel</button>
@@ -69,7 +88,7 @@
         </div>
     </div>
 
-    <div class="mt-3">
+    <div class="mt-4">
         {{ $bookings->links() }}
     </div>
 @endsection

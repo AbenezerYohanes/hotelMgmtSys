@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 ihms-table-card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="h6 mb-0">Invoice items</h2>

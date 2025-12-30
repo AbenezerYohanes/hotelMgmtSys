@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm ihms-table-card">
         <div class="table-responsive">
             <table class="table table-striped table-hover mb-0">
                 <thead class="table-light">

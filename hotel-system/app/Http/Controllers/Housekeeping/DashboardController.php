@@ -15,9 +15,13 @@ class DashboardController extends Controller
     public function index(Request $request): View
     {
         $today = now();
+        $user = $request->user();
+        $isAdmin = $user->hasRole('Admin');
 
-        $assignments = HousekeepingAssignment::with(['room.roomType'])
-            ->where('housekeeper_user_id', $request->user()->id)
+        $assignments = HousekeepingAssignment::with(['room.roomType', 'housekeeper'])
+            ->when(! $isAdmin, function ($query) use ($user) {
+                $query->where('housekeeper_user_id', $user->id);
+            })
             ->whereDate('assigned_date', $today->toDateString())
             ->orderBy('assigned_date')
             ->orderBy('room_id')
@@ -29,6 +33,7 @@ class DashboardController extends Controller
             'assignments' => $assignments,
             'today' => $today,
             'openIssuesCount' => $openIssuesCount,
+            'isAdmin' => $isAdmin,
         ]);
     }
 

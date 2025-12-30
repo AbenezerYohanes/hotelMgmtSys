@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm ihms-table-card">
         <div class="table-responsive">
             <table class="table table-striped align-middle mb-0">
                 <thead class="table-light">

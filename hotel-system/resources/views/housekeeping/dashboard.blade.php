@@ -5,13 +5,13 @@
 @section('content')
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
         <div>
-            <h1 class="h4 mb-1">My assigned rooms</h1>
+            <h1 class="h4 mb-1">{{ $isAdmin ? 'Housekeeping assignments' : 'My assigned rooms' }}</h1>
             <p class="text-muted mb-0">Assignments for {{ $today->format('M d, Y') }}</p>
         </div>
         <span class="badge bg-info text-dark">Open issues: {{ $openIssuesCount }}</span>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm ihms-table-card">
         <div class="table-responsive">
             <table class="table table-striped align-middle mb-0">
                 <thead class="table-light">
@@ -19,6 +19,9 @@
                         <th>Room</th>
                         <th>Type</th>
                         <th>Floor</th>
+                        @if ($isAdmin)
+                            <th>Housekeeper</th>
+                        @endif
                         <th>Room status</th>
                         <th>Assignment status</th>
                         <th class="text-end">Actions</th>
@@ -28,6 +31,7 @@
                     @forelse ($assignments as $assignment)
                         @php
                             $room = $assignment->room;
+                            $housekeeper = $assignment->housekeeper;
                             $roomStatus = $room?->status ?? 'unknown';
                             $roomBadge = match ($roomStatus) {
                                 'dirty' => 'bg-warning text-dark',
@@ -41,6 +45,9 @@
                             <td class="fw-semibold">{{ $room?->room_number ?? 'N/A' }}</td>
                             <td>{{ $room?->roomType?->name ?? 'N/A' }}</td>
                             <td>{{ $room?->floor ?? 'N/A' }}</td>
+                            @if ($isAdmin)
+                                <td>{{ $housekeeper?->name ?? 'Unassigned' }}</td>
+                            @endif
                             <td>
                                 <span class="badge {{ $roomBadge }}">
                                     {{ ucfirst(str_replace('_', ' ', $roomStatus)) }}
@@ -86,7 +93,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
+                            <td colspan="{{ $isAdmin ? 7 : 6 }}" class="text-center text-muted py-4">
                                 No rooms assigned for today.
                             </td>
                         </tr>

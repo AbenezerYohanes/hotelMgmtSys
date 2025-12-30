@@ -1,32 +1,35 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('app.name', 'Hotel System'))</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @stack('styles')
+    @include('partials.site-head')
 </head>
-<body class="bg-light">
-    @include('partials.topbar')
+<body class="ihms-with-header ihms-with-sidebar ihms-fullwidth @yield('body-class')">
+    <div class="ihms-shell">
+        <aside class="ihms-sidebar-panel">
+            @include('partials.sidebar')
+        </aside>
+        <div class="ihms-sidebar-overlay"></div>
 
-    <main class="py-4">
-        <div class="container">
-            <x-flash />
-            <x-validation-errors />
+        <div class="ihms-content">
+            @include('partials.site-header')
 
-            <div class="row">
-                <aside class="col-lg-3 col-xl-2 mb-4">
-                    @include('partials.sidebar')
-                </aside>
-                <div class="col-lg-9 col-xl-10">
+            @hasSection('hero')
+                @yield('hero')
+            @endif
+
+            <main class="site-section @yield('main-class')">
+                <div class="@yield('container-class', 'container-fluid ihms-dashboard-container')">
+                    <x-flash />
+                    <x-validation-errors />
+
                     @yield('content')
                 </div>
-            </div>
-        </div>
-    </main>
+            </main>
 
-    @stack('scripts')
+            @include('partials.site-footer')
+        </div>
+    </div>
+
+    @include('partials.site-scripts')
 </body>
 </html>
