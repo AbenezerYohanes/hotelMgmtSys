@@ -96,6 +96,7 @@ class IssueController extends Controller
         $issues = $query->paginate(12)->withQueryString();
 
         $resolvers = User::role(['FrontDesk', 'Admin'])
+            ->where('is_deleted', false)
             ->orderBy('name')
             ->get(['id', 'name', 'email']);
 
@@ -128,7 +129,9 @@ class IssueController extends Controller
 
         $resolverId = $data['resolved_by_user_id'] ?? null;
         if ($resolverId) {
-            $resolver = User::role(['FrontDesk', 'Admin'])->find($resolverId);
+            $resolver = User::role(['FrontDesk', 'Admin'])
+                ->where('is_deleted', false)
+                ->find($resolverId);
             if (! $resolver) {
                 throw ValidationException::withMessages([
                     'resolved_by_user_id' => 'Selected resolver is invalid.',

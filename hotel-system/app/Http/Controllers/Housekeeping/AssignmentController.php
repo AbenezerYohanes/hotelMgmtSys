@@ -38,6 +38,10 @@ class AssignmentController extends Controller
             ->get();
 
         $housekeepers = User::role('Housekeeper')
+            ->where('is_deleted', false)
+            ->whereHas('employee', function ($employeeQuery) {
+                $employeeQuery->where('is_active', true);
+            })
             ->orderBy('name')
             ->get(['id', 'name', 'email']);
 
@@ -68,7 +72,12 @@ class AssignmentController extends Controller
             return back()->with('error', 'This room is not available for assignment.');
         }
 
-        $housekeeper = User::role('Housekeeper')->find($data['housekeeper_user_id']);
+        $housekeeper = User::role('Housekeeper')
+            ->where('is_deleted', false)
+            ->whereHas('employee', function ($employeeQuery) {
+                $employeeQuery->where('is_active', true);
+            })
+            ->find($data['housekeeper_user_id']);
         if (! $housekeeper) {
             throw ValidationException::withMessages([
                 'housekeeper_user_id' => 'Selected user is not a housekeeper.',

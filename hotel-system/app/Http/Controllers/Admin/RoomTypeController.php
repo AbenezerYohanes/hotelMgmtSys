@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
+use App\Models\Room;
 use App\Models\RoomType;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class RoomTypeController extends Controller
@@ -66,10 +68,15 @@ class RoomTypeController extends Controller
 
     public function update(Request $request, RoomType $roomType): RedirectResponse
     {
+        $statusWas = $roomType->is_active;
         $data = $this->validateRoomType($request, $roomType->id);
         $data['is_active'] = $request->boolean('is_active');
 
         $roomType->update($data);
+
+        if ($statusWas !== $roomType->is_active) {
+            $this->syncRoomsForRoomType($roomType);
+        }
 
         $this->logAudit($request->user()->id, 'room_type.updated', $roomType->id, [
             'name' => $roomType->name,
@@ -109,6 +116,10 @@ class RoomTypeController extends Controller
             'is_active' => ! $roomType->is_active,
         ]);
 
+        if ($statusWas !== $roomType->is_active) {
+            $this->syncRoomsForRoomType($roomType);
+        }
+
         $this->logAudit($request->user()->id, 'room_type.toggled', $roomType->id, [
             'from' => $statusWas,
             'to' => $roomType->is_active,
@@ -130,6 +141,35 @@ class RoomTypeController extends Controller
             'max_occupancy' => ['required', 'integer', 'min:1'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+    }
+
+    private function syncRoomsForRoomType(RoomType $roomType): void
+    {
+        if (! $roomType->is_active) {
+            Room::where('room_type_id', $roomType->id)
+                ->where('room_type_inactive', false)
+                ->update([
+                    'room_type_inactive' => true,
+                    'room_type_prev_status' => DB::raw('status'),
+                    'room_type_prev_is_active' => DB::raw('is_active'),
+                    'status' => 'out_of_service',
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
+
+            return;
+        }
+
+        Room::where('room_type_id', $roomType->id)
+            ->where('room_type_inactive', true)
+            ->update([
+                'status' => DB::raw("COALESCE(room_type_prev_status, 'clean')"),
+                'is_active' => DB::raw('COALESCE(room_type_prev_is_active, 1)'),
+                'room_type_inactive' => false,
+                'room_type_prev_status' => null,
+                'room_type_prev_is_active' => null,
+                'updated_at' => now(),
+            ]);
     }
 
     private function logAudit(int $userId, string $action, int $roomTypeId, array $meta): void

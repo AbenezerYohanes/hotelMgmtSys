@@ -38,10 +38,20 @@ class LoginRequest extends FormRequest
 
         $user = $this->user();
         if ($user) {
+            if ($user->is_deleted) {
+                Auth::logout();
+                RateLimiter::clear($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => 'Your account has been deleted. Please contact the administrator.',
+                ]);
+            }
+
+            $isGuest = $user->hasRole('Guest') || $user->role === 'Guest';
             $isPrivileged = $user->hasRole(['Admin', 'HRManager'])
                 || in_array($user->role, ['Admin', 'HRManager'], true);
 
-            if (! $isPrivileged && ! $user->employee) {
+            if (! $isPrivileged && ! $isGuest && ! $user->employee) {
                 Auth::logout();
                 RateLimiter::clear($this->throttleKey());
 

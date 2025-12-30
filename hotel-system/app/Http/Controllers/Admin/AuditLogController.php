@@ -39,7 +39,9 @@ class AuditLogController extends Controller
 
         $logs = $query->paginate(25)->withQueryString();
 
-        $users = User::orderBy('name')->get(['id', 'name', 'email']);
+        $users = User::where('is_deleted', false)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
         $actions = AuditLog::select('action')->distinct()->orderBy('action')->pluck('action');
 
         return view('admin.audit-logs.index', [

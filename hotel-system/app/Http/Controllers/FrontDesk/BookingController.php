@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
@@ -31,6 +32,7 @@ class BookingController extends Controller
             ->get();
 
         $guests = User::role('Guest')
+            ->where('is_deleted', false)
             ->orderBy('name')
             ->get(['id', 'name', 'email']);
 
@@ -209,7 +211,12 @@ class BookingController extends Controller
         return $request->validate([
             'guest_user_id' => ['nullable', 'exists:users,id'],
             'guest_name' => ['required_without:guest_user_id', 'string', 'max:255'],
-            'guest_email' => ['required_without:guest_user_id', 'email', 'max:255', 'unique:users,email'],
+            'guest_email' => [
+                'required_without:guest_user_id',
+                'email',
+                'max:255',
+                Rule::when(! $request->filled('guest_user_id'), Rule::unique('users', 'email')),
+            ],
             'room_id' => ['required', 'exists:rooms,id'],
             'check_in_date' => ['required', 'date', 'after_or_equal:today'],
             'check_out_date' => ['required', 'date', 'after:check_in_date'],
@@ -228,7 +235,9 @@ class BookingController extends Controller
     private function resolveGuest(Request $request, array $data): User
     {
         if (! empty($data['guest_user_id'])) {
-            $guest = User::role('Guest')->find($data['guest_user_id']);
+            $guest = User::role('Guest')
+                ->where('is_deleted', false)
+                ->find($data['guest_user_id']);
             if (! $guest) {
                 throw ValidationException::withMessages([
                     'guest_user_id' => 'Selected guest is invalid.',

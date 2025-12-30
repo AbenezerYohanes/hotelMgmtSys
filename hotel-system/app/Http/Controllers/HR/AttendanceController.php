@@ -34,7 +34,11 @@ class AttendanceController extends Controller
 
         $attendances = $query->orderByDesc('date')->paginate(20)->withQueryString();
 
-        $employees = Employee::orderBy('full_name')->get(['id', 'full_name']);
+        $employees = Employee::whereHas('user', function ($userQuery) {
+            $userQuery->where('is_deleted', false);
+        })
+            ->orderBy('full_name')
+            ->get(['id', 'full_name']);
 
         return view('hr.attendance.index', [
             'attendances' => $attendances,

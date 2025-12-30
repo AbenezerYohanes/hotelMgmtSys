@@ -17,6 +17,7 @@ use Spatie\Permission\Models\Role;
 class EmployeeController extends Controller
 {
     private const STAFF_ROLES = ['FrontDesk', 'Housekeeper', 'HRManager', 'Admin'];
+    private const ADMIN_ROLE = 'Admin';
     private const DEFAULT_PASSWORD = 'Password@123';
 
     public function index(Request $request): View
@@ -33,7 +34,11 @@ class EmployeeController extends Controller
         $position = $filters['position'] ?? 'all';
         $role = $filters['role'] ?? 'all';
 
-        $query = Employee::with(['user.roles'])->orderBy('full_name');
+        $query = Employee::with(['user.roles'])
+            ->whereHas('user', function ($userQuery) {
+                $userQuery->where('is_deleted', false);
+            })
+            ->orderBy('full_name');
 
         if ($active === 'active') {
             $query->where('is_active', true);
@@ -53,6 +58,9 @@ class EmployeeController extends Controller
 
         $employees = $query->paginate(12)->withQueryString();
         $positions = Employee::query()
+            ->whereHas('user', function ($userQuery) {
+                $userQuery->where('is_deleted', false);
+            })
             ->select('position_title')
             ->distinct()
             ->orderBy('position_title')
@@ -75,7 +83,7 @@ class EmployeeController extends Controller
     {
         $this->authorizeManage($request);
 
-        $roles = Role::whereIn('name', self::STAFF_ROLES)->orderBy('name')->pluck('name');
+        $roles = $this->assignableRoles();
 
         return view('hr.employees.create', [
             'roles' => $roles,
@@ -89,6 +97,12 @@ class EmployeeController extends Controller
         $this->authorizeManage($request);
 
         $data = $this->validateCreate($request);
+
+        if ($data['user_role'] === self::ADMIN_ROLE) {
+            return back()
+                ->withErrors(['user_role' => 'Admin accounts can only be created during database seeding.'])
+                ->withInput();
+        }
 
         $user = $this->resolveUser($data);
         $employee = Employee::create($this->employeePayload($request, $data, $user->id));
@@ -111,7 +125,7 @@ class EmployeeController extends Controller
 
         $employee->load('user.roles');
 
-        $roles = Role::whereIn('name', self::STAFF_ROLES)->orderBy('name')->pluck('name');
+        $roles = $this->assignableRoles($employee->user);
 
         return view('hr.employees.edit', [
             'employee' => $employee,
@@ -133,6 +147,21 @@ class EmployeeController extends Controller
         $user = $employee->user;
         $userOriginal = $user->getAttributes();
         $roleOriginal = $this->resolveUserRole($user);
+        $role = $data['user_role'] ?? $roleOriginal;
+        $targetIsAdmin = $this->isAdminUser($user);
+        $adminCount = $this->adminCount();
+
+        if (! $targetIsAdmin && $role === self::ADMIN_ROLE) {
+            return back()
+                ->withErrors(['user_role' => 'Admin accounts can only be created during database seeding.'])
+                ->withInput();
+        }
+
+        if ($targetIsAdmin && $role !== self::ADMIN_ROLE && $adminCount <= 1) {
+            return back()
+                ->withErrors(['user_role' => 'The only admin account cannot be reassigned.'])
+                ->withInput();
+        }
 
         $userUpdate = [
             'name' => $data['user_name'],
@@ -145,7 +174,6 @@ class EmployeeController extends Controller
 
         $user->update($userUpdate);
 
-        $role = $data['user_role'] ?? $roleOriginal;
         if ($role && $role !== $roleOriginal) {
             $user->update(['role' => $role]);
             $user->syncRoles([$role]);
@@ -170,8 +198,12 @@ class EmployeeController extends Controller
 
         $targetUser = $employee->user;
         if ($targetUser) {
-            $targetIsAdmin = $targetUser->hasRole('Admin') || $targetUser->role === 'Admin';
-            $actorIsAdmin = $request->user()->hasRole('Admin') || $request->user()->role === 'Admin';
+            $targetIsAdmin = $this->isAdminUser($targetUser);
+            $actorIsAdmin = $this->isAdminUser($request->user());
+
+            if ($targetIsAdmin && $this->adminCount() <= 1) {
+                return back()->with('error', 'The only admin account cannot be deleted.');
+            }
 
             if ($targetIsAdmin && ! $actorIsAdmin) {
                 return back()->with('error', 'Admin accounts can only be deleted by another admin.');
@@ -180,7 +212,11 @@ class EmployeeController extends Controller
 
         try {
             $employeeId = $employee->id;
-            $employee->delete();
+            $employee->update(['is_active' => false]);
+
+            if ($targetUser && ! $targetUser->is_deleted) {
+                $targetUser->update(['is_deleted' => true]);
+            }
 
             $this->logAudit($request->user()->id, 'employee.deleted', $employeeId, []);
         } catch (QueryException $exception) {
@@ -278,6 +314,39 @@ class EmployeeController extends Controller
     private function resolveUserRole(User $user): ?string
     {
         return $user->getRoleNames()->first() ?? $user->role;
+    }
+
+    private function isAdminUser(User $user): bool
+    {
+        return $user->hasRole(self::ADMIN_ROLE) || $user->role === self::ADMIN_ROLE;
+    }
+
+    private function adminCount(): int
+    {
+        return User::query()
+            ->where('is_deleted', false)
+            ->where(function ($query) {
+                $query->where('role', self::ADMIN_ROLE)
+                    ->orWhereHas('roles', function ($roleQuery) {
+                        $roleQuery->where('name', self::ADMIN_ROLE);
+                    });
+            })
+            ->count();
+    }
+
+    private function assignableRoles(?User $user = null)
+    {
+        $roles = Role::whereIn('name', self::STAFF_ROLES)->orderBy('name');
+
+        if ($user && $this->isAdminUser($user)) {
+            if ($this->adminCount() <= 1) {
+                $roles->where('name', self::ADMIN_ROLE);
+            }
+        } else {
+            $roles->where('name', '!=', self::ADMIN_ROLE);
+        }
+
+        return $roles->pluck('name');
     }
 
     private function buildEmployeeChanges(Employee $employee, array $original): array

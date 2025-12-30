@@ -17,11 +17,16 @@ class Room extends Model
         'floor',
         'status',
         'is_active',
+        'room_type_inactive',
+        'room_type_prev_status',
+        'room_type_prev_is_active',
     ];
 
     protected $casts = [
         'floor' => 'integer',
         'is_active' => 'boolean',
+        'room_type_inactive' => 'boolean',
+        'room_type_prev_is_active' => 'boolean',
     ];
 
     public function roomType(): BelongsTo

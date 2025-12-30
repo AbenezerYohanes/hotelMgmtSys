@@ -51,6 +51,9 @@ class ShiftScheduleController extends Controller
             ->withQueryString();
 
         $employees = Employee::with('user.roles')
+            ->whereHas('user', function ($userQuery) {
+                $userQuery->where('is_deleted', false);
+            })
             ->orderBy('full_name')
             ->get();
 
@@ -87,8 +90,12 @@ class ShiftScheduleController extends Controller
         ]);
 
         $employee = Employee::findOrFail($data['employee_id']);
+        $employee->load('user');
         if (! $employee->is_active) {
             return back()->with('error', 'Inactive employees cannot be assigned to shifts.');
+        }
+        if ($employee->user && $employee->user->is_deleted) {
+            return back()->with('error', 'Deleted employees cannot be assigned to shifts.');
         }
 
         $this->ensureUniqueAssignment($data['employee_id'], $data['work_date']);
@@ -121,6 +128,9 @@ class ShiftScheduleController extends Controller
         $assignment->load(['employee.user.roles', 'shift']);
 
         $employees = Employee::with('user.roles')
+            ->whereHas('user', function ($userQuery) {
+                $userQuery->where('is_deleted', false);
+            })
             ->orderBy('full_name')
             ->get();
 
@@ -149,8 +159,12 @@ class ShiftScheduleController extends Controller
         ]);
 
         $employee = Employee::findOrFail($data['employee_id']);
+        $employee->load('user');
         if (! $employee->is_active) {
             return back()->with('error', 'Inactive employees cannot be assigned to shifts.');
+        }
+        if ($employee->user && $employee->user->is_deleted) {
+            return back()->with('error', 'Deleted employees cannot be assigned to shifts.');
         }
 
         $this->ensureUniqueAssignment($data['employee_id'], $data['work_date'], $assignment->id);
