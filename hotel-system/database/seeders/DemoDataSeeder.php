@@ -197,7 +197,7 @@ class DemoDataSeeder extends Seeder
 
             $bookingSeeds = [
                 [
-                    'booking_code' => 'IHMS-2025-00001',
+                    'booking_code' => 'HEAVEN-2025-00001',
                     'guest_email' => 'guest@ihms.local',
                     'room_number' => '101',
                     'check_in_date' => $anchorDate->subDays(6)->toDateString(),
@@ -208,7 +208,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => 'Corporate stay - invoice requested.',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00002',
+                    'booking_code' => 'HEAVEN-2025-00002',
                     'guest_email' => 'guest2@ihms.local',
                     'room_number' => '102',
                     'check_in_date' => $anchorDate->subDay()->toDateString(),
@@ -219,7 +219,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => 'Early check-in approved.',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00003',
+                    'booking_code' => 'HEAVEN-2025-00003',
                     'guest_email' => 'guest3@ihms.local',
                     'room_number' => '103',
                     'check_in_date' => $anchorDate->addDays(2)->toDateString(),
@@ -230,7 +230,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => 'Requires baby crib.',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00004',
+                    'booking_code' => 'HEAVEN-2025-00004',
                     'guest_email' => 'guest@ihms.local',
                     'room_number' => '104',
                     'check_in_date' => $anchorDate->addDays(6)->toDateString(),
@@ -241,7 +241,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => null,
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00005',
+                    'booking_code' => 'HEAVEN-2025-00005',
                     'guest_email' => 'guest2@ihms.local',
                     'room_number' => '105',
                     'check_in_date' => $anchorDate->addDays(9)->toDateString(),
@@ -252,7 +252,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => 'Cancelled due to schedule change.',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00006',
+                    'booking_code' => 'HEAVEN-2025-00006',
                     'guest_email' => 'guest3@ihms.local',
                     'room_number' => '201',
                     'check_in_date' => $anchorDate->subDays(12)->toDateString(),
@@ -263,7 +263,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => null,
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00007',
+                    'booking_code' => 'HEAVEN-2025-00007',
                     'guest_email' => 'guest@ihms.local',
                     'room_number' => '206',
                     'check_in_date' => $anchorDate->addDay()->toDateString(),
@@ -274,7 +274,7 @@ class DemoDataSeeder extends Seeder
                     'notes' => 'Airport pickup requested.',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00008',
+                    'booking_code' => 'HEAVEN-2025-00008',
                     'guest_email' => 'guest2@ihms.local',
                     'room_number' => '209',
                     'check_in_date' => $anchorDate->subDays(2)->toDateString(),
@@ -315,12 +315,12 @@ class DemoDataSeeder extends Seeder
 
             $invoiceSeeds = [
                 [
-                    'booking_code' => 'IHMS-2025-00001',
+                    'booking_code' => 'HEAVEN-2025-00001',
                     'invoice_number' => 'INV-2025-0001',
                     'payment_status' => 'paid',
                 ],
                 [
-                    'booking_code' => 'IHMS-2025-00006',
+                    'booking_code' => 'HEAVEN-2025-00006',
                     'invoice_number' => 'INV-2025-0002',
                     'payment_status' => 'unpaid',
                 ],

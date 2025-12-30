@@ -12,7 +12,7 @@
             <div class="row align-items-center site-hero-inner justify-content-center">
                 <div class="col-md-12 text-center">
                     <div class="mb-5 element-animate">
-                        <h1>IHMS Hotel Management System</h1>
+                        <h1>Heaven Hotel Management System</h1>
                         <p>Book rooms, manage stays, and run hotel operations in one place.</p>
                         <p class="ihms-hero-cta">
                             @auth
@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="site-section bg-light" id="quick-book">
+    <section class="site-section bg-light ihms-landing-section" id="quick-book">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-12 heading-wrap text-center">
@@ -217,7 +217,7 @@
         </div>
     </section>
 
-    <section class="site-section bg-light">
+    <section class="site-section bg-light ihms-landing-section">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-12 heading-wrap text-center">
@@ -285,13 +285,8 @@
                 <div class="col-md-9 text-center element-animate">
                     <h2>Relax and Enjoy your Holiday</h2>
                     <p class="lead mb-5">
-                        From quick guest bookings to real-time operations, IHMS keeps everything in sync.
+                        From quick guest bookings to real-time operations, Heaven keeps everything in sync.
                     </p>
-                    <div class="btn-play-wrap">
-                        <a href="https://vimeo.com/channels/staffpicks/93951774" class="btn-play popup-vimeo ">
-                            <span class="ion-ios-play"></span>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

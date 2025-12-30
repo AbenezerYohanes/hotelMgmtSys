@@ -50,7 +50,7 @@ class Booking extends Model
         $year = now()->format('Y');
 
         do {
-            $code = 'IHMS-'.$year.'-'.str_pad((string) random_int(0, 99999), 5, '0', STR_PAD_LEFT);
+            $code = 'HEAVEN-'.$year.'-'.str_pad((string) random_int(0, 99999), 5, '0', STR_PAD_LEFT);
         } while (self::where('booking_code', $code)->exists());
 
         return $code;

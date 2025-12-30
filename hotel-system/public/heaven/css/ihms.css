@@ -26,6 +26,11 @@ body.ihms-fullwidth .container {
   padding-right: 32px;
 }
 
+.ihms-landing-section {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
 .ihms-shell {
   display: flex;
   min-height: 100vh;

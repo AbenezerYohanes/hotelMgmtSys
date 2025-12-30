@@ -1,4 +1,4 @@
-# IHMS Landing + Template Guide
+# Heaven Landing + Template Guide
 
 ## Overview
 - Template assets live in `public/heaven` and are used globally.

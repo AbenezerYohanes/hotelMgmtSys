@@ -8,7 +8,7 @@
             </div>
             <div class="col-md-4">
                 <h3>Connect With Us</h3>
-                <p>Follow IHMS for updates.</p>
+                <p>Follow Heaven for updates.</p>
                 <p>
                     <a href="#" class="pl-0 p-3"><span class="fa fa-facebook"></span></a>
                     <a href="#" class="p-3"><span class="fa fa-twitter"></span></a>
@@ -18,7 +18,7 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <h3>IHMS Updates</h3>
+                <h3>Heaven Updates</h3>
                 <p>Get feature releases and booking tips.</p>
                 <form action="#" class="subscribe">
                     <div class="form-group">

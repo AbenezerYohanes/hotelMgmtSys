@@ -1,6 +1,6 @@
-# IHMS Hotel Management System
+# Heaven Hotel Management System
 
-IHMS is a Laravel-based hotel management MVP with role-based modules for guests,
+Heaven is a Laravel-based hotel management MVP with role-based modules for guests,
 front desk operations, housekeeping, maintenance, HR, and admin reporting.
 
 ## Requirements
@@ -93,7 +93,7 @@ All demo users use the password `Password@123`.
 - `app/Models` - Eloquent models and relationships.
 - `resources/views` - Blade templates with Bootstrap layout.
 - `routes/web.php` - route definitions and role middleware.
-- `database/migrations` - schema for IHMS MVP tables.
+- `database/migrations` - schema for Heaven MVP tables.
 - `database/seeders` - demo and role seeding.
 - `config/ihms.php` - app configuration (tax rate).
 

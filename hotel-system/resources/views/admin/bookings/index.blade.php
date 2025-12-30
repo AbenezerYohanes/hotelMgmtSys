@@ -29,7 +29,7 @@
                         name="booking_code"
                         label="Booking code"
                         :value="$bookingCode"
-                        placeholder="IHMS-2025-00001"
+                        placeholder="HEAVEN-2025-00001"
                     />
                 </div>
                 <div class="col-md-3">
