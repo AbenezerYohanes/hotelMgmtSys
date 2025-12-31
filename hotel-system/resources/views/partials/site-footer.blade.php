@@ -4,17 +4,17 @@
             <div class="col-md-4">
                 <h3>Guest Support</h3>
                 <p>24/7 front desk assistance.</p>
-                <p class="lead"><a href="tel://">+1 332 3093 323</a></p>
+                <p class="lead"><a href="tel://">+1251985082505</a></p>
             </div>
             <div class="col-md-4">
                 <h3>Connect With Us</h3>
                 <p>Follow Heaven for updates.</p>
                 <p>
-                    <a href="#" class="pl-0 p-3"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-3"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-3"><span class="fa fa-instagram"></span></a>
-                    <a href="#" class="p-3"><span class="fa fa-vimeo"></span></a>
-                    <a href="#" class="p-3"><span class="fa fa-youtube-play"></span></a>
+                    <a href="https://www.facebook.com/" class="pl-0 p-3"><span class="fa fa-facebook"></span></a>
+                    <a href="https://x.com/" class="p-3"><span class="fa fa-twitter"></span></a>
+                    <a href="https://www.instagram.com/accounts/login/?hl=en" class="p-3"><span class="fa fa-instagram"></span></a>
+                    <a href="https://vimeo.com/" class="p-3"><span class="fa fa-vimeo"></span></a>
+                    <a href="https://www.youtube.com/" class="p-3"><span class="fa fa-youtube-play"></span></a>
                 </p>
             </div>
             <div class="col-md-4">
@@ -30,8 +30,8 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-7 text-center">
-                &copy; Copyright {{ date('Y') }} {{ config('app.name', 'Hotel System') }}. All rights reserved.
-                | Template by <a href="https://colorlib.com" target="_blank" rel="noreferrer">Colorlib</a>
+                &copy; Copyright {{ date('Y') }} Heaven hotel. All rights reserved.
+                 
             </div>
         </div>
     </div>

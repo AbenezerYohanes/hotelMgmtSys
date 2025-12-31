@@ -4,7 +4,7 @@
             <button class="ihms-sidebar-toggle" type="button" data-ihms-sidebar-toggle aria-label="Toggle sidebar">
                 <span class="fa fa-bars"></span>
             </button>
-            <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name', 'Hotel System') }}</a>
+            <a class="navbar-brand" href="{{ route('home') }}">Heaven hotel</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
