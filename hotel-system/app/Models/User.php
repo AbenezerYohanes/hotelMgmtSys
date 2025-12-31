@@ -4,13 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'is_deleted',
     ];
 
     /**
@@ -42,7 +47,38 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_deleted' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function reportedMaintenanceIssues(): HasMany
+    {
+        return $this->hasMany(MaintenanceIssue::class, 'reported_by_user_id');
+    }
+
+    public function resolvedMaintenanceIssues(): HasMany
+    {
+        return $this->hasMany(MaintenanceIssue::class, 'resolved_by_user_id');
+    }
+
+    public function housekeepingAssignments(): HasMany
+    {
+        return $this->hasMany(HousekeepingAssignment::class, 'housekeeper_user_id');
+    }
+
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(AuditLog::class);
     }
 }
